@@ -61,20 +61,21 @@ public class testAI extends GamePlayer{
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			gamegui.updateGameState(msgDetails);
+			consoleMove();
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
 				System.out.println("I am the black player");
 				this.white = false;
+				consoleMove();
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
 				this.white = true;
-				makeMove(msgDetails); // This method will change message details: needs implementation
-				gameClient.sendMoveMessage(msgDetails);
+				//makeMove(msgDetails); // This method will change message details: needs implementation
+				//gameClient.sendMoveMessage(msgDetails);
 			}
 			else // This code should never be reached
 				return false;
-			consoleMove();
 		}
 		return true;
 	}
