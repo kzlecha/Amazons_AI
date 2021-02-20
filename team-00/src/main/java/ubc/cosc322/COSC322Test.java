@@ -83,13 +83,14 @@ public class COSC322Test extends GamePlayer{
 	@Override
 	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
 		//System.out.println(msgDetails);
-		if(messageType.equals("cosc322.game-state.board")) {
+		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) {
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get("game-state"));
 			//System.out.print("MESSAGE TYPE:" + messageType);
-		}
-		if(messageType.equals("cosc322.game-action.move") ) {
+		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			gamegui.updateGameState(msgDetails);
 			//System.out.print("MESSAGE TYPE:" + messageType);
+		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
+			
 		}
 		//This method will be called by the GameClient when it receives a game-related message
 		//from the server.
