@@ -20,7 +20,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		COSC322Test player = new COSC322Test(args[0], args[1]);
+		testAI player = new testAI(args[0], args[1]);
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -52,6 +52,7 @@ public class testAI extends GamePlayer{
 	}
 
 	@Override
+	// Handle any message from the server
 	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
 		System.out.println("Message type: " + messageType);
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) {
