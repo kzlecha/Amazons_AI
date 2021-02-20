@@ -134,10 +134,10 @@ public class testAI extends GamePlayer{
 		ArrayList<Integer> gameState = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.GAME_STATE);		
 		
 		// Calculate the 1d index of each place in the game-board.
-		// Follows formula = y * width + x + y + 12 => y * width + x + START_INDEX
-		int oldIndexOfQueen = moveList.get(0).get(Y) * WIDTH + moveList.get(0).get(X) + START_INDEX;
-		int newIndexOfQueen = moveList.get(1).get(Y) * WIDTH + moveList.get(1).get(X) + START_INDEX;
-		int indexOfArrow = moveList.get(2).get(Y) * WIDTH + moveList.get(2).get(X) + START_INDEX;
+		// Follows formula = y * width + x
+		int oldIndexOfQueen = moveList.get(0).get(Y) * WIDTH + moveList.get(0).get(X);
+		int newIndexOfQueen = moveList.get(1).get(Y) * WIDTH + moveList.get(1).get(X);
+		int indexOfArrow = moveList.get(2).get(Y) * WIDTH + moveList.get(2).get(X);
 		
 		// Update msgDetails
 		gameState.set(oldIndexOfQueen,0);
