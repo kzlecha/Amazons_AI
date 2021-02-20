@@ -1,5 +1,6 @@
 package ubc.cosc322;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import ygraph.ai.smartfox.games.BaseGameGUI;
@@ -47,9 +48,24 @@ public class testAI extends GamePlayer{
 	}
 
 	@Override
-	public boolean handleGameMessage(String arg0, Map<String, Object> arg1) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
+		//System.out.println(msgDetails);
+		if(messageType.equals("cosc322.game-state.board")) {
+			gamegui.setGameState((ArrayList<Integer>) msgDetails.get("game-state"));
+			//System.out.print("MESSAGE TYPE:" + messageType);
+		}
+		if(messageType.equals("cosc322.game-action.move") ) {
+			gamegui.updateGameState(msgDetails);
+			//System.out.print("MESSAGE TYPE:" + messageType);
+		}
+		//This method will be called by the GameClient when it receives a game-related message
+		//from the server.
+
+		//For a detailed description of the message types and format,
+		//see the method GamePlayer.handleGameMessage() in the game-client-api document.
+
+		return true;
+		return true;
 	}
 
 	@Override
