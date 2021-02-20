@@ -55,19 +55,21 @@ public class testAI extends GamePlayer{
 	// Handle any message from the server
 	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
 		System.out.println("Message type: " + messageType);
-		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) {
-			gamegui.setGameState((ArrayList<Integer>) msgDetails.get("game-state"));
-			//System.out.print("MESSAGE TYPE:" + messageType);
+		// Update board state
+		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) { 
+			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			gamegui.updateGameState(msgDetails);
-			//System.out.print("MESSAGE TYPE:" + messageType);
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
+			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
 				System.out.println("I am the black player");
 				this.white = false;
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
 				this.white = true;
+				makeMove(msgDetails); // This method will change message details: needs implementation
+				gameClient.sendMoveMessage(msgDetails);
 			}
 			else // This code should never be reached
 				return false;
@@ -116,5 +118,10 @@ public class testAI extends GamePlayer{
 			s++;
 		}
 		return gameBoard;
+	}
+	
+	// code to make a move: make an arbitrary move in here for now
+	private void makeMove(Map<String, Object> msgDetails) {
+		
 	}
 }
