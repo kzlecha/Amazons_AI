@@ -7,6 +7,7 @@ import ygraph.ai.smartfox.games.BaseGameGUI;
 import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GameMessage;
 import ygraph.ai.smartfox.games.GamePlayer;
+import ygraph.ai.smartfox.games.amazons.AmazonsGameMessage;
 
 public class testAI extends GamePlayer{
 	private GameClient gameClient = null;
@@ -14,7 +15,8 @@ public class testAI extends GamePlayer{
 
 	private String userName = null;
 	private String passwd = null;
-
+	
+	private boolean white;
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
@@ -34,6 +36,7 @@ public class testAI extends GamePlayer{
 	}
 
 	public testAI(String userName, String psswd){
+		super.postSetup();
 		this.userName = userName;
 		this.passwd = passwd;
 
@@ -50,7 +53,7 @@ public class testAI extends GamePlayer{
 
 	@Override
 	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
-		//System.out.println(msgDetails);
+		System.out.println("Message type: " + messageType);
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) {
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get("game-state"));
 			//System.out.print("MESSAGE TYPE:" + messageType);
@@ -58,7 +61,15 @@ public class testAI extends GamePlayer{
 			gamegui.updateGameState(msgDetails);
 			//System.out.print("MESSAGE TYPE:" + messageType);
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
-			// Do something
+			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
+				System.out.println("I am the black player");
+				this.white = false;
+			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
+				System.out.println("I am the white player");
+				this.white = true;
+			}
+			else // This code should never be reached
+				return false;
 		}
 
 		return true;
@@ -72,7 +83,6 @@ public class testAI extends GamePlayer{
 		if(gamegui != null) {
 			gamegui.setRoomInformation(gameClient.getRoomList());
 		}
-
 	}
 
 	public String userName() {
