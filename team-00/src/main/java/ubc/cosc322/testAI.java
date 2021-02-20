@@ -105,8 +105,12 @@ public class testAI extends GamePlayer{
 	// Returns the gameboard as a 2d array
 	// (Kinda wacky, *might* be useful for testing)
 	int[][] getGameBoard(ArrayList<Integer> msgDetails) {
+		// first 12 elements in msgDetails are not part of the gameboard
+		final int START_INDEX = 12;
 		int[][] gameBoard = new int[10][10];
-		for(int x = 0, y = 0, s = 0, c = 12; c < msgDetails.size(); c++) {		
+		for(int x = 0, y = 0, s = 0, c = START_INDEX; c < msgDetails.size(); c++) {		
+			// the first element of each 'row' in the 1d array 
+			// is not part of the gameboard, so skip the 11th element
 			if(s == 10 ) {
 				x++;
 				y=0;
@@ -119,6 +123,7 @@ public class testAI extends GamePlayer{
 		}
 		return gameBoard;
 	}
+}
 	
 	// code to make a move: make an arbitrary move in here for now
 	private void makeMove(Map<String, Object> msgDetails) {
