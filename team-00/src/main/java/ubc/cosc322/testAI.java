@@ -1,6 +1,7 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Map;
 
 import ygraph.ai.smartfox.games.BaseGameGUI;
@@ -73,8 +74,8 @@ public class testAI extends GamePlayer{
 			}
 			else // This code should never be reached
 				return false;
+			consoleMove();
 		}
-
 		return true;
 	}
 
@@ -123,10 +124,31 @@ public class testAI extends GamePlayer{
 		}
 		return gameBoard;
 	}
-}
 	
 	// code to make a move: make an arbitrary move in here for now
 	private void makeMove(Map<String, Object> msgDetails) {
 		
 	}
+	
+	// consoleMove() -- Takes console input and sends it to server as a move.
+	// ----
+	// USAGE: In the console, enter six integer values separated with spaces.
+	// x1 y1 x2 y2 x3 y3
+	// x1 and y1: row/column of queen to be moved
+	// x2 and y2: row/column of queen's new position
+	// x3 and y3: row/column of the arrow position
+	private void consoleMove() {
+		System.out.println("Please enter a move in the following format: x y x y x y:");
+		Scanner in = new Scanner(System.in);
+		ArrayList<ArrayList<Integer>> inputCmd = new ArrayList<ArrayList<Integer>>();
+		for(int x = 0; x < 3; x++) {
+			inputCmd.add(new ArrayList<Integer>());
+			for(int y = 0; y < 2; y++) {
+				inputCmd.get(x).add(in.nextInt());
+			}
+		}
+		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
+		in.close();
+	}
 }
+
