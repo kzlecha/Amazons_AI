@@ -88,9 +88,22 @@ public class testAI extends GamePlayer{
 	public BaseGameGUI getGameGUI() {
 		return  this.gamegui;
 	}
-
-
-
-
-
+	
+	// Returns the gameboard as a 2d array
+	// (Kinda wacky, *might* be useful for testing)
+	int[][] getGameBoard(ArrayList<Integer> msgDetails) {
+		int[][] gameBoard = new int[10][10];
+		for(int x = 0, y = 0, s = 0, c = 12; c < msgDetails.size(); c++) {		
+			if(s == 10 ) {
+				x++;
+				y=0;
+				s=0;
+				continue;
+			}
+			gameBoard[x][y] = msgDetails.get(c);
+			y++;
+			s++;
+		}
+		return gameBoard;
+	}
 }
