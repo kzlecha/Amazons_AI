@@ -73,6 +73,7 @@ public class COSC322Test extends GamePlayer{
     			+ "the gameClient instance created in my constructor knows how!");
     	gameClient.joinRoom("Kalamalka Lake");
     	*/
+		System.out.println("Log in is being run now");
 		userName = gameClient.getUserName();
 		if(gamegui != null) {
 			gamegui.setRoomInformation(gameClient.getRoomList());
