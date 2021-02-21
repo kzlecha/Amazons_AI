@@ -63,7 +63,12 @@ public class testAI extends GamePlayer{
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) { 
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
-			gamegui.updateGameState(msgDetails);
+			// Update the board with the foreign move
+			gamegui.updateGameState(
+					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR),
+					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT),
+					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS));
+			// Make our own move
 			consoleMove(msgDetails);
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			// Start the inital game
