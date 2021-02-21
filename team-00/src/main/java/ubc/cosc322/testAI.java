@@ -19,6 +19,7 @@ public class testAI extends GamePlayer{
 	private BaseGameGUI gamegui = null;
 	private String userName = null;
 	private String passwd = null;
+	Scanner in;
 	
 	private boolean turn;
 
@@ -47,6 +48,7 @@ public class testAI extends GamePlayer{
 		//To make a GUI-based player, create an instance of BaseGameGUI
 		//and implement the method getGameGUI() accordingly
 		this.gamegui = new BaseGameGUI(this);
+		in = new Scanner(System.in);
 	}
 
 	@Override
@@ -69,9 +71,9 @@ public class testAI extends GamePlayer{
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT),
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS));
 			// Make our own move
-			if(turn)
-				consoleMove(msgDetails);
-			turn = !turn;
+			//if(turn)
+			consoleMove(msgDetails);
+			//turn = !turn;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
@@ -173,8 +175,6 @@ public class testAI extends GamePlayer{
 	
 	private void consoleMove(Map<String, Object> msgDetails) {
 		System.out.println("Please enter a move in the following format: x y x y x y:");	
-		
-		Scanner in = new Scanner(System.in);
 		ArrayList<ArrayList<Integer>> inputCmd = new ArrayList<ArrayList<Integer>>();
 		for(int x = 0; x < 3; x++) {
 			inputCmd.add(new ArrayList<Integer>());
@@ -182,7 +182,6 @@ public class testAI extends GamePlayer{
 				inputCmd.get(x).add(in.nextInt());
 			}
 		}
-		in.close();
 		//makeMove(msgDetails, inputCmd);
 		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
 		gamegui.updateGameState(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
