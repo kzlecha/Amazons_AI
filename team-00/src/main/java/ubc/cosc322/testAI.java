@@ -181,7 +181,9 @@ public class testAI extends GamePlayer{
 			}
 		}
 		in.close();
-		makeMove(msgDetails, inputCmd);
+		//makeMove(msgDetails, inputCmd);
+		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
+		gamegui.updateGameState(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
 	}
 }
 
