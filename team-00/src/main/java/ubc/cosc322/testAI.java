@@ -20,7 +20,7 @@ public class testAI extends GamePlayer{
 	private String userName = null;
 	private String passwd = null;
 	
-	private boolean white;
+	private boolean turn;
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
@@ -69,16 +69,18 @@ public class testAI extends GamePlayer{
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT),
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS));
 			// Make our own move
-			consoleMove(msgDetails);
+			if(turn)
+				consoleMove(msgDetails);
+			turn = !turn;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
 				System.out.println("I am the black player");
-				this.white = false;
+				this.turn = true;
 				consoleMove(msgDetails);
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
-				this.white = true;
+				this.turn = false;
 			}
 			else // This code should never be reached
 				return false;
@@ -146,7 +148,7 @@ public class testAI extends GamePlayer{
 		
 		// Update msgDetails
 		gameState.set(oldIndexOfQueen,0);
-		gameState.set(newIndexOfQueen,this.white ? 1 : 2);
+		gameState.set(newIndexOfQueen,this.turn ? 1 : 2);
 		gameState.set(indexOfArrow,ARROW);
 		
 		// Send move to server
