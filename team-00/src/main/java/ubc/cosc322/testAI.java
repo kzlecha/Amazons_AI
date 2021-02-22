@@ -21,7 +21,7 @@ public class testAI extends GamePlayer{
 	private String passwd = null;
 	Scanner in;
 	
-	private boolean turn;
+	private boolean black;
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
@@ -78,11 +78,11 @@ public class testAI extends GamePlayer{
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
 				System.out.println("I am the black player");
-				this.turn = true;
+				this.black = true;
 				consoleMove(msgDetails);
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
-				this.turn = false;
+				this.black = false;
 			}
 			else // This code should never be reached
 				return false;
@@ -150,7 +150,7 @@ public class testAI extends GamePlayer{
 		
 		// Update msgDetails
 		gameState.set(oldIndexOfQueen,0);
-		gameState.set(newIndexOfQueen,this.turn ? 1 : 2);
+		gameState.set(newIndexOfQueen,this.black ? 1 : 2);
 		gameState.set(indexOfArrow,ARROW);
 		
 		// Send move to server
@@ -185,6 +185,92 @@ public class testAI extends GamePlayer{
 		//makeMove(msgDetails, inputCmd);
 		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
 		gamegui.updateGameState(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
+	}
+	
+	private boolean isValid(int[][] board,ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+		// Check you are moving your own piece 
+		if(black)
+			if(!posIsVal(board,initQueen,2))
+				return false;
+		else
+			if(!posIsVal(board,initQueen,1))
+				return false;
+		// If our landing spots are clear, handles moving to same spot
+		// TO DO: ACCOUNT FOR PATHS OPENED BY MOVING QUEEN WITH ARROW //
+		// REQUIRES SWAP FUNCTION, perhaps global board //
+		if(posIsVal(board,newQueen,0) && posIsVal(board,arrowPos,0)) 
+			return checkQueen(board,initQueen,newQueen) && checkQueen(board,newQueen,arrowPos);
+		else
+			return false;
+	}
+	
+	private boolean checkQueen(int[][] board,ArrayList<Integer> initQueen, ArrayList<Integer> newQueen) {
+		int initX = initQueen.get(0), initY = initQueen.get(1), newX = newQueen.get(0), newY = newQueen.get(1);
+		
+		if (initY == newY) { // Moving left or right
+			if(newX > initX) { // move right
+				for(int i = initX+1; i < newX; i++) {
+					if(board[i][initY] != 0)
+						return false;
+				}
+			}else { // move left
+				for(int i = initX-1; i > newX; i--) {
+					if(board[i][initY] != 0)
+						return false;
+				}
+			}
+		}else if (initX == newX) { // Moving up or down
+			if(newY > initY) { // move up
+				for(int i = initX+1; i < newX; i++) {
+					if(board[initX][i] != 0)
+						return false;
+				}
+			}else { // move down
+				for(int i = initX-1; i > newX; i--) {
+					if(board[initX][i] != 0)
+						return false;
+				}
+			}
+		}else { // diagonal cases need to ensure path is clear
+			int itrX = initX, itrY = initY;
+			if(newX > initX && newY > initY) { // top right
+				do {
+					if(board[++itrX][++itrY] != 0) {
+						return false;
+					}
+				}while (itrX < newX && itrY < newY);
+				
+			}else if(newX > initX && newY < initY) { // bottom right
+				do {
+					if(board[++itrX][--itrY] != 0) {
+						return false;
+					}
+				}while (itrX < newX && itrY > newY);
+			}else if(newX < initX && newY > initY) { // top left
+				do {
+					if(board[--itrX][++itrY] != 0) {
+						return false;
+					}
+				}while (itrX > newX && itrY < newY);
+			}else if(newX < initX && newY < initY){ // bottom left
+				do {
+					if(board[--itrX][--itrY] != 0) {
+						return false;
+					}
+				}while (itrX > newX && itrY > newY);
+			}
+			// final check: make sure that it actually fell on a diagonal line
+			return itrX == newX && itrY == newY; 
+		}
+		return true;
+	}
+	// Just a function to do a simple check in a cleaner way
+	// POTENTIAL TO DO: MAKE BOARD GLOBAL? DISCUSS //
+	private boolean posIsVal(int[][] board, ArrayList<Integer> position, int expectedVal) {
+		return board[position.get(0)][position.get(1)] == expectedVal;
+	}
+	private boolean posIsVal(int[][] board, int x, int y, int expectedVal) {
+		return board[x][y] == expectedVal;
 	}
 }
 
