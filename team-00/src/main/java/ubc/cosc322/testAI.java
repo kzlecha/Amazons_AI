@@ -207,17 +207,21 @@ public class testAI extends GamePlayer{
 	private boolean checkQueen(int[][] board,ArrayList<Integer> initQueen, ArrayList<Integer> newQueen) {
 		int initX = initQueen.get(0), initY = initQueen.get(1), newX = newQueen.get(0), newY = newQueen.get(1);
 		
-		int deltaX = initX - newX;
-		int deltaY = initY - newY;
-		int xSign = deltaX < 0? -1: 1;
-		int ySign = deltaY < 0? -1: 1;
+		int deltaX = initX - newX; // difference in initial and final x
+		int deltaY = initY - newY; // difference in initial and final y
+		int xSign = 0, ySign = 0; // represents the vector direction that the queen is moving
+		if(deltaX != 0) xSign = deltaX < 0? -1: 1; // left or right?
+		if (deltaY != 0) ySign = deltaY < 0? -1: 1;// up or down?
+		deltaX = Math.abs(deltaX);
+		deltaY = Math.abs(deltaY);
 		
-		// illegal move
-		if(deltaX != 0 && deltaY != 0 && Math.abs(deltaX) != Math.abs(deltaY))
+		// check for illegal movement (non-linear)
+		if(deltaX != 0 && deltaY != 0 && deltaX != deltaY) 
 			return false;
 		
-		// Check path
-			for(int i = 0; i != deltaX; i+=xSign) {
+		// check that the path is clear
+		int max = Math.max(deltaX, deltaY);
+			for(int i = 1; i <= max ; i++) {
 				if(board[initX+i*xSign][initY+i*ySign] != 0)
 					return false;
 			}
