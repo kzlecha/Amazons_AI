@@ -207,63 +207,24 @@ public class testAI extends GamePlayer{
 	private boolean checkQueen(int[][] board,ArrayList<Integer> initQueen, ArrayList<Integer> newQueen) {
 		int initX = initQueen.get(0), initY = initQueen.get(1), newX = newQueen.get(0), newY = newQueen.get(1);
 		
-		if (initY == newY) { // Moving left or right
-			if(newX > initX) { // move right
-				for(int i = initX+1; i < newX; i++) {
-					if(board[i][initY] != 0)
-						return false;
-				}
-			}else { // move left
-				for(int i = initX-1; i > newX; i--) {
-					if(board[i][initY] != 0)
-						return false;
-				}
+		int deltaX = initX - newX;
+		int deltaY = initY - newY;
+		int xSign = deltaX < 0? -1: 1;
+		int ySign = deltaY < 0? -1: 1;
+		
+		// illegal move
+		if(deltaX != 0 && deltaY != 0 && Math.abs(deltaX) != Math.abs(deltaY))
+			return false;
+		
+		// Check path
+			for(int i = 0; i != deltaX; i+=xSign) {
+				if(board[initX+i*xSign][initY+i*ySign] != 0)
+					return false;
 			}
-		}else if (initX == newX) { // Moving up or down
-			if(newY > initY) { // move up
-				for(int i = initX+1; i < newX; i++) {
-					if(board[initX][i] != 0)
-						return false;
-				}
-			}else { // move down
-				for(int i = initX-1; i > newX; i--) {
-					if(board[initX][i] != 0)
-						return false;
-				}
-			}
-		}else { // diagonal cases need to ensure path is clear
-			int itrX = initX, itrY = initY;
-			if(newX > initX && newY > initY) { // top right
-				do {
-					if(board[++itrX][++itrY] != 0) {
-						return false;
-					}
-				}while (itrX < newX && itrY < newY);
-				
-			}else if(newX > initX && newY < initY) { // bottom right
-				do {
-					if(board[++itrX][--itrY] != 0) {
-						return false;
-					}
-				}while (itrX < newX && itrY > newY);
-			}else if(newX < initX && newY > initY) { // top left
-				do {
-					if(board[--itrX][++itrY] != 0) {
-						return false;
-					}
-				}while (itrX > newX && itrY < newY);
-			}else if(newX < initX && newY < initY){ // bottom left
-				do {
-					if(board[--itrX][--itrY] != 0) {
-						return false;
-					}
-				}while (itrX > newX && itrY > newY);
-			}
-			// final check: make sure that it actually fell on a diagonal line
-			return itrX == newX && itrY == newY; 
+			return true;
 		}
-		return true;
-	}
+		
+
 	// Just a function to do a simple check in a cleaner way
 	// POTENTIAL TO DO: MAKE BOARD GLOBAL? DISCUSS //
 	private boolean posIsVal(int[][] board, ArrayList<Integer> position, int expectedVal) {
