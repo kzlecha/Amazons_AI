@@ -1,12 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.sound.sampled.SourceDataLine;
-
-import org.jboss.netty.util.internal.SystemPropertyUtil;
-
 public class test {
-
+    
     public static void main(String[] args) {
         int[][] x = new int[][] { { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -14,74 +10,54 @@ public class test {
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 } };
         // System.out.println(Arrays.toString(x));
         printBoard(x);
-        int[] testQueen = new int[2]; 
-        testQueen[0] = 0; 
-        testQueen[1] = 1; 
-        for (Integer[] y : getQueenMoves(testQueen, x)) {
+
+        ArrayList<int[]> friend_Queen_pos = new ArrayList<int[]>();
+        friend_Queen_pos.add(new int[] { 0, 3 }); 
+        
+        friend_Queen_pos.add(new int[] {0,6}); 
+
+        friend_Queen_pos.add(new int[] { 3,0 }); 
+       friend_Queen_pos.add(new int[] { 0,9}); 
+
+
+        ArrayList<int[]> foe_queen_pos = new ArrayList<int[]>();
+
+        foe_queen_pos.add(new int[] {6,0});
+        
+        foe_queen_pos.add(new int[] {9,3});
+        foe_queen_pos.add(new int[] { 9,6 });
+        foe_queen_pos.add(new int[] { 6,9 });
+        for (int[] queen : friend_Queen_pos) {
+            
+        for (Integer[] y : moves.getQueenMoves(queen, x)) {
             System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
             System.out.println();
         }
-    }
+        for (Integer[] y : moves.ArrowMoves(queen, x)) {
+            System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
+            System.out.println();
+        }
+        System.out.println(moves.noOfMoves);
+        }
+        
 
-    public static void printBoard(int[][] gameboard) {
+        for (int[] queen : foe_queen_pos) {
+            
+        for (Integer[] y : moves.getQueenMoves(queen, x)) {
+            System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
+            System.out.println();
+        }
+        for (Integer[] y : moves.ArrowMoves(queen, x)) {
+            System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
+            System.out.println();
+        }
+
+        System.out.println(moves.noOfMoves);
+        }
+    }
+public static void printBoard(int[][] gameboard) {
 
         System.out.println(Arrays.deepToString(gameboard).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
     }
 
-    public static ArrayList<Integer[]> getQueenMoves(int[] queen, int[][] gamebaord) {
-        int row = queen[0];
-        int col = queen[1];
-        ArrayList<Integer[]> moves = new ArrayList<>();
-
-        for (int i = 1; col - i >= 0; i++) {
-            if (gamebaord[row][col - i] == 0) {
-                Integer[] move = new Integer[2];
-                move[0] = row;
-                move[1] = col - i;
-                moves.add(move);
-            } else {
-                break;
-            }
-        }
-
-        for (int i = 1; col + i <= 9; i++) {
-            if (gamebaord[row][col + i] == 0) {
-                Integer[] move = new Integer[2];
-                move[0] = row;
-                move[1] = col + i;
-                moves.add(move);
-            } else {
-                break;
-            }
-
-        }
-
-        for (int i = 1; row - i >= 0; i++) {
-            if (gamebaord[row - i][col] == 0) {
-                Integer[] move = new Integer[2];
-                move[0] = row - i;
-                move[1] = col;
-                moves.add(move);
-            } else {
-                break;
-            }
-
-        }
-
-        for (int i = 1; row + i <= 9; i++) {
-            if (gamebaord[row + i][col] == 0) {
-                Integer[] move = new Integer[2];
-                move[0] = row + i;
-                move[1] = col;
-                moves.add(move);
-            } else {
-                break;
-            }
-
-        }
-        
-        return moves;
-
-
-    }
 }
