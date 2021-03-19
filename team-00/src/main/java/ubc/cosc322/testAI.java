@@ -25,7 +25,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI(args[0], args[1]);
+		testAI player = new testAI("kanishka","cosc322");
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -63,6 +63,7 @@ public class testAI extends GamePlayer{
 		System.out.println("Message type: " + messageType);
 		// Update board state
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) { 
+			// int[][] test = this.getGameBoard(GameMessage.GAME_STATE_BOARD)
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			// Update the board with the foreign move
