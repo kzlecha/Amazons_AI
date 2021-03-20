@@ -14,7 +14,7 @@ import ygraph.ai.smartfox.games.amazons.AmazonsGameMessage;
 public class testAI extends GamePlayer{
 	
 	// For better readability in certain functions
-	final int START_INDEX = 12, WIDTH = 11, X = 0, Y = 1, ARROW = 3;
+	final int X = 0, Y = 1, ARROW = 3;
 	
 	private GameClient gameClient = null;
 	private BaseGameGUI gamegui = null;
@@ -154,7 +154,9 @@ public class testAI extends GamePlayer{
 	// makeMove()
 	// - Takes msgDetails and takes a list of three sets of coordinates as input,
 	//   then sends the move to the server and updates the gui.
-	private void makeMove(Map<String, Object> msgDetails, ArrayList<ArrayList<Integer>> moveList) {
+	
+	// Sends a makeMove message to the server and updatesClient
+	private void makeMoveClientServer(Map<String, Object> msgDetails, ArrayList<ArrayList<Integer>> moveList) {
 		
 		ArrayList<Integer> gameState = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.GAME_STATE);		
 		
@@ -198,7 +200,7 @@ public class testAI extends GamePlayer{
 				inputCmd.get(x).add(in.nextInt());
 			}
 		}
-		//makeMove(msgDetails, inputCmd);
+		//makeMoveClientServer(msgDetails, inputCmd);
 		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
 		gamegui.updateGameState(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
 	}
