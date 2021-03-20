@@ -194,7 +194,7 @@ public class testAI extends GamePlayer{
 				inputCmd.get(x).add(in.nextInt());
 			}
 		}
-		if(!isValid(board, inputCmd.get(INIT_POS),inputCmd.get(NEW_POS),inputCmd.get(ARROW_POS))) {
+		if(!moveIsValid(inputCmd)){
 			System.out.println("Invalid");
 			consoleMove();
 		}
