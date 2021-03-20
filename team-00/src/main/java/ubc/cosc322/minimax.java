@@ -1,6 +1,15 @@
 package ubc.cosc322;
 
 public class minimax {
+
+    /**
+     *
+     * @param position
+     * @param depth The maximum depth of the game tree to search to
+     * @param alpha The best alternative for the minimising enemy player
+     * @param beta The best alternative for the maximising us
+     * @param maximizingPlayer 1 for max and 0 for min
+     */
     
 
     public static void minimax_i(int[] position, int depth, int alpha, int beta, int maximizingPlayer)
