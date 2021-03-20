@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
@@ -14,28 +15,38 @@ public class test {
         // System.out.println(Arrays.toString(x));
         printBoard(x);
 
-        ArrayList<int[]> friend_Queen_pos = new ArrayList<int[]>();
-        friend_Queen_pos.add(new int[] { 0, 3 });
+        ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
+        friend_Queen_pos.add(new ArrayList<Integer>(  List.of(0,3)));
 
-        friend_Queen_pos.add(new int[] { 0, 6 });
+        // friend_Queen_pos.add(new ArrayList<Integer> );
 
-        friend_Queen_pos.add(new int[] { 3, 0 });
-        friend_Queen_pos.add(new int[] { 0, 9 });
+        friend_Queen_pos.add(new ArrayList<Integer>(  List.of(3,0)));
+        friend_Queen_pos.add(new ArrayList<Integer>(  List.of(0,6)));
+        friend_Queen_pos.add(new ArrayList<Integer>(  List.of(3,9)));
+        // friend_Queen_pos.add(new ArrayList<Integer>(  List.of(0,3)));
+        // friend_Queen_pos.add(new int[] { 3, 0 });
+        // friend_Queen_pos.add(new int[] { 0, 9 });
 
-        ArrayList<int[]> foe_queen_pos = new ArrayList<int[]>();
+        ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
 
-        foe_queen_pos.add(new int[] { 6, 0 });
+        // foe_queen_pos.add(new int[] { 6, 0 });
 
-        foe_queen_pos.add(new int[] { 9, 3 });
-        foe_queen_pos.add(new int[] { 9, 6 });
-        foe_queen_pos.add(new int[] { 6, 9 });
+        // foe_queen_pos.add(new int[] { 9, 3 });
+        // foe_queen_pos.add(new int[] { 9, 6 });
+        // foe_queen_pos.add(new int[] { 6, 9 });
+   foe_queen_pos.add(new ArrayList<Integer>(  List.of(6,0)));
 
+        // friend_Queen_pos.add(new ArrayList<Integer> );
 
-        int[][] friendQueen = { { 0, 3 }, { 0, 6 }, { 3, 0 }, { 0, 9 } };
+        foe_queen_pos.add(new ArrayList<Integer>(  List.of(9,3)));
+        foe_queen_pos.add(new ArrayList<Integer>(  List.of(9,6   )));
+        foe_queen_pos.add(new ArrayList<Integer>(  List.of(6,9)));
 
-        int[][] foeQueen = { {6,0}, {9,3}, { 9,6 }, { 6,9  } };
+        // int[][] friendQueen = { { 0, 3 }, { 0, 6 }, { 3, 0 }, { 0, 9 } };
+
+        // int[][] foeQueen = { {6,0}, {9,3}, { 9,6 }, { 6,9  } };
         
-        System.out.println(gameEnd(friendQueen, foeQueen , x));
+        System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos,x));
         
         // MoveFinder moves = new MoveFinder();
         // for (int[] queen : friend_Queen_pos) {
@@ -107,27 +118,21 @@ public static void printBoard(int[][] gameboard) {
 
     }
 
-     public static void printMoves(ArrayList<ArrayList<Integer>> moves) {
-
-        for (ArrayList<Integer> move : moves) {
-
-            System.out.print('[' + String.valueOf(move.get(0)) + ',' + String.valueOf(move.get(1)) + ']');
-        }
-    }
+   
     
-    public static boolean gameEnd(int[][] friendQueen, int[][] enemyQueen, int[][] GameBoard)
+    public static boolean gameEnd(ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> enemyQueen, int[][] GameBoard)
     {
         int friendMoves = 0;
         int foeMoves = 0; 
         MoveFinder x = new MoveFinder(); 
-        for (int[] friend : friendQueen) {
+        for ( ArrayList<Integer> friend : friendQueen) {
             x.getMoves(friend, GameBoard);
             friendMoves += MoveFinder.n_moves;
 
         }
         System.out.println(friendMoves);
 
-        for (int[] foe : friendQueen) {
+        for (ArrayList<Integer> foe : enemyQueen) {
 
             x.getMoves(foe, GameBoard);
             foeMoves += MoveFinder.n_moves;

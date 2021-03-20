@@ -35,7 +35,7 @@ public class MoveFinder {
     }
     
          public static void printMoves() {
-            
+
         for (ArrayList<Integer> move : moveList ) {
 
             System.out.print('[' + String.valueOf(move.get(0)) + ',' + String.valueOf(move.get(1)) + ']');
@@ -57,9 +57,9 @@ public class MoveFinder {
         n_moves = 0;
     }
 
-    public ArrayList<ArrayList<Integer>> getMoves(int[] position, int[][] gamebaord) {
-        int row = position[0];
-        int col = position[1];
+    public ArrayList<ArrayList<Integer>> getMoves(ArrayList<Integer> position, int[][] gamebaord) {
+        int row = position.get(0);
+        int col = position.get(1);
         
         this.resetMoves();
         
