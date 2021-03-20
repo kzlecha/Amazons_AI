@@ -116,7 +116,7 @@ public class testAI extends GamePlayer{
 	
 	// Returns the gameboard as a 2d array
 	// (Kinda wacky, *might* be useful for testing)
-	int[][] getGameBoard(ArrayList<Integer> msgDetails) {
+	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
 		// first 12 elements in msgDetails are not part of the gameboard
 		int[][] gameBoard = new int[10][10];
 		for(int x = 0, y = 0, s = 0, c = START_INDEX; c < msgDetails.size(); c++) {		
@@ -135,6 +135,18 @@ public class testAI extends GamePlayer{
 		return gameBoard;
 	}
 	
+	public ArrayList<Integer> getGameBoard(int[][] board) {
+		ArrayList<Integer> toReturn = new ArrayList<Integer>();
+		toReturn.ensureCapacity(121);;
+		for(int i = 0; i < board.length; i++) {
+			toReturn.add(0);
+			for(int j = 0; j < board[i].length; j++) {
+				toReturn.add(board[i][j]);
+			}
+		}
+		return toReturn;
+	}
+	
 	// makeMove()
 	// - Takes msgDetails and takes a list of three sets of coordinates as input,
 	//   then sends the move to the server and updates the gui.
@@ -149,8 +161,8 @@ public class testAI extends GamePlayer{
 		int indexOfArrow = moveList.get(2).get(Y) * WIDTH + moveList.get(2).get(X);
 		
 		// Update msgDetails
+		gameState.set(newIndexOfQueen,gameState.get(oldIndexOfQueen));
 		gameState.set(oldIndexOfQueen,0);
-		gameState.set(newIndexOfQueen,this.black ? 1 : 2);
 		gameState.set(indexOfArrow,ARROW);
 		
 		// Send move to server
@@ -237,5 +249,16 @@ public class testAI extends GamePlayer{
 	private boolean posIsVal(int[][] board, int x, int y, int expectedVal) {
 		return board[x][y] == expectedVal;
 	}
+	
+	private void swap(int[][] board, ArrayList<Integer> position1, ArrayList<Integer> position2) {
+		int x1 = position1.get(0);
+		int y1 = position1.get(1);
+		int x2 = position1.get(0);
+		int y2 = position1.get(1);
+		int temp = board[x1][y1];
+		board[x1][y1] = board[x2][y2];
+		board[x2][y2] = temp;
+	}
+	
 }
 
