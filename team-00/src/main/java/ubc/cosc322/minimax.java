@@ -59,5 +59,5 @@ public class minimax {
     }
     
 
-    public Moves getAllMoves() 
+    // public Moves getAllMoves() 
 }
