@@ -24,7 +24,7 @@ public class testAI extends GamePlayer{
 	private String passwd = null;
 	Scanner in;
 	
-	private boolean black;
+	private boolean isBlack;
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
@@ -83,11 +83,11 @@ public class testAI extends GamePlayer{
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
 				System.out.println("I am the black player");
-				this.black = true;
+				this.isBlack = true;
 				consoleMove(msgDetails);
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
-				this.black = false;
+				this.isBlack = false;
 			}
 			else // This code should never be reached
 				return false;
@@ -189,11 +189,11 @@ public class testAI extends GamePlayer{
 	
 	private boolean isValid(int[][] board,ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		// Check you are moving your own piece 
-		if(black)
-			if(!posIsVal(board,initQueen,2))
+		if(isBlack)
+			if(!posIsVal(board,initQueen,BLACK))
 				return false;
 		else
-			if(!posIsVal(board,initQueen,1))
+			if(!posIsVal(board,initQueen,WHITE))
 				return false;
 		// If our landing spots are clear, handles moving to same spot
 		// TO DO: ACCOUNT FOR PATHS OPENED BY MOVING QUEEN WITH ARROW //
