@@ -119,25 +119,23 @@ public class testAI extends GamePlayer{
 	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
 		// first 12 elements in msgDetails are not part of the gameboard
 		int[][] gameBoard = new int[10][10];
-		for(int x = 0, y = 0, s = 0, c = START_INDEX; c < msgDetails.size(); c++) {		
-			// the first element of each 'row' in the 1d array 
-			// is not part of the gameboard, so skip the 11th element
-			if(s == 10 ) {
-				x++;
-				y=0;
-				s=0;
-				continue;
+		int currentIdx = 11;
+		for(int i = 0; i < gameBoard.length; i++) {
+			currentIdx += 1;
+			for(int j = 0; j < gameBoard[i].length; j++) {
+				gameBoard[i][j] = msgDetails.get(currentIdx);
+				currentIdx += 1;
 			}
-			gameBoard[x][y] = msgDetails.get(c);
-			y++;
-			s++;
 		}
 		return gameBoard;
 	}
 	
 	public ArrayList<Integer> getGameBoard(int[][] board) {
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
-		toReturn.ensureCapacity(121);;
+		toReturn.ensureCapacity(132);
+		for(int i = 0; i < 11; i++) {
+			toReturn.add(0);
+		}
 		for(int i = 0; i < board.length; i++) {
 			toReturn.add(0);
 			for(int j = 0; j < board[i].length; j++) {
