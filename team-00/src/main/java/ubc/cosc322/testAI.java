@@ -25,7 +25,10 @@ public class testAI extends GamePlayer{
 	Scanner in;
 	
 	private boolean isBlack;
-
+	private int[][] board;
+	
+	public int[][] queens;
+	
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
 		testAI player = new testAI(args[0], args[1]);
@@ -66,10 +69,13 @@ public class testAI extends GamePlayer{
 		System.out.println("Message type: " + messageType);
 		// Update board state
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) { 
+			System.out.println("Got a game_state_board msg");
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
 			// How we tested making and unmaking the board
 			// System.out.println(Arrays.deepToString(getGameBoard(getGameBoard(getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE))))));
+			this.board = getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE)); 
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
+			System.out.println("Got a game_action_move msg");
 			// Update the board with the foreign move
 			gamegui.updateGameState(
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR),
@@ -80,6 +86,7 @@ public class testAI extends GamePlayer{
 			consoleMove(msgDetails);
 			//turn = !turn;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
+			System.out.println("Got a game_action_move msg");
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
 				System.out.println("I am the black player");
@@ -118,9 +125,6 @@ public class testAI extends GamePlayer{
 	public BaseGameGUI getGameGUI() {
 		return  this.gamegui;
 	}
-	
-	// Returns the gameboard as a 2d array
-	// (Kinda wacky, *might* be useful for testing)
 	
 	// This works as intended
 	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
