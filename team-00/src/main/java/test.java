@@ -29,17 +29,24 @@ public class test {
         foe_queen_pos.add(new int[] { 9, 3 });
         foe_queen_pos.add(new int[] { 9, 6 });
         foe_queen_pos.add(new int[] { 6, 9 });
-        
-        MoveFinder moves = new MoveFinder();
-        for (int[] queen : friend_Queen_pos) {
 
-            for (Integer[] y : moves.getMoves(queen, x)) {
-                printBoard(x);
-                System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-                System.out.println();
-                // makeMoveLocal(x, friend_Queen_pos.get(0), );
-            }
-        }
+
+        int[][] friendQueen = { { 0, 3 }, { 0, 6 }, { 3, 0 }, { 0, 9 } };
+
+        int[][] foeQueen = { {6,0}, {9,3}, { 9,6 }, { 6,9  } };
+        
+        System.out.println(gameEnd(friendQueen, foeQueen , x));
+        
+        // MoveFinder moves = new MoveFinder();
+        // for (int[] queen : friend_Queen_pos) {
+
+        //     for (Integer[] y : moves.getMoves(queen, x)) {
+        //         printBoard(x);
+        //         System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
+        //         System.out.println();
+        //         // makeMoveLocal(x, friend_Queen_pos.get(0), );
+        //     }
+        // }
         // for (Integer[] y : moves.ArrowMoves(queen, x)) {
         //     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
         //     System.out.println();
@@ -100,14 +107,48 @@ public static void printBoard(int[][] gameboard) {
 
     }
 
-    public static void printMoves(ArrayList<Integer[]> moves) {
-        
+     public static void printMoves(ArrayList<ArrayList<Integer>> moves) {
 
-        for (Integer[] move : moves) {
+        for (ArrayList<Integer> move : moves) {
 
-            
-            System.out.print('[' + String.valueOf(move[0]) + ',' + String.valueOf(move[1]) + ']');
+            System.out.print('[' + String.valueOf(move.get(0)) + ',' + String.valueOf(move.get(1)) + ']');
         }
+    }
+    
+    public static boolean gameEnd(int[][] friendQueen, int[][] enemyQueen, int[][] GameBoard)
+    {
+        int friendMoves = 0;
+        int foeMoves = 0; 
+        MoveFinder x = new MoveFinder(); 
+        for (int[] friend : friendQueen) {
+            x.getMoves(friend, GameBoard);
+            friendMoves += MoveFinder.n_moves;
+
+        }
+        System.out.println(friendMoves);
+
+        for (int[] foe : friendQueen) {
+
+            x.getMoves(foe, GameBoard);
+            foeMoves += MoveFinder.n_moves;
+
+        }
+        System.out.println(foeMoves);
+
+        if (friendMoves == 0 | foeMoves ==0 )
+
+        {
+
+            return true;
+
+        }
+
+        else {
+            return false; 
+         }
+
+
+
     }
 
 }
