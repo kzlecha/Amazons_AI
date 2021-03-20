@@ -1,5 +1,7 @@
 package ubc.cosc322;
 
+import java.util.*;
+
 public class minimax {
 
     /**
@@ -11,8 +13,13 @@ public class minimax {
      */
 
 
-    public static void minimax_i(int[] position, int depth, int alpha, int beta, int maximizingPlayer) {
+    public void minimax_i(int[] position, int depth, int alpha, int beta, int maximizingPlayer) {
         // PSEUDOCODE
+        State s;
+        public void buildTheTree(){
+            s = new State();
+
+        }
         /**
          boolean gameOver = false;
          for(int queens = 0; queens < position.length; queens++){
@@ -79,6 +86,14 @@ public class minimax {
         // return bestMove.string   
 
         return null;
+    }
+
+    public class Node{
+        int score;
+        List<Node> children;
+    }
+    public class State{
+        Node root;
     }
 
 
