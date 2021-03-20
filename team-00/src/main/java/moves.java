@@ -113,82 +113,83 @@ public class moves {
         noOfMoves = movesOfQueen.size();
         
         return movesOfQueen;
-
+        
     }
-       public static ArrayList<Integer[]> ArrowMoves(int[] queen, int[][] gameboard) {
+    
+    public static ArrayList<Integer[]> ArrowMoves(int[] queen, int[][] gameboard) {
         int row = queen[0];
         int col = queen[1];
-         movesOfArrow = new ArrayList<>();
+        movesOfArrow = new ArrayList<>();
+        movesOfArrow = getQueenMoves(queen, gameboard);
+        return movesOfArrow; 
+        
+        // for (int i = 1; col - i >= 0; i++) {
+        //     if (gameboard[row][col - i] == 0) {
 
-        for (int i = 1; col - i >= 0; i++) {
-            if (gameboard[row][col - i] == 0) {
+        //         movesOfArrow.add(new Integer[] { row, col - i });
+        //     } else { 
+        //         break;
+        //     }
+        // }
 
-                movesOfArrow.add(new Integer[] { row, col - i });
-            } else { 
-                break;
-            }
-        }
+        // for (int i = 1; col + i <= 9; i++) {
+        //     if (gameboard[row][col + i] == 0) {
+        //         movesOfArrow.add(new Integer[] { row, col + i });
+        //     } else {
+        //         break;
+        //     }
 
-        for (int i = 1; col + i <= 9; i++) {
-            if (gameboard[row][col + i] == 0) {
-                movesOfArrow.add(new Integer[] { row, col + i });
-            } else {
-                break;
-            }
+        // }
 
-        }
+        // for (int i = 1; row - i >= 0; i++) {
+        //     if (gameboard[row - i][col] == 0) {
 
-        for (int i = 1; row - i >= 0; i++) {
-            if (gameboard[row - i][col] == 0) {
+        //         movesOfArrow.add(new Integer[] { row - i, col });
+        //     } else {
+        //         break;
+        //     }
 
-                movesOfArrow.add(new Integer[] { row - i, col });
-            } else {
-                break;
-            }
+        // }
 
-        }
+        // for (int i = 1; row + i <= 9; i++) {
+        //     if (gameboard[row + i][col] == 0) {
+        //         movesOfArrow.add(new Integer[] { row + i, col });
+        //     } else {
+        //         break;
+        //     }
 
-        for (int i = 1; row + i <= 9; i++) {
-            if (gameboard[row + i][col] == 0) {
-                movesOfArrow.add(new Integer[] { row + i, col });
-            } else {
-                break;
-            }
+        // }
 
-        }
+        // for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
+        //     if (gameboard[row - i][col - i] == 0l) {
+        //         movesOfArrow.add(new Integer[] { row - i, col - i });
+        //     } else {
+        //         break;
+        //     }
+        // }
 
-        for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
-            if (gameboard[row - i][col - i] == 0l) {
-                movesOfArrow.add(new Integer[] { row - i, col - i });
-            } else {
-                break;
-            }
-        }
+        // for (int i = 1; row + i <= 9 && col - i >= 0; i++) {
+        //     if (gameboard[row + i][col - i] == 0l) {
+        //         movesOfArrow.add(new Integer[] { row + i, col - i });
+        //     } else {
+        //         break;
+        //     }
+        // }
 
-        for (int i = 1; row + i <= 9 && col - i >= 0; i++) {
-            if (gameboard[row + i][col - i] == 0l) {
-                movesOfArrow.add(new Integer[] { row + i, col - i });
-            } else {
-                break;
-            }
-        }
-
-        for (int i = 1; row - i >= 0 && col + i <= 9; i++) {
-            if (gameboard[row - i][col + i] == 0) {
-                movesOfArrow.add(new Integer[] { row - i, col + i });
-            } else {
-                break;
-            }
-        }
-        for (int i = 1; row + i <= 9 && col + i <= 9; i++) {
-            if (gameboard[row + i][col + i] == 0) {
-                movesOfArrow.add(new Integer[] { row + i, col + i });
-            } else {
-                break;
-            }
-        }
-
-        return movesOfArrow;
+        // for (int i = 1; row - i >= 0 && col + i <= 9; i++) {
+        //     if (gameboard[row - i][col + i] == 0) {
+        //         movesOfArrow.add(new Integer[] { row - i, col + i });
+        //     } else {
+        //         break;
+        //     }
+        // }
+        // for (int i = 1; row + i <= 9 && col + i <= 9; i++) {
+        //     if (gameboard[row + i][col + i] == 0) {
+        //         movesOfArrow.add(new Integer[] { row + i, col + i });
+        //     } else {
+        //         break;
+        //     }
+        // }
 
     }
 }
