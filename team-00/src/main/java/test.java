@@ -34,10 +34,11 @@ public class test {
         for (int[] queen : friend_Queen_pos) {
 
             for (Integer[] y : moves.getMoves(queen, x)) {
-            printBoard(x);
-            System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-            System.out.println();
-            // makeMoveLocal(x, friend_Queen_pos.get(0), );
+                printBoard(x);
+                System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
+                System.out.println();
+                // makeMoveLocal(x, friend_Queen_pos.get(0), );
+            }
         }
         // for (Integer[] y : moves.ArrowMoves(queen, x)) {
         //     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');

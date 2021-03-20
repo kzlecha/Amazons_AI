@@ -16,7 +16,11 @@ public class minimax {
     
     {
         // PSEUDOCODE
-        // if depth == 0 or game over in position 
+        
+        // if depth == 0 or game over in position
+        if(depth == 0){
+
+        }
         //     return static evaluation of position
 
         //     if maximizingPlayer: 
