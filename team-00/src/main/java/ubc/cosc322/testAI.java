@@ -1,6 +1,7 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Map;
 
@@ -64,6 +65,8 @@ public class testAI extends GamePlayer{
 		// Update board state
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) { 
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
+			// How we tested making and unmaking the board
+			// System.out.println(Arrays.deepToString(getGameBoard(getGameBoard(getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE))))));
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			// Update the board with the foreign move
 			gamegui.updateGameState(
@@ -116,6 +119,8 @@ public class testAI extends GamePlayer{
 	
 	// Returns the gameboard as a 2d array
 	// (Kinda wacky, *might* be useful for testing)
+	
+	// This works as intended
 	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
 		// first 12 elements in msgDetails are not part of the gameboard
 		int[][] gameBoard = new int[10][10];
@@ -130,6 +135,7 @@ public class testAI extends GamePlayer{
 		return gameBoard;
 	}
 	
+	// This works as intended
 	public ArrayList<Integer> getGameBoard(int[][] board) {
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
 		toReturn.ensureCapacity(132);
