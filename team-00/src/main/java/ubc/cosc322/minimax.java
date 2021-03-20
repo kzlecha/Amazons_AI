@@ -12,14 +12,14 @@ public class minimax {
      * @param maximizingPlayer 1 for max and 0 for min
      */
 
+    State s;
+
+    public void buildTheTree (int move){
+        s = new State();
+    }
 
     public void minimax_i(int[] position, int depth, int alpha, int beta, int maximizingPlayer) {
         // PSEUDOCODE
-        State s;
-        public void buildTheTree(){
-            s = new State();
-
-        }
         /**
          boolean gameOver = false;
          for(int queens = 0; queens < position.length; queens++){
