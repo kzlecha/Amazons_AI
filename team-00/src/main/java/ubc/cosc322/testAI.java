@@ -40,10 +40,10 @@ public class testAI extends GamePlayer{
 		}
 	}
 
-	public testAI(String userName, String psswd){
+	public testAI(String userName, String password){
 		super.postSetup();
 		this.userName = userName;
-		this.passwd = passwd;
+		this.passwd = password;
 
 		//To make a GUI-based player, create an instance of BaseGameGUI
 		//and implement the method getGameGUI() accordingly
@@ -256,6 +256,14 @@ public class testAI extends GamePlayer{
 		int temp = board[x1][y1];
 		board[x1][y1] = board[x2][y2];
 		board[x2][y2] = temp;
+	}
+	
+	private void makeMove(int[][] board) {
+		
+	}
+	
+	private void unmakeMove(int[][] board) {
+		
 	}
 	
 }
