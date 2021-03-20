@@ -31,7 +31,7 @@ public class testAI extends GamePlayer{
 	
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI(args[0], args[1]);
+		testAI player = new testAI("kanishka","cosc322");
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -70,6 +70,7 @@ public class testAI extends GamePlayer{
 		// Update board state
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) { 
 			System.out.println("Got a game_state_board msg");
+			// int[][] test = this.getGameBoard(GameMessage.GAME_STATE_BOARD)
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
 			// How we tested making and unmaking the board
 			// System.out.println(Arrays.deepToString(getGameBoard(getGameBoard(getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE))))));
