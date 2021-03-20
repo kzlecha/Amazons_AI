@@ -26,7 +26,7 @@ public class testAI extends GamePlayer{
 
 	private boolean isBlack;
 	private int teamVal, enemyVal;
-	
+
 	private int[][] board;
 
 	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
@@ -205,7 +205,7 @@ public class testAI extends GamePlayer{
 	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
 		return moveIsValid(move.get(INIT_POS), move.get(NEW_POS), move.get(ARROW_POS));
 	}
-	
+
 	private boolean moveIsValid(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		boolean valid = false;
 		if (checkValidPosition(initQueen, newQueen)) {
@@ -217,14 +217,14 @@ public class testAI extends GamePlayer{
 		}
 		return valid;
 	}
-	
+
 	private boolean checkValidPosition(ArrayList<Integer> a, ArrayList<Integer> b) {
 		if(posIsVal(a, this.teamVal) && posIsVal(b, EMPTY)) {
 			return checkPath(a, b);
 		}
 		return false;
 	}
-	
+
 	private boolean checkPath(ArrayList<Integer> a, ArrayList<Integer> b) {
 		int initX = a.get(0), initY = a.get(1), newX = b.get(0), newY = b.get(1);
 
@@ -269,27 +269,32 @@ public class testAI extends GamePlayer{
 		board[x1][y1] = board[x2][y2];
 		board[x2][y2] = temp;
 	}
-	
+
 	private void placeArrow(ArrayList<Integer> position1) {
 		board[position1.get(0)][position1.get(1)] = ARROW;
 	}
-	
+
 	private void removeArrow(ArrayList<Integer> position1) {
 		board[position1.get(0)][position1.get(1)] = EMPTY;
 	}
 
-	// NEEDS TO BE DONE
-	private void makeMove(ArrayList<ArrayList<Integer>> move) {
-		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+	private void makeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		swap(initQueen, newQueen);
 		placeArrow(arrowPos);
 	}
 
-	// NEEDS TO BE DONE
-	private void unmakeMove(ArrayList<ArrayList<Integer>> move) {
+	private void makeMove(ArrayList<ArrayList<Integer>> move) {
 		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		makeMove(initQueen, newQueen, arrowPos);
+	}
+
+	private void unmakeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		swap(initQueen, newQueen);
 		removeArrow(arrowPos);
+	}
+	private void unmakeMove(ArrayList<ArrayList<Integer>> move) {
+		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		unmakeMove(initQueen, newQueen, arrowPos);
 	}
 
 	public static void printBoard(int[][] gameboard) {
@@ -322,8 +327,16 @@ public class testAI extends GamePlayer{
 	}
 
 	 */
-	
-	
+
+	public int zeroToOneIndex(int i) {
+		return i+1;
+	}
+
+	public int oneToZeroIndex(int i) {
+		return i-1;
+	}
+
+
 
 }
 
