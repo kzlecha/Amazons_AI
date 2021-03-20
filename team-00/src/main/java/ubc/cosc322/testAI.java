@@ -14,7 +14,9 @@ import ygraph.ai.smartfox.games.amazons.AmazonsGameMessage;
 public class testAI extends GamePlayer{
 	
 	// For better readability in certain functions
-	final int X = 0, Y = 1, ARROW = 3;
+	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
+	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
+	
 	
 	private GameClient gameClient = null;
 	private BaseGameGUI gamegui = null;
@@ -158,8 +160,8 @@ public class testAI extends GamePlayer{
 	// Sends a makeMove message to the server and updatesClient
 	private void makeMoveClientServer(ArrayList<ArrayList<Integer>> inputCmd) {
 		// Input CMD is in the order input
-		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
-		gamegui.updateGameState(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
+		gameClient.sendMoveMessage(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
+		gamegui.updateGameState(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 	}
 	
 	// consoleMove()
