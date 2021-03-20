@@ -156,28 +156,10 @@ public class testAI extends GamePlayer{
 	//   then sends the move to the server and updates the gui.
 	
 	// Sends a makeMove message to the server and updatesClient
-	private void makeMoveClientServer(Map<String, Object> msgDetails, ArrayList<ArrayList<Integer>> moveList) {
-		
-		ArrayList<Integer> gameState = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.GAME_STATE);		
-		
-		// Calculate the 1d index of each place in the game-board.
-		// Follows formula = y * width + x
-		int oldIndexOfQueen = moveList.get(0).get(Y) * WIDTH + moveList.get(0).get(X);
-		int newIndexOfQueen = moveList.get(1).get(Y) * WIDTH + moveList.get(1).get(X);
-		int indexOfArrow = moveList.get(2).get(Y) * WIDTH + moveList.get(2).get(X);
-		
-		// Update msgDetails
-		gameState.set(newIndexOfQueen,gameState.get(oldIndexOfQueen));
-		gameState.set(oldIndexOfQueen,0);
-		gameState.set(indexOfArrow,ARROW);
-		
-		// Send move to server
-		gameClient.sendMoveMessage(msgDetails);
-		// Overloaded function below works if sending msgDetails doesn't
-		// gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
-		
-		// Update GUI to display move
-		this.gamegui.updateGameState(msgDetails);
+	private void makeMoveClientServer(ArrayList<ArrayList<Integer>> inputCmd) {
+		// Input CMD is in the order input
+		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
+		gamegui.updateGameState(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
 	}
 	
 	// consoleMove()
@@ -200,9 +182,7 @@ public class testAI extends GamePlayer{
 				inputCmd.get(x).add(in.nextInt());
 			}
 		}
-		//makeMoveClientServer(msgDetails, inputCmd);
-		gameClient.sendMoveMessage(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
-		gamegui.updateGameState(inputCmd.get(0), inputCmd.get(1), inputCmd.get(2));
+		makeMoveClientServer(inputCmd);
 	}
 	
 	private boolean isValid(int[][] board,ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
