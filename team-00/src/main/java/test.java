@@ -28,20 +28,20 @@ public class test {
         foe_queen_pos.add(new int[] { 9, 3 });
         foe_queen_pos.add(new int[] { 9, 6 });
         foe_queen_pos.add(new int[] { 6, 9 });
-        for (int[] queen : friend_Queen_pos) {
+        // for (int[] queen : friend_Queen_pos) {
 
-            for (Integer[] y : moves.getQueenMoves(queen, x)) {
-            printBoard(x);
-            System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-            System.out.println();
-            // makeMoveLocal(x, friend_Queen_pos.get(0), );
-        }
-        // for (Integer[] y : moves.ArrowMoves(queen, x)) {
+        //     for (Integer[] y : moves.getQueenMoves(queen, x)) {
+        //     printBoard(x);
         //     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
         //     System.out.println();
+        //     // makeMoveLocal(x, friend_Queen_pos.get(0), );
         // }
-        // System.out.println(moves.noOfMoves);
-        }
+        // // for (Integer[] y : moves.ArrowMoves(queen, x)) {
+        // //     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
+        // //     System.out.println();
+        // // }
+        // // System.out.println(moves.noOfMoves);
+        // }
 
         // for (int[] queen : foe_queen_pos) {
 
@@ -56,8 +56,10 @@ public class test {
 
         // // System.out.println(moves.noOfMoves);
         // }
-        makeMoveLocal(x, new int[] { 0, 3 }, new int[] { 0, 4 });
+        x = makeMoveLocal(x, new int[] { 0, 3 }, new int[] { 0, 4 });
         printBoard(x);
+        printMoves(moves.getQueenMoves(new int[] { 0, 4 }, x));
+        // printBoard(x); 
        }
 
 public static void printBoard(int[][] gameboard) {
@@ -66,31 +68,37 @@ public static void printBoard(int[][] gameboard) {
     }
 
     public static int[][] makeMoveLocal(int[][] gameboard, int[] oldIndexOfQueen, int[] newIndexOfQueen) {
-    
-           if (gameboard[oldIndexOfQueen[0]][oldIndexOfQueen[1]]==1){ 
-                System.out.println("queen found at old index");
 
-                if (gameboard[newIndexOfQueen[0]][newIndexOfQueen[1]] == 0) {
-                    System.out.println("move Possible");
+        if (gameboard[oldIndexOfQueen[0]][oldIndexOfQueen[1]] == 1) {
+            System.out.println("queen found at old index");
 
-                    System.out.println("making move...");
+            if (gameboard[newIndexOfQueen[0]][newIndexOfQueen[1]] == 0) {
+                System.out.println("move Possible");
 
-                    gameboard[oldIndexOfQueen[0]][oldIndexOfQueen[1]] = 0;
-                    gameboard[newIndexOfQueen[0]][newIndexOfQueen[1]] = 1;
+                System.out.println("making move...");
 
-                }
-                
+                gameboard[oldIndexOfQueen[0]][oldIndexOfQueen[1]] = 0;
+                gameboard[newIndexOfQueen[0]][newIndexOfQueen[1]] = 1;
 
-
-            } else {
-
-                System.out.println("queen not found at index. try again.");
             }
-              
-            return gameboard; 
 
+        } else {
 
+            System.out.println("queen not found at index. try again.");
+        }
 
-}
+        return gameboard;
+
+    }
+
+    public static void printMoves(ArrayList<Integer[]> moves) {
+        
+
+        for (Integer[] move : moves) {
+
+            
+            System.out.print('[' + String.valueOf(move[0]) + ',' + String.valueOf(move[1]) + ']');
+        }
+    }
 
 }
