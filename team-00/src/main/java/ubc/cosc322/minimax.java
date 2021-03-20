@@ -56,6 +56,7 @@ public class minimax {
 
         // return bestMove.string   
 
+    	return null;
     }
     
 

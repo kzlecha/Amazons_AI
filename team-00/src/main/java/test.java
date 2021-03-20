@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
+
 public class test {
     
     public static void main(String[] args) {
@@ -28,9 +29,11 @@ public class test {
         foe_queen_pos.add(new int[] { 9, 3 });
         foe_queen_pos.add(new int[] { 9, 6 });
         foe_queen_pos.add(new int[] { 6, 9 });
+        
+        MoveFinder moves = new MoveFinder();
         for (int[] queen : friend_Queen_pos) {
 
-            for (Integer[] y : moves.getQueenMoves(queen, x)) {
+            for (Integer[] y : moves.getMoves(queen, x)) {
             printBoard(x);
             System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
             System.out.println();
