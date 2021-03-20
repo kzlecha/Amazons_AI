@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
+
 public class test {
     
     public static void main(String[] args) {
@@ -28,10 +29,17 @@ public class test {
         foe_queen_pos.add(new int[] { 9, 3 });
         foe_queen_pos.add(new int[] { 9, 6 });
         foe_queen_pos.add(new int[] { 6, 9 });
-        // for (int[] queen : friend_Queen_pos) {
+        
+        MoveFinder moves = new MoveFinder();
+        for (int[] queen : friend_Queen_pos) {
 
-        //     for (Integer[] y : moves.getQueenMoves(queen, x)) {
-        //     printBoard(x);
+            for (Integer[] y : moves.getMoves(queen, x)) {
+            printBoard(x);
+            System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
+            System.out.println();
+            // makeMoveLocal(x, friend_Queen_pos.get(0), );
+        }
+        // for (Integer[] y : moves.ArrowMoves(queen, x)) {
         //     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
         //     System.out.println();
         //     // makeMoveLocal(x, friend_Queen_pos.get(0), );
@@ -56,9 +64,9 @@ public class test {
 
         // // System.out.println(moves.noOfMoves);
         // }
-        x = makeMoveLocal(x, new int[] { 0, 3 }, new int[] { 0, 4 });
-        printBoard(x);
-        printMoves(moves.getQueenMoves(new int[] { 0, 4 }, x));
+        // x = makeMoveLocal(x, new int[] { 0, 3 }, new int[] { 0, 4 });
+        // printBoard(x);
+        // printMoves(moves.getQueenMoves(new int[] { 0, 4 }, x));
         // printBoard(x); 
        }
 
