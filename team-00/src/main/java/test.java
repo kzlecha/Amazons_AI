@@ -8,10 +8,17 @@ import ygraph.ai.smartfox.games.Amazon.GameBoard;
 public class test {
     
     public static void main(String[] args) {
-        int[][] x = new int[][] { { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 } };
+         int[][] x =  
+        { { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, 
+          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+          { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+          { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+          { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 } };
         // System.out.println(Arrays.toString(x));
         printBoard(x);
 
@@ -128,6 +135,8 @@ public static void printBoard(int[][] gameboard) {
         for ( ArrayList<Integer> friend : friendQueen) {
             x.getMoves(friend, GameBoard);
             friendMoves += MoveFinder.n_moves;
+            MoveFinder.printMoves();
+            break; 
 
         }
         System.out.println(friendMoves);
