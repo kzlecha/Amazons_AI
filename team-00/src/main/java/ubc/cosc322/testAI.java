@@ -86,7 +86,7 @@ public class testAI extends GamePlayer{
 			consoleMove(msgDetails);
 			//turn = !turn;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
-			System.out.println("Got a game_action_move msg");
+			System.out.println("Got a game_action_start msg");
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
 				System.out.println("I am the black player");
