@@ -42,6 +42,14 @@ public class moves {
         int row = queen[0];
         int col = queen[1];
         movesOfQueen = new ArrayList<>();
+        for (int i = 1; col + i <= 9; i++) {
+            if (gamebaord[row][col + i] == 0) {
+                movesOfQueen.add(new Integer[] { row, col + i });
+            } else {
+                break;
+            }
+
+        }
 
         for (int i = 1; col - i >= 0; i++) {
             if (gamebaord[row][col - i] == 0) {
@@ -52,15 +60,17 @@ public class moves {
             }
         }
 
-        for (int i = 1; col + i <= 9; i++) {
-            if (gamebaord[row][col + i] == 0) {
-                movesOfQueen.add(new Integer[] { row, col + i });
+
+        
+        for (int i = 1; row + i <= 9; i++) {
+            if (gamebaord[row + i][col] == 0) {
+                movesOfQueen.add(new Integer[] { row + i, col });
             } else {
                 break;
             }
-
+            
         }
-
+        
         for (int i = 1; row - i >= 0; i++) {
             if (gamebaord[row - i][col] == 0) {
 
@@ -70,24 +80,7 @@ public class moves {
             }
 
         }
-
-        for (int i = 1; row + i <= 9; i++) {
-            if (gamebaord[row + i][col] == 0) {
-                movesOfQueen.add(new Integer[] { row + i, col });
-            } else {
-                break;
-            }
-
-        }
-
-        for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
-            if (gamebaord[row - i][col - i] == 0l) {
-                movesOfQueen.add(new Integer[] { row - i, col - i });
-            } else {
-                break;
-            }
-        }
-
+        
         for (int i = 1; row + i <= 9 && col - i >= 0; i++) {
             if (gamebaord[row + i][col - i] == 0l) {
                 movesOfQueen.add(new Integer[] { row + i, col - i });
@@ -95,10 +88,10 @@ public class moves {
                 break;
             }
         }
-
-        for (int i = 1; row - i >= 0 && col + i <= 9; i++) {
-            if (gamebaord[row - i][col + i] == 0) {
-                movesOfQueen.add(new Integer[] { row - i, col + i });
+        
+        for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
+            if (gamebaord[row - i][col - i] == 0l) {
+                movesOfQueen.add(new Integer[] { row - i, col - i });
             } else {
                 break;
             }
@@ -110,8 +103,15 @@ public class moves {
                 break;
             }
         }
+        for (int i = 1; row - i >= 0 && col + i <= 9; i++) {
+            if (gamebaord[row - i][col + i] == 0) {
+                movesOfQueen.add(new Integer[] { row - i, col + i });
+            } else {
+                break;
+            }
+        }
         noOfMoves = movesOfQueen.size();
-
+        
         return movesOfQueen;
 
     }
