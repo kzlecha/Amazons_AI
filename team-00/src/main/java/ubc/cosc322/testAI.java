@@ -2,6 +2,7 @@ package ubc.cosc322;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Map;
 
@@ -87,12 +88,17 @@ public class testAI extends GamePlayer{
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT),
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS));
 			
+			updateQueen(
+					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR),
+					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT), true
+				);
+			
 			//Update our internal board
 			makeMove(
 					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR)),
 					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT)),
 					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS))
-					);
+				);
 			
 			printBoard();
 			
@@ -124,40 +130,6 @@ public class testAI extends GamePlayer{
 		return true;
 	}
 	
-	private ArrayList<ArrayList<Integer>> getBlackQueensStart(){
-		/*
-		 * get the starting positions of the black queens
-		 * 
-		 * Black ALWAYS starts at the top
-		 */
-		ArrayList<ArrayList<Integer>> blackQueens = new ArrayList<ArrayList<Integer>>(
-                Arrays.asList(
-                        new ArrayList<Integer>(Arrays.asList(0,3)),
-                        new ArrayList<Integer>(Arrays.asList(0,6)),
-                        new ArrayList<Integer>(Arrays.asList(3,0)),
-                        new ArrayList<Integer>(Arrays.asList(3,9))
-                    )
-                );
-		return blackQueens;
-	}
-	
-	private ArrayList<ArrayList<Integer>> getWhiteQueensStart(){
-		/*
-		 * get the starting positions of the white queens
-		 * 
-		 * White ALWAYS starts at the bottom
-		 */
-		ArrayList<ArrayList<Integer>> whiteQueens = new ArrayList<ArrayList<Integer>>(
-                Arrays.asList(
-                		new ArrayList<Integer>(Arrays.asList(6,0)),
-                		new ArrayList<Integer>(Arrays.asList(6,9)),
-                        new ArrayList<Integer>(Arrays.asList(9,3)),
-                        new ArrayList<Integer>(Arrays.asList(9,6))
-                    )
-                );
-		return whiteQueens;
-	}
-
 	@Override
 	// Runs when GUI initally pops up, with login info
 	public void onLogin() {
@@ -315,6 +287,9 @@ public class testAI extends GamePlayer{
 		int temp = board[x1][y1];
 		board[x1][y1] = board[x2][y2];
 		board[x2][y2] = temp;
+		
+		// update the internal queen's position
+		updateQueen(position1, position2, false);
 	}
 
 	private void placeArrow(ArrayList<Integer> position1) {
@@ -392,6 +367,57 @@ public class testAI extends GamePlayer{
 		return newPos;
 	}
 	
+	private ArrayList<ArrayList<Integer>> getBlackQueensStart(){
+		/*
+		 * get the starting positions of the black queens
+		 * 
+		 * Black ALWAYS starts at the top
+		 */
+		ArrayList<ArrayList<Integer>> blackQueens = new ArrayList<ArrayList<Integer>>(
+                Arrays.asList(
+                        new ArrayList<Integer>(Arrays.asList(0,3)),
+                        new ArrayList<Integer>(Arrays.asList(0,6)),
+                        new ArrayList<Integer>(Arrays.asList(3,0)),
+                        new ArrayList<Integer>(Arrays.asList(3,9))
+                    )
+                );
+		return blackQueens;
+	}
+
+	private ArrayList<ArrayList<Integer>> getWhiteQueensStart(){
+		/*
+		 * get the starting positions of the white queens
+		 * 
+		 * White ALWAYS starts at the bottom
+		 */
+		ArrayList<ArrayList<Integer>> whiteQueens = new ArrayList<ArrayList<Integer>>(
+                Arrays.asList(
+                		new ArrayList<Integer>(Arrays.asList(6,0)),
+                		new ArrayList<Integer>(Arrays.asList(6,9)),
+                        new ArrayList<Integer>(Arrays.asList(9,3)),
+                        new ArrayList<Integer>(Arrays.asList(9,6))
+                    )
+                );
+		return whiteQueens;
+	}
+
+	private void updateQueen(ArrayList<Integer> oldPosition, ArrayList<Integer> newPosition, boolean enemyUpdate) {
+		ArrayList<ArrayList<Integer>> queenList;
+		if(enemyUpdate) {
+			queenList = this.enemyQueens;
+		}else {
+			queenList = this.teamQueens;
+		}
+
+		for (ArrayList<Integer> queenPos : queenList) {
+			if (queenPos.get(0) == oldPosition.get(0) && queenPos.get(1) == oldPosition.get(1)) {
+				queenPos.set(0, newPosition.get(0));
+				queenPos.set(1, newPosition.get(1));
+				break;
+			}
+		}
+	}
+
 
 
 }
