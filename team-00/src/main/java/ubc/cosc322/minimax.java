@@ -49,7 +49,8 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
         // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, TestGameBoard));
         minimax z = new minimax(); 
         bestmove q = z.minimax_i(TestGameBoard, 2, z.alpha, z.beta, true);
-        // System.out.println(q.move.toString());
+        System.out.println(q.eval);
+        System.out.println(q.move.toString());
         
     }
     /**
