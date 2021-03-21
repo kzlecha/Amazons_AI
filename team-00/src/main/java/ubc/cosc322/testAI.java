@@ -35,7 +35,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("super","cosc322");
+		testAI player = new testAI(args[0],args[1]);
 
 		if(player.getGameGUI() == null) {
 			player.Go();
