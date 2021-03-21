@@ -48,8 +48,8 @@ public class minimax {
     }
     // TO-DO: Update gameboard for each depth
     public ArrayList<Integer> minimax_(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens){
-        alpha = Integer.MAX_VALUE;
-        beta = Integer.MIN_VALUE;
+        alpha = Integer.MIN_VALUE;
+        beta = Integer.MAX_VALUE;
         
         LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
         // Experiment
@@ -59,65 +59,59 @@ public class minimax {
         // we want the index of the move which has the best (max) result in the original moveset
         for(int x=0; x < playerMoves.size(); x++) {
             int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
-            int[] val = maxFunction(newGameBoard, depth, playerQueens, enemyQueens).get(index);
+            int val = maxFunction(newGameBoard, depth, playerQueens, enemyQueens).get(index);
             if(val > max) {
                 max = val;
                 index = x;
             }
-        return playerMoves.getFirst();
         }
         // Experiment
         
         playerMoves = maxFunction(gameboard, depth - 1, playerQueens, enemyQueens); 
-
         return playerMoves.get(1); // NEED TO FIX THIS :-T Needs to return the move
     }
 
-/*
-int maxValue(State s, intα, intβ)
-if(s = Terminal) return U(s);
-v=−∞;
-for(Action a: A(s))
-v= max(v,minValue(r(s,a),α,β));
-if (v≥β) return v;
-α= max(α,v);
-return v;
-*/
+    public int maxFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens){
 
-    public LinkedList<ArrayList<ArrayList<Integer>>> maxFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens){
-        
         LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
         
-        if (isTerminalState(depth, playerMoves)){
+        if (isTerminalState(depth, playerMoves))
             return heuristic(gameboard);
-        }
-        for (int v: moves){     
         
+        int max = alpha;
+        for(ArrayList<ArrayList<Integer>> move: playerMoves) {
+            int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
+            int val = minFunction(newGameBoard, depth, playerQueens, enemyQueens);
+            max = Math.max(val, max);
+            alpha = Math.max(alpha, max);
+            if(beta <= alpha) break;
         }
         
-        return null;
-    }
-
-    /*
-    int minValue(State s, intα, intβ)
-    if(s = Terminal) return U(s);
-    v= +∞;
-    for(Action a: A(s))
-    v= min(v,maxValue(r(s,a),α,β));
-    if (v≤α) return v;
-    β= min(β,v);
-    returnv;
-    */
+        return max;
+        }
 
     public int minFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens){
-        ArrayList<Integer> moves = heuristic(moveFinder.getAllPossibleMove(gameboard, playerQueens), false);
-        return null;
+    	
+    	LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
+    	
+        if (isTerminalState(depth, playerMoves))
+            return heuristic(gameboard);
+     
+        int min = beta;
+        for(ArrayList<ArrayList<Integer>> move: playerMoves) {
+            int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
+            int val = minFunction(newGameBoard, depth, playerQueens, enemyQueens);
+            min = Math.max(val, min);
+            beta = Math.max(beta, min);
+            if(beta <= alpha) break;
+        }
+        return min;
     }
 
     public boolean isTerminalState(int depth, LinkedList<ArrayList<ArrayList<Integer>>> moves){
-        if(depth == 0 || moves.isEmpty()){ // if the depth is zero and 
+        if(depth == 0 || moves.isEmpty()) // if the depth is zero and 
             return false;
-        }
-        return true;
+        
+        else return true;
     }
 }
