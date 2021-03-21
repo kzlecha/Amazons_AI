@@ -17,15 +17,15 @@ public class test {
         printBoard(x);
 
         ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
-        friend_Queen_pos.add(new ArrayList<Integer>(List.of(0, 3)));
-        friend_Queen_pos.add(new ArrayList<Integer>(List.of(3, 0)));
-        friend_Queen_pos.add(new ArrayList<Integer>(List.of(0, 6)));
-        friend_Queen_pos.add(new ArrayList<Integer>(List.of(3, 9)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 3)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 0)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 6)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 9)));
         ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
-        foe_queen_pos.add(new ArrayList<Integer>(List.of(6, 0)));
-        foe_queen_pos.add(new ArrayList<Integer>(List.of(9, 3)));
-        foe_queen_pos.add(new ArrayList<Integer>(List.of(9, 6)));
-        foe_queen_pos.add(new ArrayList<Integer>(List.of(6, 9)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 0)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
         System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
     //     MoveFinder y = new MoveFinder();
@@ -36,7 +36,7 @@ public class test {
     //     for (ArrayList<Integer> eachMove : allMoves)
     //     {
             
-    //         // System.out.println(test.moveIsValid(friend_Queen_pos.get(0), new ArrayList<Integer>(List.of(eachMove.get(0),eachMove.get(1))),new ArrayList<Integer>(List.of(eachMove.get(2), eachMove.get(3)))));
+    //         // System.out.println(test.moveIsValid(friend_Queen_pos.get(0), new ArrayList<Integer>(Arrays.asList(eachMove.get(0),eachMove.get(1))),new ArrayList<Integer>(Arrays.asList(eachMove.get(2), eachMove.get(3)))));
 
 
 

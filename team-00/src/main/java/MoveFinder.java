@@ -85,7 +85,7 @@ public class MoveFinder {
                         // ArrayList<Integer> arrowPos = new ArrayList<Integer>();
                         for (ArrayList<Integer> arrowPos : y) {
 
-                            allPossibleCode.add(new ArrayList<Integer>(List.of(friend.get(0),friend.get(1),newQueenposition.get(0),
+                            allPossibleCode.add(new ArrayList<Integer>(Arrays.asList(friend.get(0),friend.get(1),newQueenposition.get(0),
                                     newQueenposition.get(1), arrowPos.get(0), arrowPos.get(1))));
 
                         }
@@ -150,7 +150,7 @@ public class MoveFinder {
         //                 // and the spot is empty...
         //                 if(!(gameboard[arrX][arrY] == 0)) break;
         //                 // we add the move to the moveList
-        //                 moveList.add(new ArrayList<Integer>( List.of(y,x , arrY, arrX)));                           
+        //                 moveList.add(new ArrayList<Integer>( Arrays.asList(y,x , arrY, arrX)));                           
         //             }
         //         }
         //     }
@@ -159,7 +159,7 @@ public class MoveFinder {
         // for (int i = 1; col + i <= 9; i++) {
         //     if (gameboard[row][col + i] == 0) {
         //         // moveList.add(new Integer[] { row, col + i });
-        //         moveList.add(new ArrayList<Integer>(List.of(row, col + i)));
+        //         moveList.add(new ArrayList<Integer>(Arrays.asList(row, col + i)));
         //     } else {
         //         break;
         //     }
@@ -192,7 +192,7 @@ public class MoveFinder {
         for (int i = 1; col + i <= 9; i++) {
             if (gameboard[row][col + i] == 0) {
                 // moveList.add(new Integer[] { row, col + i });
-                moveList.add(new ArrayList<Integer>(List.of(row, col + i)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row, col + i)));
             } else {
                 break;
             }
@@ -203,7 +203,7 @@ public class MoveFinder {
 
                 // moveList.add(new Integer[] { row, col - i });
 
-                moveList.add(new ArrayList<Integer>(List.of(row, col - i)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row, col - i)));
             } else {
                 break;
             }
@@ -213,7 +213,7 @@ public class MoveFinder {
             if (gameboard[row + i][col] == 0) {
                 // moveList.add(new Integer[] { row + i, col });
 
-                moveList.add(new ArrayList<Integer>(List.of(row + i, col)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col)));
             } else {
                 break;
             }
@@ -224,7 +224,7 @@ public class MoveFinder {
 
                 // moveList.add(new Integer[] { row - i, col });
 
-                moveList.add(new ArrayList<Integer>(List.of(row - i, col)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col)));
             } else {
                 break;
             }
@@ -234,7 +234,7 @@ public class MoveFinder {
             if (gameboard[row + i][col - i] == 0l) {
                 // moveList.add(new Integer[] { row + i, col - i });
 
-                moveList.add(new ArrayList<Integer>(List.of(row + i, col - i)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col - i)));
             } else {
                 break;
             }
@@ -244,7 +244,7 @@ public class MoveFinder {
             if (gameboard[row - i][col - i] == 0) {
                 // moveList.add(new Integer[] { row - i, col - i });
 
-                moveList.add(new ArrayList<Integer>(List.of(row - i, col - i)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col - i)));
             } else {
                 break;
             }
@@ -253,7 +253,7 @@ public class MoveFinder {
             if (gameboard[row + i][col + i] == 0) {
                 // moveList.add(new Integer[] { row + i, col + i });
 
-                moveList.add(new ArrayList<Integer>(List.of(row + i, col + i)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col + i)));
             } else {
                 break;
             }
@@ -262,7 +262,7 @@ public class MoveFinder {
             if (gameboard[row - i][col + i] == 0) {
                 // moveList.add(new Integer[] { row - i, col + i });
 
-                moveList.add(new ArrayList<Integer>(List.of(row - i, col + i)));
+                moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col + i)));
             } else {
                 break;
             }
