@@ -29,7 +29,7 @@ public class testAI extends GamePlayer{
 	private int teamVal, enemyVal;
 
 	private int[][] board;
-	
+
 	private int boardSize = 10;
 
 	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
@@ -83,28 +83,28 @@ public class testAI extends GamePlayer{
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			System.out.println("Got a game_action_move msg");
 			// Update the board with the foreign move
-			
+
 			ArrayList<Integer> queenPosCurr = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR);
 			ArrayList<Integer> queenPosNext = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT);
 			ArrayList<Integer> arrowPos = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS);
-			
+
 			gamegui.updateGameState(queenPosCurr, queenPosNext, arrowPos);
-			
+
 			updateQueen(
 					convertServerToBoard(queenPosCurr),
 					convertServerToBoard(queenPosNext),
 					true
-				);
-			
+					);
+
 			//Update our internal board
 			makeMove(
 					convertServerToBoard(queenPosCurr),
 					convertServerToBoard(queenPosNext),
 					convertServerToBoard(arrowPos)
-				);
-			
+					);
+
 			printBoard();
-			
+
 			// Make our move
 			consoleMove();
 			test.eval(board, teamQueens, enemyQueens);
@@ -115,16 +115,16 @@ public class testAI extends GamePlayer{
 				System.out.println("I am the black player");
 				this.isBlack = true;
 				teamVal = BLACK;
-				
+
 				this.teamQueens	= getBlackQueensStart();
 				this.enemyQueens = getWhiteQueensStart();
 				consoleMove();
-		
+
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
 				this.isBlack = false;
 				teamVal = WHITE;
-				
+
 				this.teamQueens	= getWhiteQueensStart();
 				this.enemyQueens = getBlackQueensStart();
 			}
@@ -133,7 +133,7 @@ public class testAI extends GamePlayer{
 		}
 		return true;
 	}
-	
+
 	@Override
 	// Runs when GUI initally pops up, with login info
 	public void onLogin() {
@@ -219,7 +219,7 @@ public class testAI extends GamePlayer{
 			consoleMove();
 			return;
 		}
-		*/
+		 */
 
 		makeMoveClientServer(inputCmd);
 		makeMove(ourMove);
@@ -252,16 +252,16 @@ public class testAI extends GamePlayer{
 	}
 
 	private boolean checkPath(ArrayList<Integer> a, ArrayList<Integer> b) {
-		
+
 		final int WIDTH = 10;
 		int initX = a.get(0), initY = a.get(1), newX = b.get(0), newY = b.get(1);
 		int deltaX = initX - newX; // difference in initial and final x
 		int deltaY = initY - newY; // difference in initial and final y
-		
+
 		// return false if move is out of bounds
 		if(newX > WIDTH || newY > WIDTH || newX < 1 || newY < 1) 
 			return false;
-		
+
 		int xSign = 0, ySign = 0; // represents the vector direction that the queen is moving
 		if(deltaX != 0) xSign = deltaX < 0? -1: 1; // left or right?
 		if (deltaY != 0) ySign = deltaY < 0? -1: 1;// up or down?
@@ -294,7 +294,7 @@ public class testAI extends GamePlayer{
 		int temp = board[x1][y1];
 		board[x1][y1] = board[x2][y2];
 		board[x2][y2] = temp;
-		
+
 		// update the internal queen's position
 		updateQueen(position1, position2, false);
 	}
@@ -359,21 +359,21 @@ public class testAI extends GamePlayer{
 	private int oneToZeroIndex(int i) {
 		return i-1;
 	}
-	
+
 	private ArrayList<Integer> convertServerToBoard(ArrayList<Integer> position){
 		ArrayList<Integer> newPos = new ArrayList<Integer>();
 		newPos.add(boardSize-position.get(0));
 		newPos.add(oneToZeroIndex(position.get(1)));
 		return newPos;
 	}
-	
+
 	private ArrayList<Integer> convertBoardToServer(ArrayList<Integer> position){
 		ArrayList<Integer> newPos = new ArrayList<Integer>();
 		newPos.add(boardSize-position.get(0));
 		newPos.add(zeroToOneIndex(position.get(1)));
 		return newPos;
 	}
-	
+
 	private ArrayList<ArrayList<Integer>> getBlackQueensStart(){
 		/*
 		 * get the starting positions of the black queens
@@ -381,13 +381,13 @@ public class testAI extends GamePlayer{
 		 * Black ALWAYS starts at the top
 		 */
 		ArrayList<ArrayList<Integer>> blackQueens = new ArrayList<ArrayList<Integer>>(
-                Arrays.asList(
-                        new ArrayList<Integer>(Arrays.asList(0,3)),
-                        new ArrayList<Integer>(Arrays.asList(0,6)),
-                        new ArrayList<Integer>(Arrays.asList(3,0)),
-                        new ArrayList<Integer>(Arrays.asList(3,9))
-                    )
-                );
+				Arrays.asList(
+						new ArrayList<Integer>(Arrays.asList(0,3)),
+						new ArrayList<Integer>(Arrays.asList(0,6)),
+						new ArrayList<Integer>(Arrays.asList(3,0)),
+						new ArrayList<Integer>(Arrays.asList(3,9))
+						)
+				);
 		return blackQueens;
 	}
 
@@ -398,13 +398,13 @@ public class testAI extends GamePlayer{
 		 * White ALWAYS starts at the bottom
 		 */
 		ArrayList<ArrayList<Integer>> whiteQueens = new ArrayList<ArrayList<Integer>>(
-                Arrays.asList(
-                		new ArrayList<Integer>(Arrays.asList(6,0)),
-                		new ArrayList<Integer>(Arrays.asList(6,9)),
-                        new ArrayList<Integer>(Arrays.asList(9,3)),
-                        new ArrayList<Integer>(Arrays.asList(9,6))
-                    )
-                );
+				Arrays.asList(
+						new ArrayList<Integer>(Arrays.asList(6,0)),
+						new ArrayList<Integer>(Arrays.asList(6,9)),
+						new ArrayList<Integer>(Arrays.asList(9,3)),
+						new ArrayList<Integer>(Arrays.asList(9,6))
+						)
+				);
 		return whiteQueens;
 	}
 
@@ -424,6 +424,78 @@ public class testAI extends GamePlayer{
 			}
 		}
 	}
+
+	private void makeAiMove() {
+
+		makeMoveClientServer(inputCmd);
+		makeMove(ourMove);
+	}
+
+	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer ) {
+		bestmove best1 = new bestmove();
+		if  (maximizingPlayer){ 
+			best1.move = null; 
+			best1.eval = Integer.MIN_VALUE; 
+		} else { 
+
+			best1.move = null; 
+			best1.eval = Integer.MAX_VALUE; 
+		}
+
+		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
+
+			int score = test.eval(board, teamQueens, enemyQueens);
+			best1.move = null; 
+			best1.eval = score; 
+			return best1; 
+
+		}
+
+		MoveFinder x = new MoveFinder(); 
+		if (maximizingPlayer){
+			allMoves = x.getAllPossibleMove(board, teamQueens);
+		} else {
+			allMoves = x.getAllPossibleMove(board, enemyQueens); 
+		}
+		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
+			gameboard = makeMoveLocal(gameboard, move.get(0), move.get(1));
+			gameboard = placeArrow(move.get(2), gameboard); 
+			//    int move; 
+			updateQueen(gameboard);
+			// best1.move = move;
+			// bestmove best2 = new bestmove();
+			// test.printBoard(gameboard);
+
+			// best2 = minimax_i(gameboard,depth-1,alpha, beta, maximizingPlayer);  
+			bestmove moveBest = minimax_i(gameboard,depth-1,alpha, beta, !maximizingPlayer);  
+			// best1.move = best2.move;
+			// best1.eval = best2.eval;  
+
+			//   Test.unmakeMove(best1.move); 
+			gameboard = makeMoveLocal(gameboard, move.get(1), move.get(0));
+			gameboard = unplaceArrow(move.get(2), gameboard);
+			updateQueen(gameboard);
+
+			if (maximizingPlayer) { 
+				if (moveBest.eval > best1.eval ) { 
+					best1.move = move; 
+					best1.eval = moveBest.eval; 
+				}
+			}else { 
+				if (moveBest.eval < best1.eval) { 
+					best1.move = move ; 
+					best1.eval = moveBest.eval; 
+				}
+			}
+
+		}
+		// Integer maxEval = Integer.MAX_VALUE;
+		return best1;
+
+
+
+	}
+
 
 
 

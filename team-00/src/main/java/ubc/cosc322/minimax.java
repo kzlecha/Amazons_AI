@@ -61,7 +61,7 @@ public class minimax {
 
 
 
-	public bestmove minimax_i(int[][] gameboard, int depth, int alpha, int beta, boolean maximizingPlayer) {
+	public bestmove minimax_i(int[][] gameboard, int depth, int alpha, int beta, boolean maximizingPlayer, ) {
 		// PSEUDOCODE
 		/**
          boolean gameOver = false;
