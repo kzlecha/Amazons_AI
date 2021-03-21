@@ -13,7 +13,7 @@ public class MoveFinder {
     // within each move is an ArrayList containing:
     // x, y, arrowX, arrowY
     // Unique for each queen
-    private static LinkedList<ArrayList<ArrayList<Integer>>> moveList;
+    private static LinkedList<ArrayList<Integer>> moveList;
     private static LinkedList<ArrayList<ArrayList<Integer>>> allPossibleCode;
     public static int n_moves; // length of the movelist
 
