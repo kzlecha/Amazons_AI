@@ -35,7 +35,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI(args[0],args[1]);
+		testAI player = new testAI("super","cosc322");
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -330,18 +330,18 @@ public class testAI extends GamePlayer{
 		placeArrow(arrowPos);
 	}
 
-	private void makeMove(ArrayList<ArrayList<Integer>> move) {
-		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
-		makeMove(initQueen, newQueen, arrowPos);
+	public void makeMove(ArrayList<ArrayList<Integer>> move) {
+		// ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		makeMove(move.get(0), move.get(1), move.get(2));
 	}
 
-	private void unmakeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+	public void unmakeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		swap(initQueen, newQueen);
 		removeArrow(arrowPos);
 	}
-	private void unmakeMove(ArrayList<ArrayList<Integer>> move) {
-		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
-		unmakeMove(initQueen, newQueen, arrowPos);
+	public void unmakeMove(ArrayList<ArrayList<Integer>> move) {
+		// ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		unmakeMove(move.get(1), move.get(0), move.get(2));
 	}
 
 	private void printBoard() {

@@ -1,24 +1,63 @@
 package ubc.cosc322;
 
+import ubc.cosc322.*;
+
+import java.math.BigInteger; 
 import java.util.*;
+
+import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
 public class minimax {
 
+    bestmove best1 = new bestmove();
+    testAI Test = new testAI("cosc322", "kanny");
+    int score;
+    // test test2 = new test();
+    // test test2 = new test();
+    
+    Integer alpha = Integer.MIN_VALUE;
+    Integer beta = Integer.MAX_VALUE;
+
+
+    public static void main(String[] args) {
+         int[][] TestGameBoard = {
+                 { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }
+         };
+
+        ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 3)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 0)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 6)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 9)));
+        ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 0)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
+        // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, TestGameBoard));
+        minimax z = new minimax(); 
+        System.out.println(z.minimax_i(TestGameBoard, 10, z.alpha, z.beta, true, friend_Queen_pos,  foe_queen_pos));
+        
+    }
     /**
-     * @param position
      * @param depth            The maximum depth of the game tree to search to
      * @param alpha            The best alternative for the minimising enemy player
      * @param beta             The best alternative for the maximising us
-     * @param maximizingPlayer 1 for max and 0 for min
+     * @param maximizingPlayer true means player is max, false means player is min
      */
 
-    State s;
 
-    public void buildTheTree (int move){
-        s = new State();
-    }
 
-    public void minimax_i(int[] position, int depth, int alpha, int beta, int maximizingPlayer) {
+    public bestmove minimax_i(int[][] gameboard, int depth, int alpha, int beta, boolean maximizingPlayer, ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> enemyqueen) {
         // PSEUDOCODE
         /**
          boolean gameOver = false;
@@ -29,18 +68,8 @@ public class minimax {
          }
          **/
         // // if depth == 0 or game over in position
-        // if (depth == 0) {
-        //     System.out.println("died");
-        //     ;
-
         //     //     return static evaluation of position
-        // }
         // //     if maximizingPlayer:
-        // if  (maximizingPlayer == 1 ) {
-        //     for  (int queens : position ) {
-        //         //int eval = minimax_i(queens, depth-1, alpha, beta, 0);
-        //     }
-        // }
         //         maxEval = -infinity 
         //         for each child of position
         //         eval = minimax(child, depth-1, alpha, beta, false)
@@ -68,40 +97,59 @@ public class minimax {
            
     //     best 
     //    }
-//     if (depth == 0 | test.gameEnd(gameboard))
-//     {
+    if  (maximizingPlayer)
+    { 
+        best1.move = null; 
+        best1.eval = -1000000000; 
+    } else { 
         
-//         int score = test.eval(gameboard)
+        best1.move = null; 
+        best1.eval = +1000000000; 
+    }
+    
+    if (depth == 0 | test.gameEnd(friendQueen, enemyqueen, gameboard))
+    {
+        
+         score = test.eval(gameboard, friendQueen, enemyqueen);
+        best1.move = null; 
+        best1.eval = score; 
+        return best1; 
 
-//         return score; 
+    }
 
-//     }
-//     MoveFinder x = new MoveFinder(); 
+    MoveFinder x = new MoveFinder(); 
 
-//    LinkedList<ArrayList<Integer>> allMoves =  x.getAllPossibleMove(); 
+   LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  x.getAllPossibleMove(gameboard, friendQueen); 
 
-//    for (ArrayList<Integer> move : allMoves)
-//    { 
-//        makeMove(move.get(0),move.get(1),move.get(2),move.get(3), move.get(4), move.get(5))
+   for (ArrayList<ArrayList<Integer>> move : allMoves)
+   { 
+       Test.makeMove(move);
 
-//        int move; 
-//        move = minimax(s,depth-1,-player) ??? 
+    //    int move; 
 
-//        undomove()
+       best1 = minimax_i(gameboard,depth-1,alpha, beta, maximizingPlayer,friendQueen, enemyqueen);  
 
-//        if (player == max)
-//        { 
-//            if (score > best.score ) { 
-//                best = [move, score]
-//            }
-//        }
-//        else { 
-//            if (score<best.score) { 
-//                best = [move, score]
-//            }
-//        }
-//    }
+       Test.unmakeMove(best1.move); 
 
+       if (maximizingPlayer)
+       { 
+           if (score > best1.eval ) { 
+               best1.move = best1.move ; 
+               best1.eval = score; 
+           }
+       }
+       else { 
+           if (score<best1.eval) { 
+                 best1.move = best1.move ; 
+               best1.eval = score; 
+           }
+       }
+
+    }
+    // Integer maxEval = Integer.MAX_VALUE;
+    return best1;
+
+    
     
     
     // for (ArrayList<Integer> queen : queenArray) { 
@@ -134,15 +182,6 @@ public class minimax {
 
         return null;
     }
-
-    public class Node{
-        int score;
-        List<Node> children;
-    }
-    public class State{
-        Node root;
-    }
-
-
+    
     // public Moves getAllMoves() 
 }

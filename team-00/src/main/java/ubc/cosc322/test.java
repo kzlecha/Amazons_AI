@@ -1,3 +1,5 @@
+package ubc.cosc322;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -29,7 +31,7 @@ public class test {
         System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
         MoveFinder y = new MoveFinder();
-       LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  y.getAllPossibleMove(x, friend_Queen_pos);
+        LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  y.getAllPossibleMove(x, friend_Queen_pos);
         MoveFinder.printMoves();
         testAI test = new testAI("cosc322", "kanny");
         
@@ -170,7 +172,9 @@ public static void printBoard(int[][] gameboard) {
    }
 
     
-    public static boolean gameEnd(ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> enemyQueen, int[][] GameBoard)
+   public static boolean gameEnd(ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> enemyQueen,
+           int[][] GameBoard)
+    
     {
         // int friendMoves = 0;
         // int foeMoves = 0; 
