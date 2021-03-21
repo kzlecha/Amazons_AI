@@ -35,7 +35,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("super","cosc322");
+		testAI player = new testAI(args[0],args[1]);
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -94,6 +94,8 @@ public class testAI extends GamePlayer{
 					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS))
 					);
 			
+			printBoard();
+			
 			// Make our move
 			consoleMove();
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
@@ -103,6 +105,7 @@ public class testAI extends GamePlayer{
 				System.out.println("I am the black player");
 				this.isBlack = true;
 				teamVal = BLACK;
+				this.printBoard();
 				consoleMove();
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
@@ -189,6 +192,11 @@ public class testAI extends GamePlayer{
 			}
 			ourMove.add(convertServerToBoard(inputCmd.get(x)));
 		}
+		for(int i = 0; i < ourMove.size(); i++) {
+			for(int j = 0; j < ourMove.get(i).size(); j++) {
+				System.out.print(ourMove.get(i).get(j) + " ");
+			}
+		}
 		if(!moveIsValid(ourMove)){
 			System.out.println("Invalid");
 			consoleMove();
@@ -249,7 +257,6 @@ public class testAI extends GamePlayer{
 
 
 	// Just a function to do a simple check in a cleaner way
-	// POTENTIAL TO DO: MAKE BOARD GLOBAL? DISCUSS //
 	private boolean posIsVal(ArrayList<Integer> position, int expectedVal) {
 		return board[position.get(0)][position.get(1)] == expectedVal;
 	}
@@ -294,8 +301,8 @@ public class testAI extends GamePlayer{
 		unmakeMove(initQueen, newQueen, arrowPos);
 	}
 
-	private void printBoard(int[][] gameboard) {
-		System.out.println(Arrays.deepToString(gameboard).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+	private void printBoard() {
+		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
 	// UPDATE THE BOARD
