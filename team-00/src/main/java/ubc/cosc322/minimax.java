@@ -2,7 +2,7 @@ package ubc.cosc322;
 
 import ubc.cosc322.*;
 
-import java.math.BigInteger; 
+import java.math.BigInteger;
 import java.util.*;
 
 import ygraph.ai.smartfox.games.Amazon.GameBoard;
@@ -12,48 +12,42 @@ public class minimax {
     bestmove best1 = new bestmove();
     testAI Test = new testAI("cosc322", "kanny");
     int score;
-LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<ArrayList<Integer>>>();
+    LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<ArrayList<Integer>>>();
     // test test2 = new test();
     // test test2 = new test();
-   public static ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
- public static ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
+    public static ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
+    public static ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
     Integer alpha = Integer.MAX_VALUE;
     Integer beta = Integer.MIN_VALUE;
 
-
     public static void main(String[] args) {
-         int[][] TestGameBoard = {
-                 { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 },
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                 { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                 { 2, 0, 0, 0, 0, 0, 0, 0, 0, 2  },
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                 { 0, 0, 0, 2, 0, 0, 2, 0, 0, 0 }
-         };
-         friend_Queen_pos.clear();
-         foe_queen_pos.clear(); 
-        // ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
+        int[][] TestGameBoard = { { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 2, 0, 0, 0, 0, 0, 0, 0, 0, 2 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 2, 0, 0, 2, 0, 0, 0 } };
+        friend_Queen_pos.clear();
+        foe_queen_pos.clear();
+        // ArrayList<ArrayList<Integer>> friend_Queen_pos = new
+        // ArrayList<ArrayList<Integer>>();
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 3)));
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 0)));
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 6)));
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 9)));
-        // ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
+        // ArrayList<ArrayList<Integer>> foe_queen_pos = new
+        // ArrayList<ArrayList<Integer>>();
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 0)));
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
         // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, TestGameBoard));
         minimax z = new minimax();
-        
+
         bestmove q = z.minimax_i(TestGameBoard, 2, z.alpha, z.beta, true);
         System.out.println(q.eval);
         System.out.println(q.move.toString());
-        
+
     }
+
     /**
      * @param depth            The maximum depth of the game tree to search to
      * @param alpha            The best alternative for the minimising enemy player
@@ -131,7 +125,7 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
         allMoves = x.getAllPossibleMove(gameboard, friend_Queen_pos);
     }
     else {
-        allMoves = x.getAllPossibleMove(gameboard, foe_queen_pos); 
+        allMoves = x.getAllPossibleMove(gameboard, foe_queen_pos);
     }
 
    for (ArrayList<ArrayList<Integer>> move : allMoves)
@@ -185,45 +179,43 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
 
     }
 
-
     public String SearchForBestMove(int[][] game, int player) {
         // startingMoves = []
 
-        // Arrays.sort(startingMoves); with heuristic function 
+        // Arrays.sort(startingMoves); with heuristic function
 
         // move best move = new move(player)
 
-        // try: 
-        //     while depth<MAx_depth: 
-        //         bestMove = eval(board, player, depth,min, max)
-        //         depth++
+        // try:
+        // while depth<MAx_depth:
+        // bestMove = eval(board, player, depth,min, max)
+        // depth++
 
         // except (timeout exception )
-        // { 
-        //basically let eval throw a timeout if the processing is takign too long 
+        // {
+        // basically let eval throw a timeout if the processing is takign too long
         // }
 
-        // return bestMove.string   
+        // return bestMove.string
 
         return null;
     }
 
     public static void updateQueen(int[][] gameboard) {
-        
+
         friend_Queen_pos.clear();
         foe_queen_pos.clear();
-        
-        for (int i =0; i<gameboard.length;i++)
-        {
-            
+
+        for (int i = 0; i < gameboard.length; i++) {
+
             for (int j = 0; j < gameboard[0].length; j++) {
-                
+
                 if (gameboard[i][j] == 1) {
                     friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(i, j)));
 
                 }
-                
-                 if (gameboard[i][j] == 2) {
+
+                if (gameboard[i][j] == 2) {
                     foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(i, j)));
 
                 }
@@ -231,11 +223,8 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
             }
         }
 
-
-
-                
     }
-    
+
     public static int[][] makeMoveLocal(int[][] gameboard, ArrayList<Integer> oldIndexOfQueen,
             ArrayList<Integer> newIndexOfQueen) {
 
@@ -262,40 +251,35 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
         return gameboard;
 
     }
-    
-   public static int[][] placeArrow(ArrayList<Integer> arrowPos, int[][] gameboard ) 
-   {
-       if (gameboard[arrowPos.get(0)][arrowPos.get(1)] == 0)
-       {
-           
-        gameboard[arrowPos.get(0)][arrowPos.get(1)]  =  3 ;
 
-        // System.out.println("arrow placed.");
-        updateQueen(gameboard);
-        return gameboard;
-       }
-        else { 
+    public static int[][] placeArrow(ArrayList<Integer> arrowPos, int[][] gameboard) {
+        if (gameboard[arrowPos.get(0)][arrowPos.get(1)] == 0) {
+
+            gameboard[arrowPos.get(0)][arrowPos.get(1)] = 3;
+
+            // System.out.println("arrow placed.");
+            updateQueen(gameboard);
+            return gameboard;
+        } else {
 
             // System.out.println("space not empty.");
-            return gameboard; 
+            return gameboard;
         }
-   }
-public static int[][] unplaceArrow(ArrayList<Integer> arrowPos, int[][] gameboard ) 
-   {
-       if (gameboard[arrowPos.get(0)][arrowPos.get(1)] == 3)
-       {
-           
-        gameboard[arrowPos.get(0)][arrowPos.get(1)]  =  0;
+    }
 
-        // System.out.println("arrow unplaced.");
-        updateQueen(gameboard);
-        return gameboard;
-       }
-        else { 
+    public static int[][] unplaceArrow(ArrayList<Integer> arrowPos, int[][] gameboard) {
+        if (gameboard[arrowPos.get(0)][arrowPos.get(1)] == 3) {
+
+            gameboard[arrowPos.get(0)][arrowPos.get(1)] = 0;
+
+            // System.out.println("arrow unplaced.");
+            updateQueen(gameboard);
+            return gameboard;
+        } else {
 
             // System.out.println("arrow not at pos. ");
-            return gameboard; 
+            return gameboard;
         }
-   }
-    // public Moves getAllMoves() 
+    }
+    // public Moves getAllMoves()
 }
