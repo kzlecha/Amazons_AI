@@ -458,12 +458,10 @@ public class testAI extends GamePlayer{
 		}
 
 		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
-
 			int score = test.eval(board, teamQueens, enemyQueens);
 			best1.move = null; 
 			best1.eval = score; 
 			return best1; 
-
 		}
 
 		LinkedList<ArrayList<ArrayList<Integer>>> allMoves;
@@ -492,9 +490,6 @@ public class testAI extends GamePlayer{
 		}
 		// Integer maxEval = Integer.MAX_VALUE;
 		return best1;
-
-
-
 	}
 
 
