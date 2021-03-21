@@ -26,8 +26,10 @@ public class testAI extends GamePlayer{
 
 	private boolean isBlack;
 	private int teamVal, enemyVal;
-	
+
 	private int[][] board;
+	
+	private int boardSize = 10;
 
 	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
 
@@ -84,10 +86,18 @@ public class testAI extends GamePlayer{
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR),
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT),
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS));
-			// Make our own move
-			//if(turn)
+			
+			//Update our internal board
+			makeMove(
+					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR)),
+					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT)),
+					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS))
+					);
+			
+			printBoard();
+			
+			// Make our move
 			consoleMove();
-			//turn = !turn;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
@@ -95,6 +105,7 @@ public class testAI extends GamePlayer{
 				System.out.println("I am the black player");
 				this.isBlack = true;
 				teamVal = BLACK;
+				this.printBoard();
 				consoleMove();
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
@@ -132,7 +143,7 @@ public class testAI extends GamePlayer{
 	}
 
 	// This works as intended
-	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
+	private int[][] getGameBoard(ArrayList<Integer> msgDetails) {
 		// first 12 elements in msgDetails are not part of the gameboard
 		int[][] gameBoard = new int[10][10];
 		int currentIdx = 11;
@@ -147,7 +158,7 @@ public class testAI extends GamePlayer{
 	}
 
 	// This works as intended
-	public ArrayList<Integer> getGameBoard(int[][] board) {
+	private ArrayList<Integer> getGameBoard(int[][] board) {
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
 		toReturn.ensureCapacity(132);
 		for(int i = 0; i < 11; i++) {
@@ -163,10 +174,6 @@ public class testAI extends GamePlayer{
 	}
 
 
-	// makeMove()
-	// - Takes msgDetails and takes a list of three sets of coordinates as input,
-	//   then sends the move to the server and updates the gui.
-
 	// Sends a makeMove message to the server and updatesClient
 	private void makeMoveClientServer(ArrayList<ArrayList<Integer>> inputCmd) {
 		// Input CMD is in the order input
@@ -174,39 +181,37 @@ public class testAI extends GamePlayer{
 		gamegui.updateGameState(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 	}
 
-	// consoleMove()
-	// - Takes console input and sends it to makeMove()
-	// ----
-	// USAGE: In the console, enter six 1-indexed coordinates
-	// (note: horizontally, a = 1 and i = 10)
-	// x1 y1 x2 y2 x3 y3
-	// 
-	// x1 and y1: row/column of queen to be moved
-	// x2 and y2: row/column of queen's new position
-	// x3 and y3: row/column of the arrow position
-
 	private void consoleMove() {
 		System.out.println("Please enter a move in the following format: x y x y x y:");	
 		ArrayList<ArrayList<Integer>> inputCmd = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> ourMove = new ArrayList<ArrayList<Integer>>();
 		for(int x = 0; x < 3; x++) {
 			inputCmd.add(new ArrayList<Integer>());
 			for(int y = 0; y < 2; y++) {
 				inputCmd.get(x).add(in.nextInt());
 			}
+			ourMove.add(convertServerToBoard(inputCmd.get(x)));
 		}
-		if(!moveIsValid(inputCmd)){
+		for(int i = 0; i < ourMove.size(); i++) {
+			for(int j = 0; j < ourMove.get(i).size(); j++) {
+				System.out.print(ourMove.get(i).get(j) + " ");
+			}
+		}
+		if(!moveIsValid(ourMove)){
 			System.out.println("Invalid");
 			consoleMove();
+			return;
 		}
 
 		makeMoveClientServer(inputCmd);
+		makeMove(ourMove);
 	}
 
 	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
 		return moveIsValid(move.get(INIT_POS), move.get(NEW_POS), move.get(ARROW_POS));
 	}
-	
-	public boolean moveIsValid(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+
+	private boolean moveIsValid(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		boolean valid = false;
 		if (checkValidPosition(initQueen, newQueen)) {
 			swap(initQueen,newQueen);
@@ -217,14 +222,14 @@ public class testAI extends GamePlayer{
 		}
 		return valid;
 	}
-	
+
 	private boolean checkValidPosition(ArrayList<Integer> a, ArrayList<Integer> b) {
 		if(posIsVal(a, this.teamVal) && posIsVal(b, EMPTY)) {
 			return checkPath(a, b);
 		}
 		return false;
 	}
-	
+
 	private boolean checkPath(ArrayList<Integer> a, ArrayList<Integer> b) {
 		int initX = a.get(0), initY = a.get(1), newX = b.get(0), newY = b.get(1);
 
@@ -252,7 +257,6 @@ public class testAI extends GamePlayer{
 
 
 	// Just a function to do a simple check in a cleaner way
-	// POTENTIAL TO DO: MAKE BOARD GLOBAL? DISCUSS //
 	private boolean posIsVal(ArrayList<Integer> position, int expectedVal) {
 		return board[position.get(0)][position.get(1)] == expectedVal;
 	}
@@ -269,36 +273,46 @@ public class testAI extends GamePlayer{
 		board[x1][y1] = board[x2][y2];
 		board[x2][y2] = temp;
 	}
-	
+
 	private void placeArrow(ArrayList<Integer> position1) {
 		board[position1.get(0)][position1.get(1)] = ARROW;
 	}
-	
+
 	private void removeArrow(ArrayList<Integer> position1) {
 		board[position1.get(0)][position1.get(1)] = EMPTY;
 	}
 
-	// NEEDS TO BE DONE
-	private void makeMove(ArrayList<ArrayList<Integer>> move) {
-		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+	private void makeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		swap(initQueen, newQueen);
 		placeArrow(arrowPos);
 	}
 
-	// NEEDS TO BE DONE
-	private void unmakeMove(ArrayList<ArrayList<Integer>> move) {
+	private void makeMove(ArrayList<ArrayList<Integer>> move) {
 		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		makeMove(initQueen, newQueen, arrowPos);
+	}
+
+	private void unmakeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		swap(initQueen, newQueen);
 		removeArrow(arrowPos);
 	}
+	private void unmakeMove(ArrayList<ArrayList<Integer>> move) {
+		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		unmakeMove(initQueen, newQueen, arrowPos);
+	}
 
-	public static void printBoard(int[][] gameboard) {
-		System.out.println(Arrays.deepToString(gameboard).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+	private void printBoard() {
+		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
 	// UPDATE THE BOARD
-	public static void updateBoard(ArrayList<ArrayList<Integer>> move) {
-
+	private void updateBoard(ArrayList<ArrayList<Integer>> move) {
+		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		updateBoard(initQueen, newQueen, arrowPos);
+	}
+		
+	private void updateBoard(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+		
 	}
 
 	/*
@@ -322,8 +336,23 @@ public class testAI extends GamePlayer{
 	}
 
 	 */
+
+	private int zeroToOneIndex(int i) {
+		return i+1;
+	}
+
+	private int oneToZeroIndex(int i) {
+		return i-1;
+	}
 	
+	private ArrayList<Integer> convertServerToBoard(ArrayList<Integer> position){
+		ArrayList<Integer> newPos = new ArrayList<Integer>();
+		newPos.add(boardSize-position.get(0));
+		newPos.add(oneToZeroIndex(position.get(1)));
+		return newPos;
+	}
 	
+
 
 }
 
