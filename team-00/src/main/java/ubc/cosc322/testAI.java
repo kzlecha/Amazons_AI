@@ -163,27 +163,12 @@ public class testAI extends GamePlayer{
 	}
 
 
-	// makeMove()
-	// - Takes msgDetails and takes a list of three sets of coordinates as input,
-	//   then sends the move to the server and updates the gui.
-
 	// Sends a makeMove message to the server and updatesClient
 	private void makeMoveClientServer(ArrayList<ArrayList<Integer>> inputCmd) {
 		// Input CMD is in the order input
 		gameClient.sendMoveMessage(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 		gamegui.updateGameState(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 	}
-
-	// consoleMove()
-	// - Takes console input and sends it to makeMove()
-	// ----
-	// USAGE: In the console, enter six 1-indexed coordinates
-	// (note: horizontally, a = 1 and i = 10)
-	// x1 y1 x2 y2 x3 y3
-	// 
-	// x1 and y1: row/column of queen to be moved
-	// x2 and y2: row/column of queen's new position
-	// x3 and y3: row/column of the arrow position
 
 	private void consoleMove() {
 		System.out.println("Please enter a move in the following format: x y x y x y:");	
