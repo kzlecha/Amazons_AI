@@ -104,9 +104,11 @@ public class testAI extends GamePlayer{
 				);
 			
 			printBoard();
+			test.eval(board, teamQueens, enemyQueens);
 			
 			// Make our move
 			consoleMove();
+			test.eval(board, teamQueens, enemyQueens);
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game

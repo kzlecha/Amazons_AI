@@ -47,7 +47,7 @@ public class minimax {
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, TestGameBoard));
 		minimax z = new minimax();
 
-		bestmove q = z.minimax_i(TestGameBoard, 3, z.alpha, z.beta, true);
+		bestmove q = z.minimax_i(TestGameBoard, 2, z.alpha, z.beta, true);
 		System.out.println(q.eval);
 		System.out.println(q.move.toString());
 
