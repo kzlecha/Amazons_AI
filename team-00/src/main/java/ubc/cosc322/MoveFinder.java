@@ -1,3 +1,5 @@
+package ubc.cosc322;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;

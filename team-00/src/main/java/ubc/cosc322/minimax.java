@@ -1,5 +1,7 @@
 package ubc.cosc322;
 
+import ubc.cosc322.*;
+
 import java.math.BigInteger; 
 import java.util.*;
 
