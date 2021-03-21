@@ -14,7 +14,7 @@ public class MoveFinder {
     // x, y, arrowX, arrowY
     // Unique for each queen
     private static LinkedList<ArrayList<ArrayList<Integer>>> moveList;
-    private static LinkedList<ArrayList<ArrayList<Integer>>> allPossibleCode;
+    private static LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves;
     public static int n_moves; // length of the movelist
 
     // public static void main(String[] args) {
@@ -47,7 +47,7 @@ public class MoveFinder {
 
     // prints the starting and ending position for a queen in a move
     public static void printMoves() {
-        for (ArrayList<Integer> move : allPossibleCode) {
+        for (ArrayList<Integer> move : allPossibleMoves) {
 
             System.out.println('[' + String.valueOf(move.get(0)) + ',' + String.valueOf(move.get(1)) + ']' + ',' + '['
                     + String.valueOf(move.get(2)) + ',' + String.valueOf(move.get(3)) + ']' + ',' + '['
@@ -57,7 +57,7 @@ public class MoveFinder {
 
     // populates moveList with all possible moves
     public MoveFinder() {
-                allPossibleCode = new LinkedList<ArrayList<Integer>>(); 
+                allPossibleMoves = new LinkedList<ArrayList<Integer>>(); 
         n_moves = 0;
     }
 
@@ -85,16 +85,19 @@ public class MoveFinder {
                         // ArrayList<Integer> arrowPos = new ArrayList<Integer>();
                         for (ArrayList<Integer> arrowPos : y) {
 
-                            allPossibleCode.add(new ArrayList<Integer>(Arrays.asList(
-                                new ArrayList<Integer>(Arrays.asList(friend.get(0), friend.get(1)),
-                            new ArrayList<Integer>(Arrays.asList(newQueenposition.get(0), newQueenposition.get(1))),
-                                    new ArrayList<Integer>(Arrays.asList(arrowPos.get(0), arrowPos.get(1)))))));
+                            allPossibleMoves.add(new ArrayList<Integer>(
+                                Arrays.asList(
+                                    new ArrayList<Integer>(Arrays.asList(friend.get(0), friend.get(1))),
+                                    new ArrayList<Integer>(Arrays.asList(newQueenposition.get(0), newQueenposition.get(1))),
+                                    new ArrayList<Integer>(Arrays.asList(arrowPos.get(0), arrowPos.get(1)))
+                                )
+                            ));
 
                         }
                     }
                     break; 
                 }
-                return allPossibleCode;
+                return allPossibleMoves;
                 
                 }
 
