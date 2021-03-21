@@ -296,7 +296,18 @@ public class testAI extends GamePlayer{
 		board[x2][y2] = temp;
 
 		// update the internal queen's position
-		updateQueen(position1, position2, false);
+		boolean enemyQueen;
+		if (isBlack && board[x2][y2] == BLACK) {
+			enemyQueen = false;
+		} else if(isBlack && board[x2][y2] == WHITE) {
+			enemyQueen = true;
+		} if (!isBlack && board[x2][y2] == BLACK) {
+			enemyQueen = true;
+		} else{
+			enemyQueen = false;
+		}
+		
+		updateQueen(position1, position2, enemyQueen);
 	}
 
 	private void placeArrow(ArrayList<Integer> position1) {
