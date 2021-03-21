@@ -28,6 +28,8 @@ public class testAI extends GamePlayer{
 	private int teamVal, enemyVal;
 
 	private int[][] board;
+	
+	private int boardSize = 10;
 
 	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
 
@@ -84,10 +86,16 @@ public class testAI extends GamePlayer{
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR),
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT),
 					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS));
-			// Make our own move
-			//if(turn)
+			
+			//Update our internal board
+			makeMove(
+					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR)),
+					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT)),
+					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS))
+					);
+			
+			// Make our move
 			consoleMove();
-			//turn = !turn;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
@@ -173,18 +181,22 @@ public class testAI extends GamePlayer{
 	private void consoleMove() {
 		System.out.println("Please enter a move in the following format: x y x y x y:");	
 		ArrayList<ArrayList<Integer>> inputCmd = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> ourMove = new ArrayList<ArrayList<Integer>>();
 		for(int x = 0; x < 3; x++) {
 			inputCmd.add(new ArrayList<Integer>());
 			for(int y = 0; y < 2; y++) {
 				inputCmd.get(x).add(in.nextInt());
 			}
+			ourMove.add(convertServerToBoard(inputCmd.get(x)));
 		}
-		if(!moveIsValid(inputCmd)){
+		if(!moveIsValid(ourMove)){
 			System.out.println("Invalid");
 			consoleMove();
+			return;
 		}
 
 		makeMoveClientServer(inputCmd);
+		makeMove(ourMove);
 	}
 
 	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
@@ -318,14 +330,21 @@ public class testAI extends GamePlayer{
 
 	 */
 
-	public int zeroToOneIndex(int i) {
+	private int zeroToOneIndex(int i) {
 		return i+1;
 	}
 
-	public int oneToZeroIndex(int i) {
+	private int oneToZeroIndex(int i) {
 		return i-1;
 	}
-
+	
+	private ArrayList<Integer> convertServerToBoard(ArrayList<Integer> position){
+		ArrayList<Integer> newPos = new ArrayList<Integer>();
+		newPos.add(boardSize-position.get(0));
+		newPos.add(oneToZeroIndex(position.get(1)));
+		return newPos;
+	}
+	
 
 
 }
