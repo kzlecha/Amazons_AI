@@ -107,15 +107,55 @@ public class testAI extends GamePlayer{
 				teamVal = BLACK;
 				this.printBoard();
 				consoleMove();
+				
+				this.teamQueens	= getBlackQueensStart();
+				this.enemyQueens = getWhiteQueensStart();
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
 				this.isBlack = false;
 				teamVal = WHITE;
+				
+				this.teamQueens	= getWhiteQueensStart();
+				this.enemyQueens = getBlackQueensStart();
 			}
 			else // This code should never be reached
 				return false;
 		}
 		return true;
+	}
+	
+	private ArrayList<ArrayList<Integer>> getBlackQueensStart(){
+		/*
+		 * get the starting positions of the black queens
+		 * 
+		 * Black ALWAYS starts at the top
+		 */
+		ArrayList<ArrayList<Integer>> blackQueens = new ArrayList<ArrayList<Integer>>(
+                Arrays.asList(
+                        new ArrayList<Integer>(Arrays.asList(0,3)),
+                        new ArrayList<Integer>(Arrays.asList(0,6)),
+                        new ArrayList<Integer>(Arrays.asList(3,0)),
+                        new ArrayList<Integer>(Arrays.asList(3,9))
+                    )
+                );
+		return blackQueens;
+	}
+	
+	private ArrayList<ArrayList<Integer>> getWhiteQueensStart(){
+		/*
+		 * get the starting positions of the white queens
+		 * 
+		 * White ALWAYS starts at the bottom
+		 */
+		ArrayList<ArrayList<Integer>> whiteQueens = new ArrayList<ArrayList<Integer>>(
+                Arrays.asList(
+                		new ArrayList<Integer>(Arrays.asList(6,0)),
+                		new ArrayList<Integer>(Arrays.asList(6,9)),
+                        new ArrayList<Integer>(Arrays.asList(9,3)),
+                        new ArrayList<Integer>(Arrays.asList(9,6))
+                    )
+                );
+		return whiteQueens;
 	}
 
 	@Override

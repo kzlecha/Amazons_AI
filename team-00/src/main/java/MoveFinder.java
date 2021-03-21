@@ -74,9 +74,6 @@ public class MoveFinder {
     public LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(int[][] gameboard,
             ArrayList<ArrayList<Integer>> friendQueen) {
 
-
-
-
                 for (ArrayList<Integer> friend : friendQueen) {
                     LinkedList<ArrayList<Integer>> x = getMoves(friend, gameboard);
                     // ArrayList<Integer> newQueenposition = new ArrayList<Integer>();
