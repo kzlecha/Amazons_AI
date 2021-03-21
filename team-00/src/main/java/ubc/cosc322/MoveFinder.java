@@ -36,7 +36,6 @@ public class MoveFinder {
     }
 
     public void printBoard(int[][] gameboard) {
-
         System.out.println(Arrays.deepToString(gameboard).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
     }
 
@@ -45,35 +44,40 @@ public class MoveFinder {
         n_moves = 0;
     }
 
-    public LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(int[][] gameboard,
-            ArrayList<ArrayList<Integer>> friendQueen) {
+    public LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(int[][] gameboard, ArrayList<ArrayList<Integer>> listOfQueens) {
+        /*
+        Get all list of possible moves. save in form [[oldPosx, oldPosy],[newPosX, newPosy],[arrowPosX, arrowPosy]]
+        */
             
-                for (ArrayList<Integer> friend : friendQueen) {
-                    LinkedList<ArrayList<Integer>> x = getMoves(friend, gameboard);
-                    // ArrayList<Integer> newQueenposition = new ArrayList<Integer>();
-                    for (ArrayList<Integer> newQueenposition : x) {
-                        LinkedList<ArrayList<Integer>> y = getMoves(newQueenposition, gameboard);
-                        // ArrayList<Integer> arrowPos = new ArrayList<Integer>();
-                        for (ArrayList<Integer> arrowPos : y) {
-
-                            allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
-                                Arrays.asList(
-                                    new ArrayList<Integer>(Arrays.asList(friend.get(0), friend.get(1))),
-                                    new ArrayList<Integer>(Arrays.asList(newQueenposition.get(0), newQueenposition.get(1))),
-                                    new ArrayList<Integer>(Arrays.asList(arrowPos.get(0), arrowPos.get(1)))
-                                )
-                            ));
-
-                        }
-                    }
-                    break; 
+        for (ArrayList<Integer> queen : listOfQueens) {
+            // gets all the possible moves a queen can do
+            LinkedList<ArrayList<Integer>> queenMoves = getMoves(queen, gameboard);
+            
+            for (ArrayList<Integer> possibleQueenPosition : queenMoves) {
+                // get all possible arrow shooting locations
+                LinkedList<ArrayList<Integer>> possibleArrowPos = getMoves(possibleQueenPosition, gameboard);
+                
+                for (ArrayList<Integer> arrowPos : possibleArrowPos) {
+                    // format each as [[oldPosx, oldPosy],[newPosX, newPosy],[arrowPosX, arrowPosy]]
+                    allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
+                        Arrays.asList(
+                            new ArrayList<Integer>(Arrays.asList(queen.get(0), queen.get(1))),
+                            new ArrayList<Integer>(Arrays.asList(possibleQueenPosition.get(0), possibleQueenPosition.get(1))),
+                            new ArrayList<Integer>(Arrays.asList(arrowPos.get(0), arrowPos.get(1)))
+                        )
+                    ));
                 }
-                return allPossibleMoves;    
-                }
+            }
+            break;
+        }
+        return allPossibleMoves;    
+    }
 
     // Generate all possible move/arrow combinations from the current position/gameboard
     public LinkedList<ArrayList<Integer>> getMoves(ArrayList<Integer> position, int[][] gameboard) {
-        // final int WIDTH = 9; // width of the board
+        /*
+        Get all possible moves that a queen/arrow can go at that possible
+        */
 
         resetMoves();
         int row = position.get(0);

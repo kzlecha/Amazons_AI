@@ -82,8 +82,6 @@ public class test {
         // printBoard(x); 
     }
        
-
-
 public static void printBoard(int[][] gameboard) {
 
         System.out.println(Arrays.deepToString(gameboard).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
