@@ -28,19 +28,19 @@ public class minimax {
          }
          }
          **/
-        // if depth == 0 or game over in position
-        if (depth == 0) {
-            System.out.println("died");
-            ;
+        // // if depth == 0 or game over in position
+        // if (depth == 0) {
+        //     System.out.println("died");
+        //     ;
 
-            //     return static evaluation of position
-        }
-        //     if maximizingPlayer:
-        if  (maximizingPlayer == 1 ) {
-            for  (int queens : position ) {
-                //int eval = minimax_i(queens, depth-1, alpha, beta, 0);
-            }
-        }
+        //     //     return static evaluation of position
+        // }
+        // //     if maximizingPlayer:
+        // if  (maximizingPlayer == 1 ) {
+        //     for  (int queens : position ) {
+        //         //int eval = minimax_i(queens, depth-1, alpha, beta, 0);
+        //     }
+        // }
         //         maxEval = -infinity 
         //         for each child of position
         //         eval = minimax(child, depth-1, alpha, beta, false)
@@ -68,6 +68,47 @@ public class minimax {
            
     //     best 
     //    }
+//     if (depth == 0 | test.gameEnd(gameboard))
+//     {
+        
+//         int score = test.eval(gameboard)
+
+//         return score; 
+
+//     }
+//     MoveFinder x = new MoveFinder(); 
+
+//    LinkedList<ArrayList<Integer>> allMoves =  x.getAllPossibleMove(); 
+
+//    for (ArrayList<Integer> move : allMoves)
+//    { 
+//        makeMove(move.get(0),move.get(1),move.get(2),move.get(3), move.get(4), move.get(5))
+
+//        int move; 
+//        move = minimax(s,depth-1,-player) ??? 
+
+//        undomove()
+
+//        if (player == max)
+//        { 
+//            if (score > best.score ) { 
+//                best = [move, score]
+//            }
+//        }
+//        else { 
+//            if (score<best.score) { 
+//                best = [move, score]
+//            }
+//        }
+//    }
+
+    
+    
+    // for (ArrayList<Integer> queen : queenArray) { 
+
+
+
+    // }
 
     }
 

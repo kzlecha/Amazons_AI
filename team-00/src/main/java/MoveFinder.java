@@ -13,8 +13,8 @@ public class MoveFinder {
     // within each move is an ArrayList containing:
     // x, y, arrowX, arrowY
     // Unique for each queen
-    private static LinkedList<ArrayList<Integer>> moveList;
-    private static LinkedList<ArrayList<Integer>> allPossibleCode;
+    private static LinkedList<ArrayList<ArrayList<Integer>>> moveList;
+    private static LinkedList<ArrayList<ArrayList<Integer>>> allPossibleCode;
     public static int n_moves; // length of the movelist
 
     // public static void main(String[] args) {
@@ -71,7 +71,7 @@ public class MoveFinder {
         n_moves = 0;
     }
 
-    public LinkedList<ArrayList<Integer>> getAllPossibleMove(int[][] gameboard,
+    public LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(int[][] gameboard,
             ArrayList<ArrayList<Integer>> friendQueen) {
 
 
@@ -85,8 +85,10 @@ public class MoveFinder {
                         // ArrayList<Integer> arrowPos = new ArrayList<Integer>();
                         for (ArrayList<Integer> arrowPos : y) {
 
-                            allPossibleCode.add(new ArrayList<Integer>(Arrays.asList(friend.get(0),friend.get(1),newQueenposition.get(0),
-                                    newQueenposition.get(1), arrowPos.get(0), arrowPos.get(1))));
+                            allPossibleCode.add(new ArrayList<Integer>(Arrays.asList(
+                                new ArrayList<Integer>(Arrays.asList(friend.get(0), friend.get(1)),
+                            new ArrayList<Integer>(Arrays.asList(newQueenposition.get(0), newQueenposition.get(1))),
+                                    new ArrayList<Integer>(Arrays.asList(arrowPos.get(0), arrowPos.get(1)))))));
 
                         }
                     }
