@@ -214,8 +214,10 @@ public class testAI extends GamePlayer{
 	private boolean moveIsValid(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		boolean valid = false;
 		if (checkValidPosition(initQueen, newQueen)) {
+			System.out.println("We can move the queen position");
 			swap(initQueen,newQueen);
 			if (checkValidPosition(newQueen,arrowPos)) {
+				System.out.println("We can move the arrow position");
 				valid = true;
 			}
 			swap(newQueen,initQueen);
@@ -254,21 +256,16 @@ public class testAI extends GamePlayer{
 		return true;
 	}
 
-
-
 	// Just a function to do a simple check in a cleaner way
 	private boolean posIsVal(ArrayList<Integer> position, int expectedVal) {
 		return board[position.get(0)][position.get(1)] == expectedVal;
-	}
-	private boolean posIsVal(int x, int y, int expectedVal) {
-		return board[x][y] == expectedVal;
 	}
 
 	private void swap(ArrayList<Integer> position1, ArrayList<Integer> position2) {
 		int x1 = position1.get(0);
 		int y1 = position1.get(1);
-		int x2 = position1.get(0);
-		int y2 = position1.get(1);
+		int x2 = position2.get(0);
+		int y2 = position2.get(1);
 		int temp = board[x1][y1];
 		board[x1][y1] = board[x2][y2];
 		board[x2][y2] = temp;
