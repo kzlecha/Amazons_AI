@@ -6,6 +6,9 @@ import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
 public class minimax {
 
+        bestmove best1=  new bestmove(); 
+    
+
     /**
      * @param position
      * @param depth            The maximum depth of the game tree to search to
@@ -14,7 +17,7 @@ public class minimax {
      * @param maximizingPlayer true means player is max, false means player is min
      */
 
-    public ArrayList<ArrayList<Integer>> minimax_i(int[] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
+    public bestmove minimax_i(int[] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
         // PSEUDOCODE
         /**
          boolean gameOver = false;
@@ -64,15 +67,25 @@ public class minimax {
            
     //     best 
     //    }
-//     if (depth == 0 | test.gameEnd(gameboard))
-//     {
+    if  (maximizingPlayer)
+    { 
+        best1.move = null; 
+        best1.eval = -1000000000; 
+    } else { 
         
-//         int score = test.eval(gameboard)
+        best1.move = null; 
+        best1.eval = +1000000000; 
+    }
+    
+    if (depth == 0 | test.gameEnd(gameboard))
+    {
+        
+        int score = test.eval(gameboard)
 
-//         return score; 
+        return score; 
 
-//     }
-
+    }
+    
     MoveFinder x = new MoveFinder(); 
 
    LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  x.getAllPossibleMove(board, friendQueen); 
@@ -101,8 +114,7 @@ public class minimax {
     }
     Integer maxEval = Integer.MAX_VALUE;
 
-
-
+    
     
     
     // for (ArrayList<Integer> queen : queenArray) { 
