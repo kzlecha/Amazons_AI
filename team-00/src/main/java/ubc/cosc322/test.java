@@ -30,10 +30,12 @@ public class test {
 		foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
-		MoveFinder y = new MoveFinder();
-		LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  y.getAllPossibleMove(x, friend_Queen_pos);
-		MoveFinder.printMoves();
-		testAI test = new testAI("cosc322", "kanny");
+		// MoveFinder y = new MoveFinder();
+		LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  MoveFinder.getAllPossibleMove(x, friend_Queen_pos);
+		// MoveFinder.printMoves();
+		// testAI test = new testAI("cosc322", "kanny");
+
+		MoveFinder.printMoves(allMoves);
 
 		//     for (ArrayList<Integer> eachMove : allMoves)
 		//     {
@@ -128,29 +130,31 @@ public class test {
 	}
 
 	public static int eval(int[][] GameBoard ,  ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> foeQueen) 
-	{    
+	{
 		int friendMoves = 0;
-		int foeMoves = 0; 
-		MoveFinder x = new MoveFinder(); 
-		for ( ArrayList<Integer> friend : friendQueen) {
-			x.getMoves(friend, GameBoard);
-			friendMoves += MoveFinder.n_moves;
-			// MoveFinder.printMoves();
-			// break;
+		int foeMoves = 0;
+		// MoveFinder x = new MoveFinder(); 
+		// for ( ArrayList<Integer> friend : friendQueen) {
+		// 	MoveFinder.getMoves(friend, GameBoard);
+		// 	friendMoves += MoveFinder.n_moves;
+		// 	// MoveFinder.printMoves();
+		// 	// break;
 
+		//} 
 
-		}
+		friendMoves = MoveFinder.getAllPossibleMove(GameBoard, friendQueen).size();
+		foeMoves = MoveFinder.getAllPossibleMove(GameBoard, foeQueen).size();
 		// System.out.println(friendMoves);
 
-		for (ArrayList<Integer> foe : foeQueen ) {
+		// for (ArrayList<Integer> foe : foeQueen) {
 
-			x.getMoves(foe, GameBoard);
-			foeMoves += MoveFinder.n_moves;
+		// 	x.getMoves(foe, GameBoard);
+		// 	foeMoves += MoveFinder.n_moves;
 
-		}
+		// }
 		// System.out.println(foeMoves);
 
-		if (friendMoves == 0 )
+		if (friendMoves == 0)
 
 		{
 
@@ -160,12 +164,9 @@ public class test {
 
 		else if (foeMoves == 0) {
 			return Integer.MAX_VALUE;
+		} else {
+			return friendMoves - foeMoves;
 		}
-		else {
-			return friendMoves - foeMoves; 
-		}
-
-
 
 	}
 
