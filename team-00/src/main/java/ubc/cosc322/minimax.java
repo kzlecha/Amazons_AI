@@ -1,14 +1,43 @@
 package ubc.cosc322;
 
+import java.math.BigInteger; 
 import java.util.*;
 
 import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
 public class minimax {
 
-        bestmove best1=  new bestmove(); 
+    bestmove best1 = new bestmove();
+    testAI Test = new testAI("cosc322", "kanny");
+    int score;
+    // test test2 = new test();
+    // test test2 = new test();
     
+    Integer alpha = Integer.MIN_VALUE;
+    Integer beta = Integer.MAX_VALUE;
 
+
+    public static void main(String[] args) {
+         int[][] x = { { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 } };
+                
+         ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 3)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 0)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 6)));
+        friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 9)));
+        ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 0)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
+        foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
+        // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
+        minimax z = new minimax(); 
+        System.out.println(z.minimax_i(x, 10, z.alpha, z.beta, true, friend_Queen_pos,  foe_queen_pos));
+        
+    }
     /**
      * @param position
      * @param depth            The maximum depth of the game tree to search to
@@ -17,7 +46,14 @@ public class minimax {
      * @param maximizingPlayer true means player is max, false means player is min
      */
 
-    public bestmove minimax_i(int[] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
+
+
+    public bestmove minimax_i(int[][] gameboard, int depth, int alpha, int beta, boolean maximizingPlayer, ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> enemyqueen) {
+
+
+
+
+    
         // PSEUDOCODE
         /**
          boolean gameOver = false;
@@ -28,18 +64,8 @@ public class minimax {
          }
          **/
         // // if depth == 0 or game over in position
-        // if (depth == 0) {
-        //     System.out.println("died");
-        //     ;
-
         //     //     return static evaluation of position
-        // }
         // //     if maximizingPlayer:
-        // if  (maximizingPlayer == 1 ) {
-        //     for  (int queens : position ) {
-        //         //int eval = minimax_i(queens, depth-1, alpha, beta, 0);
-        //     }
-        // }
         //         maxEval = -infinity 
         //         for each child of position
         //         eval = minimax(child, depth-1, alpha, beta, false)
@@ -77,42 +103,47 @@ public class minimax {
         best1.eval = +1000000000; 
     }
     
-    if (depth == 0 | test.gameEnd(gameboard))
+    if (depth == 0 | test.gameEnd(friendQueen, enemyqueen, gameboard))
     {
         
-        int score = test.eval(gameboard)
-
-        return score; 
+         score = test.eval(gameboard, friendQueen, enemyqueen);
+        best1.move = null; 
+        best1.eval = score; 
+        return best1; 
 
     }
-    
+
     MoveFinder x = new MoveFinder(); 
 
-   LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  x.getAllPossibleMove(board, friendQueen); 
+   LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  x.getAllPossibleMove(gameboard, friendQueen); 
 
    for (ArrayList<ArrayList<Integer>> move : allMoves)
    { 
-       makeMove(move);
+       Test.makeMove(move);
 
-       int move; 
+    //    int move; 
 
-       move = minimax(board,depth-1,alpha, beta, maximizingPlayer);  
+       best1 = minimax_i(gameboard,depth-1,alpha, beta, maximizingPlayer,friendQueen, enemyqueen);  
 
-       unmake(move); 
+       Test.unmakeMove(best1.move); 
 
-       if (player == max)
+       if (maximizingPlayer)
        { 
-           if (score > best.score ) { 
-               best = [move, score]
+           if (score > best1.eval ) { 
+               best1.move = best1.move ; 
+               best1.eval = score; 
            }
        }
        else { 
-           if (score<best.score) { 
-               best = [move, score]
+           if (score<best1.eval) { 
+                 best1.move = best1.move ; 
+               best1.eval = score; 
            }
        }
+
     }
-    Integer maxEval = Integer.MAX_VALUE;
+    // Integer maxEval = Integer.MAX_VALUE;
+    return best1;
 
     
     
