@@ -9,9 +9,7 @@ import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
 public class minimax {
 
-	bestmove best1 = new bestmove();
 	testAI Test = new testAI("cosc322", "kanny");
-	int score;
 	LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<ArrayList<Integer>>>();
 	// test test2 = new test();
 	// test test2 = new test();
@@ -103,6 +101,7 @@ public class minimax {
 
 		//     best 
 		//    }
+		bestmove best1 = new bestmove();
 		if  (maximizingPlayer)
 		{ 
 			best1.move = null; 
@@ -116,7 +115,7 @@ public class minimax {
 		if (depth == 0 | test.gameEnd(friend_Queen_pos, foe_queen_pos, gameboard))
 		{
 
-			score = test.eval(gameboard, friend_Queen_pos, foe_queen_pos);
+			int score = test.eval(gameboard, friend_Queen_pos, foe_queen_pos);
 			//  System.out.println(score);
 			best1.move = null; 
 			best1.eval = score; 
@@ -147,7 +146,7 @@ public class minimax {
 			// test.printBoard(gameboard);
 
 			// best2 = minimax_i(gameboard,depth-1,alpha, beta, maximizingPlayer);  
-			best1 = minimax_i(gameboard,depth-1,alpha, beta, !maximizingPlayer);  
+			bestmove moveBest = minimax_i(gameboard,depth-1,alpha, beta, !maximizingPlayer);  
 			// best1.move = best2.move;
 			// best1.eval = best2.eval;  
 
@@ -158,15 +157,15 @@ public class minimax {
 
 			if (maximizingPlayer)
 			{ 
-				if (score > best1.eval ) { 
+				if (moveBest.eval > best1.eval ) { 
 					best1.move = move; 
-					best1.eval = score; 
+					best1.eval = moveBest.eval; 
 				}
 			}
 			else { 
-				if (score<best1.eval) { 
+				if (moveBest.eval < best1.eval) { 
 					best1.move = move ; 
-					best1.eval = score; 
+					best1.eval = moveBest.eval; 
 				}
 			}
 

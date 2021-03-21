@@ -36,7 +36,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("super","cosc322");
+		testAI player = new testAI(args[0],args[1]);
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -104,9 +104,11 @@ public class testAI extends GamePlayer{
 				);
 			
 			printBoard();
+			test.eval(board, teamQueens, enemyQueens);
 			
 			// Make our move
 			consoleMove();
+			test.eval(board, teamQueens, enemyQueens);
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
@@ -212,11 +214,13 @@ public class testAI extends GamePlayer{
 				System.out.print(ourMove.get(i).get(j) + " ");
 			}
 		}
+		/*
 		if(!moveIsValid(ourMove)){
 			System.out.println("Invalid");
 			consoleMove();
 			return;
 		}
+		*/
 
 		makeMoveClientServer(inputCmd);
 		makeMove(ourMove);
