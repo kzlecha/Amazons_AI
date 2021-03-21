@@ -82,8 +82,7 @@ public class RelativeDistHeuristic {
 					// a tile is contested if both queens are one move away from it
 					boolean contested = false;
 					for (ArrayList<Integer> square : queue) {
-						boolean hasQueen = (gameboard[square.get(0)][square.get(1)] != 0)
-								&& (gameboard[square.get(0)][square.get(1)] != 3);
+						boolean hasQueen = (gameboard[square.get(0)][square.get(1)] != 0) && (gameboard[square.get(0)][square.get(1)] != 3);
 						if (hasQueen && gameboard[square.get(0)][square.get(1)] != gameboard[pos.get(0)][pos.get(1)]) {
 							contested = true;
 							break;
