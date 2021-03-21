@@ -104,7 +104,6 @@ public class testAI extends GamePlayer{
 				);
 			
 			printBoard();
-			test.eval(board, teamQueens, enemyQueens);
 			
 			// Make our move
 			consoleMove();
@@ -116,11 +115,11 @@ public class testAI extends GamePlayer{
 				System.out.println("I am the black player");
 				this.isBlack = true;
 				teamVal = BLACK;
-				this.printBoard();
-				consoleMove();
 				
 				this.teamQueens	= getBlackQueensStart();
 				this.enemyQueens = getWhiteQueensStart();
+				consoleMove();
+		
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
 				this.isBlack = false;
@@ -224,6 +223,7 @@ public class testAI extends GamePlayer{
 
 		makeMoveClientServer(inputCmd);
 		makeMove(ourMove);
+		System.out.println(test.eval(board, teamQueens, enemyQueens));
 	}
 
 	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
