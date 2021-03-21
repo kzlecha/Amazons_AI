@@ -83,21 +83,24 @@ public class testAI extends GamePlayer{
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			System.out.println("Got a game_action_move msg");
 			// Update the board with the foreign move
-			gamegui.updateGameState(
-					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR),
-					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT),
-					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS));
+			
+			ArrayList<Integer> queenPosCurr = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR);
+			ArrayList<Integer> queenPosNext = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT);
+			ArrayList<Integer> arrowPos = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS);
+			
+			gamegui.updateGameState(queenPosCurr, queenPosNext, arrowPos);
 			
 			updateQueen(
-					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR),
-					(ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT), true
+					convertServerToBoard(queenPosCurr),
+					convertServerToBoard(queenPosNext),
+					true
 				);
 			
 			//Update our internal board
 			makeMove(
-					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR)),
-					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT)),
-					convertServerToBoard((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS))
+					convertServerToBoard(queenPosCurr),
+					convertServerToBoard(queenPosNext),
+					convertServerToBoard(arrowPos)
 				);
 			
 			printBoard();
