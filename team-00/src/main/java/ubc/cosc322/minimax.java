@@ -24,7 +24,7 @@ public class minimax {
          boolean gameOver = false;
          for(int queens = 0; queens < position.length; queens++){
          if(){
-
+        
          }
          }
          **/
@@ -36,8 +36,8 @@ public class minimax {
             //     return static evaluation of position
         }
         //     if maximizingPlayer:
-        if(maximizingPlayer == 1){
-            for(int queens : position){
+        if  (maximizingPlayer == 1 ) {
+            for  (int queens : position ) {
                 //int eval = minimax_i(queens, depth-1, alpha, beta, 0);
             }
         }
@@ -61,7 +61,13 @@ public class minimax {
         // beta = min(beta, eval)
         // if beta<= alpha 
         //     break 
-        // return mineval
+        // return mineval 
+
+    //   if (isBlack == false)
+    //    { 
+           
+    //     best 
+    //    }
 
     }
 

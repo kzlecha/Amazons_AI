@@ -33,7 +33,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("kanishka","cosc322");
+		testAI player = new testAI("kanny","cosc322");
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -206,7 +206,7 @@ public class testAI extends GamePlayer{
 		return moveIsValid(move.get(INIT_POS), move.get(NEW_POS), move.get(ARROW_POS));
 	}
 	
-	private boolean moveIsValid(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+	public boolean moveIsValid(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		boolean valid = false;
 		if (checkValidPosition(initQueen, newQueen)) {
 			swap(initQueen,newQueen);
