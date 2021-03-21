@@ -2,6 +2,8 @@ package ubc.cosc322;
 
 import java.util.*;
 
+import ygraph.ai.smartfox.games.Amazon.GameBoard;
+
 public class minimax {
 
     /**
@@ -9,16 +11,10 @@ public class minimax {
      * @param depth            The maximum depth of the game tree to search to
      * @param alpha            The best alternative for the minimising enemy player
      * @param beta             The best alternative for the maximising us
-     * @param maximizingPlayer 1 for max and 0 for min
+     * @param maximizingPlayer true means player is max, false means player is min
      */
 
-    State s;
-
-    public void buildTheTree (int move){
-        s = new State();
-    }
-
-    public void minimax_i(int[] position, int depth, int alpha, int beta, int maximizingPlayer) {
+    public ArrayList<ArrayList<Integer>> minimax_i(int[] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
         // PSEUDOCODE
         /**
          boolean gameOver = false;
@@ -76,31 +72,36 @@ public class minimax {
 //         return score; 
 
 //     }
-//     MoveFinder x = new MoveFinder(); 
 
-//    LinkedList<ArrayList<Integer>> allMoves =  x.getAllPossibleMove(); 
+    MoveFinder x = new MoveFinder(); 
 
-//    for (ArrayList<Integer> move : allMoves)
-//    { 
-//        makeMove(move.get(0),move.get(1),move.get(2),move.get(3), move.get(4), move.get(5))
+   LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  x.getAllPossibleMove(board, friendQueen); 
 
-//        int move; 
-//        move = minimax(s,depth-1,-player) ??? 
+   for (ArrayList<ArrayList<Integer>> move : allMoves)
+   { 
+       makeMove(move);
 
-//        undomove()
+       int move; 
 
-//        if (player == max)
-//        { 
-//            if (score > best.score ) { 
-//                best = [move, score]
-//            }
-//        }
-//        else { 
-//            if (score<best.score) { 
-//                best = [move, score]
-//            }
-//        }
-//    }
+       move = minimax(board,depth-1,alpha, beta, maximizingPlayer);  
+
+       unmake(move); 
+
+       if (player == max)
+       { 
+           if (score > best.score ) { 
+               best = [move, score]
+           }
+       }
+       else { 
+           if (score<best.score) { 
+               best = [move, score]
+           }
+       }
+    }
+    Integer maxEval = Integer.MAX_VALUE;
+
+
 
     
     
@@ -134,15 +135,6 @@ public class minimax {
 
         return null;
     }
-
-    public class Node{
-        int score;
-        List<Node> children;
-    }
-    public class State{
-        Node root;
-    }
-
-
+    
     // public Moves getAllMoves() 
 }
