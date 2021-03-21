@@ -17,8 +17,8 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
     // test test2 = new test();
    public static ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
  public static ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
-    Integer alpha = Integer.MIN_VALUE;
-    Integer beta = Integer.MAX_VALUE;
+    Integer alpha = Integer.MAX_VALUE;
+    Integer beta = Integer.MIN_VALUE;
 
 
     public static void main(String[] args) {
@@ -34,7 +34,8 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
                  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                  { 0, 0, 0, 2, 0, 0, 2, 0, 0, 0 }
          };
-
+         friend_Queen_pos.clear();
+         foe_queen_pos.clear(); 
         // ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 3)));
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 0)));
@@ -48,6 +49,7 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
         // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, TestGameBoard));
         minimax z = new minimax(); 
         bestmove q = z.minimax_i(TestGameBoard, 2, z.alpha, z.beta, true);
+        System.out.println(q.eval);
         System.out.println(q.move.toString());
         
     }
@@ -103,17 +105,18 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
     if  (maximizingPlayer)
     { 
         best1.move = null; 
-        best1.eval = -1000000000; 
+        best1.eval = Integer.MIN_VALUE; 
     } else { 
         
         best1.move = null; 
-        best1.eval = +1000000000; 
+        best1.eval = Integer.MAX_VALUE; 
     }
     
     if (depth == 0 | test.gameEnd(friend_Queen_pos, foe_queen_pos, gameboard))
     {
         
-         score = test.eval(gameboard, friend_Queen_pos, foe_queen_pos);
+        score = test.eval(gameboard, friend_Queen_pos, foe_queen_pos);
+        //  System.out.println(score);
         best1.move = null; 
         best1.eval = score; 
         return best1; 
@@ -134,7 +137,7 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
     updateQueen(gameboard);
     // best1.move = move;
     // bestmove best2 = new bestmove();
-    test.printBoard(gameboard);
+    // test.printBoard(gameboard);
     
         // best2 = minimax_i(gameboard,depth-1,alpha, beta, maximizingPlayer);  
            best1 = minimax_i(gameboard,depth-1,alpha, beta, !maximizingPlayer);  
@@ -230,12 +233,12 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
             ArrayList<Integer> newIndexOfQueen) {
 
         if (gameboard[oldIndexOfQueen.get(0)][oldIndexOfQueen.get(1)] == 1) {
-            System.out.println("queen found at old index");
+            // System.out.println("queen found at old index");
 
             if (gameboard[newIndexOfQueen.get(0)][newIndexOfQueen.get(0)] == 0) {
-                System.out.println("move Possible");
+                // System.out.println("move Possible");
 
-                System.out.println("making move...");
+                // System.out.println("making move...");
 
                 gameboard[oldIndexOfQueen.get(0)][oldIndexOfQueen.get(1)] = 0;
                 gameboard[newIndexOfQueen.get(0)][newIndexOfQueen.get(1)] = 1;
@@ -246,7 +249,7 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
 
         } else {
 
-            System.out.println("queen not found at index. try again.");
+            // System.out.println("queen not found at index. try again.");
         }
 
         return gameboard;
@@ -260,13 +263,13 @@ LinkedList<ArrayList<ArrayList<Integer>>> allMoves = new LinkedList<ArrayList<Ar
            
         gameboard[arrowPos.get(0)][arrowPos.get(1)]  =  3 ;
 
-        System.out.println("arrow placed.");
+        // System.out.println("arrow placed.");
         updateQueen(gameboard);
         return gameboard;
        }
         else { 
 
-            System.out.println("space not empty.");
+            // System.out.println("space not empty.");
             return gameboard; 
         }
    }
@@ -277,13 +280,13 @@ public static int[][] unplaceArrow(ArrayList<Integer> arrowPos, int[][] gameboar
            
         gameboard[arrowPos.get(0)][arrowPos.get(1)]  =  0;
 
-        System.out.println("arrow unplaced.");
+        // System.out.println("arrow unplaced.");
         updateQueen(gameboard);
         return gameboard;
        }
         else { 
 
-            System.out.println("arrow not at pos. ");
+            // System.out.println("arrow not at pos. ");
             return gameboard; 
         }
    }

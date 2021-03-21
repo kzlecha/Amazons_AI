@@ -28,7 +28,7 @@ public class test {
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
-        System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
+        // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
         MoveFinder y = new MoveFinder();
         LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  y.getAllPossibleMove(x, friend_Queen_pos);
@@ -135,12 +135,12 @@ public static void printBoard(int[][] gameboard) {
         for ( ArrayList<Integer> friend : friendQueen) {
             x.getMoves(friend, GameBoard);
             friendMoves += MoveFinder.n_moves;
-            MoveFinder.printMoves();
+            // MoveFinder.printMoves();
             // break;
             
 
         }
-        System.out.println(friendMoves);
+        // System.out.println(friendMoves);
 
         for (ArrayList<Integer> foe : foeQueen ) {
 
@@ -148,18 +148,18 @@ public static void printBoard(int[][] gameboard) {
             foeMoves += MoveFinder.n_moves;
 
         }
-        System.out.println(foeMoves);
+        // System.out.println(foeMoves);
 
         if (friendMoves == 0 )
 
         {
 
-            return -1000000;
+            return Integer.MIN_VALUE;
 
         }
 
         else if (foeMoves == 0) {
-            return +1000000;
+            return Integer.MAX_VALUE;
         }
         else {
             return friendMoves - foeMoves; 
@@ -205,7 +205,7 @@ public static void printBoard(int[][] gameboard) {
         //     return false; 
         //  }
         int evaluation = eval(GameBoard, friendQueen, enemyQueen); 
-        if ( evaluation== -1000000 |evaluation ==  +1000000) 
+        if ( evaluation== Integer.MIN_VALUE |evaluation ==  Integer.MAX_VALUE) 
 
    {
        return true; 
