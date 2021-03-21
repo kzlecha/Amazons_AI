@@ -290,7 +290,7 @@ public class testAI extends GamePlayer{
 		placeArrow(arrowPos);
 	}
 
-public void makeMove(ArrayList<ArrayList<Integer>> move) {
+	public void makeMove(ArrayList<ArrayList<Integer>> move) {
 		// ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
 		makeMove(move.get(0), move.get(1), move.get(2));
 	}

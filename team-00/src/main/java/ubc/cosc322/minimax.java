@@ -20,12 +20,20 @@ public class minimax {
 
 
     public static void main(String[] args) {
-         int[][] x = { { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 } };
-                
-         ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
+         int[][] TestGameBoard = {
+                 { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                 { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }
+         };
+
+        ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 3)));
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 0)));
         friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 6)));
@@ -35,13 +43,12 @@ public class minimax {
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
-        // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
+        // System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, TestGameBoard));
         minimax z = new minimax(); 
-        System.out.println(z.minimax_i(x, 10, z.alpha, z.beta, true, friend_Queen_pos,  foe_queen_pos));
+        System.out.println(z.minimax_i(TestGameBoard, 10, z.alpha, z.beta, true, friend_Queen_pos,  foe_queen_pos));
         
     }
     /**
-     * @param position
      * @param depth            The maximum depth of the game tree to search to
      * @param alpha            The best alternative for the minimising enemy player
      * @param beta             The best alternative for the maximising us
@@ -51,11 +58,6 @@ public class minimax {
 
 
     public bestmove minimax_i(int[][] gameboard, int depth, int alpha, int beta, boolean maximizingPlayer, ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> enemyqueen) {
-
-
-
-
-    
         // PSEUDOCODE
         /**
          boolean gameOver = false;
