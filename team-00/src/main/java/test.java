@@ -28,10 +28,10 @@ public class test {
         foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
         System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
-    //     MoveFinder y = new MoveFinder();
-    //    LinkedList<ArrayList<Integer>> allMoves =  y.getAllPossibleMove(x, friend_Queen_pos);
-    //     MoveFinder.printMoves();
-    //     testAI test = new testAI("cosc322", "kanny");
+        MoveFinder y = new MoveFinder();
+       LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  y.getAllPossibleMove(x, friend_Queen_pos);
+        MoveFinder.printMoves();
+        testAI test = new testAI("cosc322", "kanny");
         
     //     for (ArrayList<Integer> eachMove : allMoves)
     //     {

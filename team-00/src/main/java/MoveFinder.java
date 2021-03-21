@@ -47,17 +47,17 @@ public class MoveFinder {
 
     // prints the starting and ending position for a queen in a move
     public static void printMoves() {
-        for (ArrayList<Integer> move : allPossibleMoves) {
+        for (ArrayList<ArrayList<Integer>> move : allPossibleMoves) {
 
-            System.out.println('[' + String.valueOf(move.get(0)) + ',' + String.valueOf(move.get(1)) + ']' + ',' + '['
-                    + String.valueOf(move.get(2)) + ',' + String.valueOf(move.get(3)) + ']' + ',' + '['
-                    + String.valueOf(move.get(4)) + ',' + String.valueOf(move.get(5)) + ']');
+            System.out.println('[' + String.valueOf(move.get(0).get(0)) + ',' + String.valueOf(move.get(0).get(1)) + ']' + ',' + '['
+                    + String.valueOf(move.get(1).get(0)) + ',' + String.valueOf(move.get(1).get(1)) + ']' + ',' + '['
+                    + String.valueOf(move.get(2).get(0)) + ',' + String.valueOf(move.get(2).get(1)) + ']');
         }
     }
 
     // populates moveList with all possible moves
     public MoveFinder() {
-                allPossibleMoves = new LinkedList<ArrayList<Integer>>(); 
+                allPossibleMoves = new LinkedList<ArrayList<ArrayList<Integer>>>(); 
         n_moves = 0;
     }
 
@@ -85,7 +85,7 @@ public class MoveFinder {
                         // ArrayList<Integer> arrowPos = new ArrayList<Integer>();
                         for (ArrayList<Integer> arrowPos : y) {
 
-                            allPossibleMoves.add(new ArrayList<Integer>(
+                            allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
                                 Arrays.asList(
                                     new ArrayList<Integer>(Arrays.asList(friend.get(0), friend.get(1))),
                                     new ArrayList<Integer>(Arrays.asList(newQueenposition.get(0), newQueenposition.get(1))),
