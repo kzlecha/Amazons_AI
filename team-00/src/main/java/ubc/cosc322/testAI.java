@@ -35,7 +35,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("super","cosc322");
+		testAI player = new testAI(args[0],args[1]);
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -233,16 +233,10 @@ public class testAI extends GamePlayer{
 	}
 
 	private boolean checkPath(ArrayList<Integer> a, ArrayList<Integer> b) {
-		
-		final int WIDTH = 10;
 		int initX = a.get(0), initY = a.get(1), newX = b.get(0), newY = b.get(1);
+
 		int deltaX = initX - newX; // difference in initial and final x
 		int deltaY = initY - newY; // difference in initial and final y
-		
-		// return false if move is out of bounds
-		if(newX > WIDTH || newY > WIDTH || newX < 1 || newY < 1) 
-			return false;
-		
 		int xSign = 0, ySign = 0; // represents the vector direction that the queen is moving
 		if(deltaX != 0) xSign = deltaX < 0? -1: 1; // left or right?
 		if (deltaY != 0) ySign = deltaY < 0? -1: 1;// up or down?
