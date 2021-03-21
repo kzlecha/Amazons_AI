@@ -35,7 +35,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("kanny","cosc322");
+		testAI player = new testAI("super","cosc322");
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -302,16 +302,6 @@ public class testAI extends GamePlayer{
 		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
-	// UPDATE THE BOARD
-	private void updateBoard(ArrayList<ArrayList<Integer>> move) {
-		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
-		updateBoard(initQueen, newQueen, arrowPos);
-	}
-		
-	private void updateBoard(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
-		
-	}
-
 	/*
 	 * 
 	StartMinMax(maxDepth, currentDepth){
@@ -346,6 +336,13 @@ public class testAI extends GamePlayer{
 		ArrayList<Integer> newPos = new ArrayList<Integer>();
 		newPos.add(boardSize-position.get(0));
 		newPos.add(oneToZeroIndex(position.get(1)));
+		return newPos;
+	}
+	
+	private ArrayList<Integer> convertBoardToServer(ArrayList<Integer> position){
+		ArrayList<Integer> newPos = new ArrayList<Integer>();
+		newPos.add(boardSize-position.get(0));
+		newPos.add(zeroToOneIndex(position.get(1)));
 		return newPos;
 	}
 	
