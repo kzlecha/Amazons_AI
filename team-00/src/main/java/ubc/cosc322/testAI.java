@@ -33,7 +33,7 @@ public class testAI extends GamePlayer{
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("kanishka","cosc322");
+		testAI player = new testAI("super","cosc322");
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -132,7 +132,7 @@ public class testAI extends GamePlayer{
 	}
 
 	// This works as intended
-	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
+	private int[][] getGameBoard(ArrayList<Integer> msgDetails) {
 		// first 12 elements in msgDetails are not part of the gameboard
 		int[][] gameBoard = new int[10][10];
 		int currentIdx = 11;
@@ -147,7 +147,7 @@ public class testAI extends GamePlayer{
 	}
 
 	// This works as intended
-	public ArrayList<Integer> getGameBoard(int[][] board) {
+	private ArrayList<Integer> getGameBoard(int[][] board) {
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
 		toReturn.ensureCapacity(132);
 		for(int i = 0; i < 11; i++) {
@@ -297,13 +297,18 @@ public class testAI extends GamePlayer{
 		unmakeMove(initQueen, newQueen, arrowPos);
 	}
 
-	public static void printBoard(int[][] gameboard) {
+	private void printBoard(int[][] gameboard) {
 		System.out.println(Arrays.deepToString(gameboard).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
 	// UPDATE THE BOARD
-	public static void updateBoard(ArrayList<ArrayList<Integer>> move) {
-
+	private void updateBoard(ArrayList<ArrayList<Integer>> move) {
+		ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
+		updateBoard(initQueen, newQueen, arrowPos);
+	}
+		
+	private void updateBoard(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+		
 	}
 
 	/*
