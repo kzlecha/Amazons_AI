@@ -16,7 +16,6 @@ public class MoveFinder {
     // x, y, arrowX, arrowY
     // Unique for each queen
     private static LinkedList<ArrayList<Integer>> moveList;
-    private static LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves;
     public static int n_moves; // length of the movelist
 
     // populates moveList with all possible moves
@@ -44,11 +43,11 @@ public class MoveFinder {
         n_moves = 0;
     }
 
-    public LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(int[][] gameboard, ArrayList<ArrayList<Integer>> listOfQueens) {
+    public static LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(int[][] gameboard, ArrayList<ArrayList<Integer>> listOfQueens) {
         /*
         Get all list of possible moves. save in form [[oldPosx, oldPosy],[newPosX, newPosy],[arrowPosX, arrowPosy]]
         */
-            
+    	LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves;
         for (ArrayList<Integer> queen : listOfQueens) {
             // gets all the possible moves a queen can do
             LinkedList<ArrayList<Integer>> queenMoves = getMoves(queen, gameboard);
