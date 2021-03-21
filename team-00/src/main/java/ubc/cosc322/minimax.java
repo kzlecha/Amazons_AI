@@ -47,7 +47,7 @@ public class minimax {
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, TestGameBoard));
 		minimax z = new minimax();
 
-		bestmove q = z.minimax_i(TestGameBoard, 2, z.alpha, z.beta, true);
+		bestmove q = z.minimax_i(TestGameBoard, 3, z.alpha, z.beta, true);
 		System.out.println(q.eval);
 		System.out.println(q.move.toString());
 
@@ -158,14 +158,12 @@ public class minimax {
 			if (maximizingPlayer)
 			{ 
 				if (moveBest.eval > best1.eval ) { 
-					System.out.println("There is a max best move");
 					best1.move = move; 
 					best1.eval = moveBest.eval; 
 				}
 			}
 			else { 
 				if (moveBest.eval < best1.eval) { 
-					System.out.println("There is a min best move");
 					best1.move = move ; 
 					best1.eval = moveBest.eval; 
 				}
