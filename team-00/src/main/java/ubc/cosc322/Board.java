@@ -12,8 +12,27 @@ public class Board {
 	private ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
 	private boolean isBlack;
 
+	// Constants relative to the board
+	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
+	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
+
+	public void setUp(boolean isBlack) {
+		this.isBlack = isBlack;
+		if(this.isBlack) { // This is the board for a black client
+			this.teamQueens = this.getBlackQueensStart();
+			this.enemyQueens = this.getWhiteQueensStart();
+			this.teamVal = BLACK;
+			this.enemyVal = WHITE;
+		}else { // Board for a white client
+			this.teamQueens = this.getWhiteQueensStart();
+			this.enemyQueens = this.getBlackQueensStart();
+			this.teamVal = WHITE;
+			this.enemyVal = BLACK;
+		}
+	}
+	
 	// This works as intended
-	private int[][] getGameBoard(ArrayList<Integer> msgDetails) {
+	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
 		// first 12 elements in msgDetails are not part of the gameboard
 		int[][] gameBoard = new int[10][10];
 		int currentIdx = 11;
@@ -28,7 +47,7 @@ public class Board {
 	}
 
 	// This works as intended
-	private ArrayList<Integer> getGameBoard(int[][] board) {
+	public ArrayList<Integer> getGameBoard(int[][] board) {
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
 		toReturn.ensureCapacity(132);
 		for(int i = 0; i < 11; i++) {
@@ -43,7 +62,7 @@ public class Board {
 		return toReturn;
 	}
 
-	private void swap(ArrayList<Integer> position1, ArrayList<Integer> position2) {
+	public void swap(ArrayList<Integer> position1, ArrayList<Integer> position2) {
 		int x1 = position1.get(0);
 		int y1 = position1.get(1);
 		int x2 = position2.get(0);
@@ -68,15 +87,16 @@ public class Board {
 		}
 		updateQueen(position1, position2, enemyQueen);
 	}
-	private void placeArrow(ArrayList<Integer> position1) {
+	
+	public void placeArrow(ArrayList<Integer> position1) {
 		board[position1.get(0)][position1.get(1)] = ARROW;
 	}
 
-	private void removeArrow(ArrayList<Integer> position1) {
+	public void removeArrow(ArrayList<Integer> position1) {
 		board[position1.get(0)][position1.get(1)] = EMPTY;
 	}
 
-	private void makeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+	public void makeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
 		swap(initQueen, newQueen);
 		placeArrow(arrowPos);
 	}
@@ -95,7 +115,7 @@ public class Board {
 		unmakeMove(move.get(0), move.get(1), move.get(2));
 	}
 
-	private ArrayList<ArrayList<Integer>> getBlackQueensStart(){
+	public ArrayList<ArrayList<Integer>> getBlackQueensStart(){
 		/*
 		 * get the starting positions of the black queens
 		 * 
@@ -112,7 +132,7 @@ public class Board {
 		return blackQueens;
 	}
 
-	private ArrayList<ArrayList<Integer>> getWhiteQueensStart(){
+	public ArrayList<ArrayList<Integer>> getWhiteQueensStart(){
 		/*
 		 * get the starting positions of the white queens
 		 * 
@@ -129,7 +149,7 @@ public class Board {
 		return whiteQueens;
 	}
 	
-	private void updateQueen(ArrayList<Integer> oldPosition, ArrayList<Integer> newPosition, boolean enemyUpdate) {
+	public void updateQueen(ArrayList<Integer> oldPosition, ArrayList<Integer> newPosition, boolean enemyUpdate) {
 		ArrayList<ArrayList<Integer>> queenList;
 		if(enemyUpdate) {
 			queenList = this.enemyQueens;
@@ -146,7 +166,7 @@ public class Board {
 		}
 	}
 	
-	private void printQueens() {
+	public void printQueens() {
 		System.out.println("Ally Queens");
 		for (int i = 0; i < teamQueens.size(); i++) {
 			for(int j = 0; j < teamQueens.get(i).size(); j++) {
@@ -163,7 +183,7 @@ public class Board {
 		}
 	}
 
-	private void printMove(ArrayList<ArrayList<Integer>> move) {
+	public void printMove(ArrayList<ArrayList<Integer>> move) {
 		String[] titles = {"init: ", "new: ", "arrow: "};
 		for(int i = 0; i < move.size(); i++) {
 			System.out.print(titles[i]);
@@ -174,7 +194,7 @@ public class Board {
 		}
 	}
 	
-	private void printBoard() {
+	public void printBoard() {
 		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
