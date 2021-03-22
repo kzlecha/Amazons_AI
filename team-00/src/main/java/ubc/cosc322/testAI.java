@@ -297,13 +297,18 @@ public class testAI extends GamePlayer{
 		// update the internal queen's position
 		boolean enemyQueen;
 		if (isBlack && board[x2][y2] == BLACK) {
+			System.out.println("I moved black");
 			enemyQueen = false;
 		} else if(isBlack && board[x2][y2] == WHITE) {
+			System.out.println("Enemy moved white");
+			System.out.println();
 			enemyQueen = true;
 		} if (!isBlack && board[x2][y2] == BLACK) {
+			System.out.println("Enemy moved black");
 			enemyQueen = true;
 		} else{
 			enemyQueen = false;
+			System.out.println("I moved white");
 		}
 		updateQueen(position1, position2, enemyQueen);
 	}
