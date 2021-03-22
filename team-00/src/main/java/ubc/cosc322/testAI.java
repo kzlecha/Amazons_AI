@@ -16,7 +16,7 @@ import ygraph.ai.smartfox.games.amazons.AmazonsGameMessage;
 
 public class testAI extends GamePlayer{
 
-	boolean debug = true;
+	boolean debug = false;
 
 	private GameClient gameClient = null;
 	private BaseGameGUI gamegui = null;

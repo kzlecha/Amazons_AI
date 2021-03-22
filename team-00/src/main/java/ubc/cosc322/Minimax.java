@@ -38,6 +38,7 @@ public class Minimax {
 		startTime = System.currentTimeMillis();
 		ArrayList<ArrayList<Integer>> deepestFinishedMove = null;
 		ArrayList<ArrayList<Integer>> move = null;
+		this.timedOut = false;
 		this.depth = 1;
 		deepestFinishedMove = minimaxHelper(board);
 		while(!this.timedOut) {
@@ -47,6 +48,7 @@ public class Minimax {
 				deepestFinishedMove = move;
 			}
 		}
+		System.out.println("Timeout at depth " + this.depth);
 		return deepestFinishedMove;
 	}
 
