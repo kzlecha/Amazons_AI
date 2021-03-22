@@ -299,6 +299,7 @@ public class MoveFinder {
 
     public static LinkedList<ArrayList<ArrayList<Integer>>> getAllLimitedMoves(int[][] gameboard, ArrayList<ArrayList<Integer>> queen_pos, int queenLimit, int arrowLimit )
     {
+    	System.out.println("Printing move list");
     
   LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves = new LinkedList<ArrayList<ArrayList<Integer>>>();
 

@@ -40,7 +40,13 @@ public class Minimax {
 		int arrX = move.get(2).get(0);
 		int arrY = move.get(2).get(1);
 
-		int[][] newGameBoard = gameboard.clone();
+		int[][] newGameBoard = new int[10][10];
+		for(int i = 0; i < gameboard.length; i++) {
+		  int[] aMatrix = gameboard[i];
+		  int   aLength = aMatrix.length;
+		  newGameBoard[i] = new int[aLength];
+		  System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
+		}
 
 		newGameBoard[origX][origY] = 0;
 		newGameBoard[newX][newY] = teamVal;
@@ -60,9 +66,11 @@ public class Minimax {
 		beta = Integer.MAX_VALUE;
 		int localDepth = depth;
 		if(debug) System.out.println("Starting minimax");
+		if(debug) System.out.println(Arrays.deepToString(gameboard));
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
 		// Experiment
 		playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
+		if(debug) System.out.println("-Length of moveList: " + playerMoves.size());
 		int max = Integer.MIN_VALUE;
 		int index = 0;
 		// we want the index of the move which has the best (max) result in the original moveset
@@ -78,7 +86,10 @@ public class Minimax {
 			}
 		}
 		// Experiment
+		
 		ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
+			
+		
 		for(int i=0; i < playerMoves.get(index).size(); i++)
 			for(int k=0; k < playerMoves.get(index).get(i).size(); k++)
 				move.get(i).set(k, move.get(i).get(k) + 1);
