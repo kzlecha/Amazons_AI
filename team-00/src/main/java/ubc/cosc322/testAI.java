@@ -305,7 +305,7 @@ public class testAI extends GamePlayer{
 			enemyQueen = false;
 		} else if(isBlack && board[x2][y2] == WHITE) {
 			enemyQueen = true;
-		} if (!isBlack && board[x2][y2] == BLACK) {
+		} else if (!isBlack && board[x2][y2] == BLACK) {
 			enemyQueen = true;
 		} else{
 			enemyQueen = false;
@@ -333,12 +333,12 @@ public class testAI extends GamePlayer{
 	}
 
 	public void unmakeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
-		swap(initQueen, newQueen);
+		swap(newQueen, initQueen);
 		removeArrow(arrowPos);
 	}
 	public void unmakeMove(ArrayList<ArrayList<Integer>> move) {
 		// ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
-		unmakeMove(move.get(1), move.get(0), move.get(2));
+		unmakeMove(move.get(0), move.get(1), move.get(2));
 	}
 
 	private void printBoard() {
