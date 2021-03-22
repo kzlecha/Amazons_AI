@@ -342,27 +342,6 @@ public class testAI extends GamePlayer{
 		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
-	/*
-	 * 
-	StartMinMax(maxDepth, currentDepth){
-		if (currentDepth == maxDepth){
-			return value
-		}
-
-		moves = getAllMoves()
-		maxCost = -inf
-		bestMove = null
-		for move in moves:
-			make(move)
-			cost = myMax(move, !myTeam, maxDepth, currentDepth+1)
-			if cost > maxCost:
-				maxCost = cost
-				bestMove = move
-			unmake(move)
-
-	}
-
-	 */
 
 	private int zeroToOneIndex(int i) {
 		return i+1;
@@ -444,6 +423,9 @@ public class testAI extends GamePlayer{
 			serverMove.add(this.convertBoardToServer(move.move.get(i)));
 		}
 		makeMoveClientServer(serverMove);
+		System.out.println(move.toString());
+		this.printQueens();
+		this.printBoard();
 		makeMove(move.move);
 	}
 
@@ -471,7 +453,9 @@ public class testAI extends GamePlayer{
 		} else {
 			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
 		}
+		System.out.println(allMoves.size());
 		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
+			
 			makeMove(move);
 			bestmove moveBest = minimax_i(depth-1,alpha, beta, !maximizingPlayer);  
 			unmakeMove(move);
@@ -493,7 +477,20 @@ public class testAI extends GamePlayer{
 		return best1;
 	}
 
-
+	private void printQueens() {
+		for (int i = 0; i < teamQueens.size(); i++) {
+			for(int j = 0; j < teamQueens.get(i).size(); j++) {
+				System.out.print(teamQueens.get(i).get(j) + " ");
+			}
+			System.out.println();
+		}
+		for (int i = 0; i < enemyQueens.size(); i++) {
+			for(int j = 0; j < enemyQueens.get(i).size(); j++) {
+				System.out.print(enemyQueens.get(i).get(j) + " ");
+			}
+			System.out.println();
+		}
+	}
 
 
 }
