@@ -10,6 +10,7 @@ import org.jboss.netty.util.internal.SystemPropertyUtil;
 import java.awt.Point;
 
 public class MoveFinder {
+	private final static boolean debug = false;
 
 	// each move is an element in a LinkedList
 	// within each move is an ArrayList containing:
@@ -52,15 +53,50 @@ public class MoveFinder {
 		LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves = new LinkedList<ArrayList<ArrayList<Integer>>>();
 
 		for (ArrayList<Integer> queen : listOfQueens) {
+			ArrayList<Integer> copy = new ArrayList<Integer>(2);
+			copy.add(queen.get(0));
+			copy.add(queen.get(1));
 			// gets all the possible moves a queen can do
 			LinkedList<ArrayList<Integer>> queenMoves = getMoves(queen, board.board);
 
+
 			for (ArrayList<Integer> possibleQueenPosition : queenMoves) {
-				// get all possible arrow shooting locations
-				//board.swap(queen, possibleQueenPosition);
+				/*
+				board.printPosition(queen);
+				board.printPosition(possibleQueenPosition);
+				board.pause();
+				ArrayList<Integer> copy2 = new ArrayList<Integer>(2);
+				copy2.add(possibleQueenPosition.get(0));
+				copy2.add(possibleQueenPosition.get(1));
+				//board.swap(copy, copy2);
+				//int temp = board.board[queen.get(0)][queen.get(1)];
+				//board.board[queen.get(0)][queen.get(1)] = 0;
+				 */
+				if(debug) {
+					System.out.println("HERE IS THE NASTY PART");
+					board.printBoard();
+					board.printQueens();
+					board.printPosition(queen);
+					board.printPosition(possibleQueenPosition);
+					board.swap(queen, possibleQueenPosition);
+					board.printBoard();
+					board.printQueens();
+					board.printPosition(queen);
+					board.printPosition(possibleQueenPosition);
+					board.printPosition(copy);
+					//board.pause();
+				}
 				LinkedList<ArrayList<Integer>> possibleArrowPos = getMoves(possibleQueenPosition, board.board);
-				//board.swap(possibleQueenPosition, queen);
-				
+				board.swap(queen,  copy);
+				if(debug) {
+					board.printBoard();
+					board.printQueens();
+					board.printPosition(queen);
+					board.printPosition(possibleQueenPosition);
+					board.printPosition(copy);
+					//board.pause();
+				}
+
 				for (ArrayList<Integer> arrowPos : possibleArrowPos) {
 					// format each as [[oldPosx, oldPosy],[newPosX, newPosy],[arrowPosX, arrowPosy]]
 					allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(

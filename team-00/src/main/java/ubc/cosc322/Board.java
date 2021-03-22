@@ -90,7 +90,6 @@ public class Board {
 			this.printBoard();
 			this.printPosition(position1);
 			this.printPosition(position2);
-			this.pause();
 			enemyQueen = false;
 		}
 		updateQueen(position1, position2, enemyQueen);
