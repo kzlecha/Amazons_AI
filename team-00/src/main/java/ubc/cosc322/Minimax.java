@@ -89,6 +89,7 @@ public class Minimax {
 			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
 			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
 			return randomNumber();
+			//return 0;
 		}
 
 		int max = alpha;
@@ -123,8 +124,8 @@ public class Minimax {
 			int[][] newGameBoard = updateGameBoard(move, gameboard);
 			if(debug) System.out.println(Arrays.deepToString(newGameBoard));
 			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
-			min = Math.max(val, min);
-			beta = Math.max(beta, min);
+			min = Math.min(val, min);
+			beta = Math.min(beta, min);
 			System.out.println("Depth: " + depth);
 			if (beta <= alpha) break;
 		}
