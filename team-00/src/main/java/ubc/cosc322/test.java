@@ -12,10 +12,17 @@ import ygraph.ai.smartfox.games.Amazon.GameBoard;
 public class test {
 
 	public static void main(String[] args) {
-		int[][] x = { { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 } };
+		int[][] x = 
+			{ { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, 
+			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+			  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+			  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 2 }, 
+			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+			  { 0, 0, 0, 2, 0, 0, 2, 0, 0, 0 } };
 		printBoard(x);
 
 		ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
@@ -30,58 +37,10 @@ public class test {
 		foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
-		// MoveFinder y = new MoveFinder();
-		LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  MoveFinder.getAllLimitedMoves(x, friend_Queen_pos,2,2);
-		// MoveFinder.printMoves();
-		// testAI test = new testAI("cosc322", "kanny");
-
-		MoveFinder.printMoves(allMoves);
-
-		//     for (ArrayList<Integer> eachMove : allMoves)
-		//     {
-
-		//         // System.out.println(test.moveIsValid(friend_Queen_pos.get(0), new ArrayList<Integer>(Arrays.asList(eachMove.get(0),eachMove.get(1))),new ArrayList<Integer>(Arrays.asList(eachMove.get(2), eachMove.get(3)))));
-
-
-
-		//     }
-
-		// for (ArrayList<Integer> move : x)
-		//         printBoard(x);
-		//         System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-		//         System.out.println();
-		//         // makeMoveLocal(x, friend_Queen_pos.get(0), );
-		//     }
-		// }
-		// for (Integer[] y : moves.ArrowMoves(queen, x)) {
-		//     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-		//     System.out.println();
-		//     // makeMoveLocal(x, friend_Queen_pos.get(0), );
-		// }
-		// // for (Integer[] y : moves.ArrowMoves(queen, x)) {
-		// //     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-		// //     System.out.println();
-		// // }
-		// // System.out.println(moves.noOfMoves);
-		// }
-
-		// for (int[] queen : foe_queen_pos) {
-
-		// for (Integer[] y : moves.getQueenMoves(queen, x)) {
-		//     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-		//     System.out.println();
-		// }
-		// for (Integer[] y : moves.ArrowMoves(queen, x)) {
-		//     System.out.print('[' + String.valueOf(y[0]) + ',' + String.valueOf(y[1]) + ']');
-		//     System.out.println();
-		// }
-
-		// // System.out.println(moves.noOfMoves);
-		// }
-		// x = makeMoveLocal(x, new int[] { 0, 3 }, new int[] { 0, 4 });
-		// printBoard(x);
-		// printMoves(moves.getQueenMoves(new int[] { 0, 4 }, x));
-		// printBoard(x); 
+		Minimax minimax = new Minimax(2, 5);
+		
+		ArrayList<ArrayList<Integer>> result = minimax.minimax_(x, friend_Queen_pos, foe_queen_pos);
+		System.out.println(result.toString());
 	}
 
 	public static void printBoard(int[][] gameboard) {
@@ -212,5 +171,4 @@ public class test {
 			return false;    
 		}
 	}
-
 }

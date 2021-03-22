@@ -430,9 +430,5 @@ public class testAI extends GamePlayer{
 		makeMoveClientServer(serverMove);
 		makeMove(serverMove);
 	}
-
-
-
-
 }
 

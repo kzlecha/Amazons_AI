@@ -10,6 +10,7 @@ public class Minimax {
 	Integer alpha = Integer.MAX_VALUE;
 	Integer beta = Integer.MIN_VALUE;
 	RelativeDistHeuristic rdh;
+	boolean debug = true;
 	// Need to access the playerColor for gameboard
 
 	public Minimax(int teamVal, int depth) {
@@ -46,13 +47,18 @@ public class Minimax {
 
 		return newGameBoard;
 	}
+	
+	public int randomNumber() {
+		Random rand = new Random();
+		return rand.nextInt(50);
+	}
 
 	// TO-DO: Update gameboard for each depth
 	public ArrayList<ArrayList<Integer>> minimax_(int[][] gameboard, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		alpha = Integer.MIN_VALUE;
 		beta = Integer.MAX_VALUE;
 		int localDepth = depth;
-
+		if(debug) System.out.println("Starting minimax");
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
 		// Experiment
 		playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
@@ -60,9 +66,12 @@ public class Minimax {
 		int index = 0;
 		// we want the index of the move which has the best (max) result in the original moveset
 		for (int x = 0; x < playerMoves.size(); x++) {
+			if(debug) System.out.println("-Iterating through root nodes");
+			if(debug) System.out.println("-Depth:" + localDepth);
 			int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
 			int val = maxFunction(newGameBoard, localDepth-1, playerQueens, enemyQueens);
 			if (val > max) {
+				if(debug) System.out.println("--Updating max value");
 				max = val;
 				index = x;
 			}
@@ -72,20 +81,25 @@ public class Minimax {
 	}
 
 	public int maxFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
-
+		if(debug) System.out.println("Depth at max call: " + depth);
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
-			ArrayList<Integer> calcResults = rdh.calculate(gameboard);
-			return calcResults.get(0).intValue() - calcResults.get(1).intValue();
+			if(debug) System.out.println("Terminal state found");
+			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
+			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
+			return randomNumber();
 		}
 
 		int max = alpha;
 		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
+			if(debug) System.out.println("-Iterating through max nodes");
 			int[][] newGameBoard = updateGameBoard(move, gameboard);
+			if(debug) System.out.println(Arrays.deepToString(newGameBoard));
 			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
 			max = Math.max(val, max);
 			alpha = Math.max(alpha, max);
+			System.out.println("Depth: " + depth);
 			if (beta <= alpha) break;
 		}
 
@@ -93,29 +107,41 @@ public class Minimax {
 	}
 
 	public int minFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
-
+		if(debug) System.out.println("Depth at min call: " + depth);
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
-			ArrayList<Integer> calcResults = rdh.calculate(gameboard);
-			return calcResults.get(0).intValue() - calcResults.get(1).intValue();
+			if(debug) System.out.println("Terminal state found");
+			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
+			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
+			return randomNumber();
 		}
 
 		int min = beta;
 		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
+			if(debug) System.out.println("-Iterating through min nodes");
 			int[][] newGameBoard = updateGameBoard(move, gameboard);
+			if(debug) System.out.println(Arrays.deepToString(newGameBoard));
 			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
 			min = Math.max(val, min);
 			beta = Math.max(beta, min);
+			System.out.println("Depth: " + depth);
 			if (beta <= alpha) break;
 		}
 		return min;
 	}
 
 	public boolean isTerminalState(int depth, LinkedList<ArrayList<ArrayList<Integer>>> moves) {
-		if (depth == 0 || moves.isEmpty()) // if the depth is zero and
-			return false;
-
-		else return true;
+		System.out.println("Depth passed into terminal state function:" + depth);
+		boolean terminalStateReached = false;
+		if (depth == 0) {
+			terminalStateReached = true;
+			if(debug) System.out.println("Depth has reached 0.");
+		}
+		if ( moves.isEmpty()) {
+			terminalStateReached = true;
+			if(debug) System.out.println("Move list is empty.");
+		}
+		return terminalStateReached;
 	}
 }

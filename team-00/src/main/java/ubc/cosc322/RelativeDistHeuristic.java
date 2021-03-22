@@ -42,7 +42,7 @@ public class RelativeDistHeuristic {
 				}
 			}
 		}
-
+		System.out.println("Heuristic: Returning calculation for move...");
 		return new ArrayList<Integer>(Arrays.asList(nTeamOwned, nEnemyOwned));
 
 	}
