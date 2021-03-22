@@ -298,7 +298,6 @@ public class testAI extends GamePlayer{
 		if (isBlack && board[x2][y2] == BLACK) {
 			enemyQueen = false;
 		} else if(isBlack && board[x2][y2] == WHITE) {
-			System.out.println();
 			enemyQueen = true;
 		} else if (!isBlack && board[x2][y2] == BLACK) {
 			enemyQueen = true;
