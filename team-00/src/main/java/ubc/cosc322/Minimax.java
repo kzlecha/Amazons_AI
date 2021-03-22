@@ -7,8 +7,6 @@ public class Minimax {
 	// BECAUSE WE USE A GLOBAL BOARD CANNOT STOP IN THE MIDDLE... ITERATIVE DEEPENING OFF THE TABLE
 
 	int score, depth;
-	Integer alpha = Integer.MAX_VALUE;
-	Integer beta = Integer.MIN_VALUE;
 	RelativeDistHeuristic rdh;
 	int teamVal;
 	boolean debug = false;
@@ -41,8 +39,8 @@ public class Minimax {
 
 	// TO-DO: Update gameboard for each depth
 	public ArrayList<ArrayList<Integer>> minimax_(Board board, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
-		alpha = Integer.MIN_VALUE;
-		beta = Integer.MAX_VALUE;
+		int alpha = Integer.MIN_VALUE;
+		int beta = Integer.MAX_VALUE;
 		int localDepth = depth;
 		if(debug) System.out.println("Starting minimax");
 		if(debug) board.printBoard();
@@ -66,7 +64,7 @@ public class Minimax {
 
 			// WARNING: MAKE MOVE CHANGES QUEENS
 			board.makeMove(move);
-			int val = maxFunction(board, alpha, beta, localDepth-1, playerQueens, enemyQueens); 
+			int val = maxFunction(board, localDepth-1, alpha, beta, playerQueens, enemyQueens); 
 			board.unmakeMove(move);
 			
 			if (val > max) {
@@ -109,7 +107,7 @@ public class Minimax {
 			
 			board.makeMove(move);
 			if(debug) board.printBoard();
-			int val = minFunction(board, alpha, beta, depth-1, playerQueens, enemyQueens);
+			int val = minFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
 			
 			max = Math.max(val, max);
@@ -143,7 +141,7 @@ public class Minimax {
 			if(debug) board.printBoard();
 			
 			board.makeMove(move);
-			int val = maxFunction(board, alpha, beta, depth-1, playerQueens, enemyQueens);
+			int val = maxFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
 			
 			min = Math.min(val, min);
