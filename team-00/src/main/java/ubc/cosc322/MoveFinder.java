@@ -57,9 +57,9 @@ public class MoveFinder {
 
 			for (ArrayList<Integer> possibleQueenPosition : queenMoves) {
 				// get all possible arrow shooting locations
-				board.swap(queen, possibleQueenPosition);
+				//board.swap(queen, possibleQueenPosition);
 				LinkedList<ArrayList<Integer>> possibleArrowPos = getMoves(possibleQueenPosition, board.board);
-				board.swap(possibleQueenPosition, queen);
+				//board.swap(possibleQueenPosition, queen);
 				
 				for (ArrayList<Integer> arrowPos : possibleArrowPos) {
 					// format each as [[oldPosx, oldPosy],[newPosX, newPosy],[arrowPosX, arrowPosy]]
