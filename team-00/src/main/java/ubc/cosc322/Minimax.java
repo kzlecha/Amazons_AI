@@ -66,7 +66,7 @@ public class Minimax {
 
 			// WARNING: MAKE MOVE CHANGES QUEENS
 			board.makeMove(move);
-			int val = maxFunction(board, localDepth-1, playerQueens, enemyQueens); 
+			int val = maxFunction(board, alpha, beta, localDepth-1, playerQueens, enemyQueens); 
 			board.unmakeMove(move);
 			
 			if (val > max) {
@@ -87,7 +87,7 @@ public class Minimax {
 		}
 	}
 
-	public int maxFunction(Board board, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
+	public int maxFunction(Board board, int depth, int alpha, int beta, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at max call: " + depth);
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
 
@@ -109,7 +109,7 @@ public class Minimax {
 			
 			board.makeMove(move);
 			if(debug) board.printBoard();
-			int val = minFunction(board, depth-1, playerQueens, enemyQueens);
+			int val = minFunction(board, alpha, beta, depth-1, playerQueens, enemyQueens);
 			board.unmakeMove(move);
 			
 			max = Math.max(val, max);
@@ -123,7 +123,7 @@ public class Minimax {
 		return max;
 	}
 
-	public int minFunction(Board board, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
+	public int minFunction(Board board, int depth, int alpha, int beta, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at min call: " + depth);
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
 
@@ -143,7 +143,7 @@ public class Minimax {
 			if(debug) board.printBoard();
 			
 			board.makeMove(move);
-			int val = maxFunction(board, depth-1, playerQueens, enemyQueens);
+			int val = maxFunction(board, alpha, beta, depth-1, playerQueens, enemyQueens);
 			board.unmakeMove(move);
 			
 			min = Math.min(val, min);
