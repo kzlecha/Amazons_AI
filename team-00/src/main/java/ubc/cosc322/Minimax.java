@@ -10,12 +10,14 @@ public class Minimax {
 	RelativeDistHeuristic rdh;
 	int teamVal;
 	boolean debug = false;
+	int pruned;
 	// Need to access the playerColor for gameboard
 
 	public Minimax(int teamVal, int depth) {
 		rdh = new RelativeDistHeuristic(teamVal);
 		this.depth = depth;
 		this.teamVal = teamVal;
+		this.pruned = 0;
 	}
 
 	// Placeholder: heuristic function
@@ -59,6 +61,7 @@ public class Minimax {
 
 	// TO-DO: Update gameboard for each depth
 	public ArrayList<ArrayList<Integer>> minimax_(int[][] gameboard, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
+		this.pruned = 0;
 		alpha = Integer.MIN_VALUE;
 		beta = Integer.MAX_VALUE;
 		int localDepth = depth;
@@ -87,6 +90,7 @@ public class Minimax {
 		ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
 
 		if(debug) System.out.println("MINIMAX HAS CONCLUDED! RETURNING: " + playerMoves.get(index).toString());
+		if(debug) System.out.println("Total pruned: " + this.pruned);
 		return move; // NEED TO FIX THIS :-T Needs to return the move
 	}
 
@@ -96,8 +100,8 @@ public class Minimax {
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
-			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
-			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
+			//ArrayList<Integer> calcResults = rdh.calculate(gameboard);
+			//return calcResults.get(0).intValue() - calcResults.get(1).intValue();
 			return randomNumber();
 			//return 0;
 		}
@@ -111,7 +115,10 @@ public class Minimax {
 			max = Math.max(val, max);
 			alpha = Math.max(alpha, max);
 			if(debug) System.out.println("Depth: " + depth);
-			if (beta <= alpha) break;
+			if (beta <= alpha) {
+				this.pruned++;
+				break;
+			}
 		}
 
 		return max;
@@ -137,7 +144,10 @@ public class Minimax {
 			min = Math.min(val, min);
 			beta = Math.min(beta, min);
 			if(debug) System.out.println("Depth: " + depth);
-			if (beta <= alpha) break;
+			if (beta <= alpha) {
+				this.pruned++;
+				break;
+			}
 		}
 		return min;
 	}

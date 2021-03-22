@@ -8,9 +8,8 @@ import java.util.Queue;
 public class RelativeDistHeuristic {
 
 	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
-
 	private int teamVal;
-
+	boolean debug = true;
 	int nTeamOwned;
 	int nEnemyOwned;
 
@@ -27,7 +26,6 @@ public class RelativeDistHeuristic {
 		 * 
 		 * returns amount of squares owned by the player team vs the opponenet team
 		 */
-
 		this.resetHeuristic();
 
 		// For every tile in the board
@@ -40,13 +38,14 @@ public class RelativeDistHeuristic {
 				}
 			}
 		}
-		System.out.println("Heuristic: Returning calculation for move...");
+		if (debug) System.out.println("Heuristic: Beginning calculation.");
 		return new ArrayList<Integer>(Arrays.asList(nTeamOwned, nEnemyOwned));
 
 	}
 
 	public void resetHeuristic() {
 		// reset team and enemy to zero
+		if (debug) System.out.println("Heuristic: Resetting state.");
 		this.nTeamOwned = 0;
 		this.nEnemyOwned = 0;
 	}
@@ -61,6 +60,7 @@ public class RelativeDistHeuristic {
 		// queue of any moves that gets to the tile
 		Queue<ArrayList<Integer>> queue = MoveFinder.getMoves(position, gameboard);
 		while (!found) {
+			if (debug) System.out.println("Heuristic: Looking for moves.");
 			Queue<ArrayList<Integer>> tempQ = new LinkedList<ArrayList<Integer>>();
 
 			// no possible way to access this tile
