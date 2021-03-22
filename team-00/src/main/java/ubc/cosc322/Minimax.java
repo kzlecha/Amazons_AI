@@ -1,23 +1,21 @@
 package ubc.cosc322;
 
-import ubc.cosc322.*;
-
-import java.math.BigInteger;
 import java.util.*;
 
-import ygraph.ai.smartfox.games.Amazon.GameBoard;
-
-public class minimax {
+public class Minimax {
 
 
 	MoveFinder moveFinder;
-	int score;
+	int score, depth;
 	Integer alpha = Integer.MAX_VALUE;
 	Integer beta = Integer.MIN_VALUE;
+	RelativeDistHeuristic rdh;
 	// Need to access the playerColor for gameboard
 
-	public minimax() {
+	public Minimax(int teamVal, int depth) {
 		moveFinder = new MoveFinder();
+		rdh = new RelativeDistHeuristic(moveFinder, teamVal);
+		this.depth = depth;
 	}
 
 	// Placeholder: heuristic function
@@ -50,9 +48,10 @@ public class minimax {
 	}
 
 	// TO-DO: Update gameboard for each depth
-	public ArrayList<ArrayList<Integer>> minimax_(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
+	public ArrayList<ArrayList<Integer>> minimax_(int[][] gameboard, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		alpha = Integer.MIN_VALUE;
 		beta = Integer.MAX_VALUE;
+		int localDepth = depth;
 
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
 		// Experiment
@@ -62,29 +61,29 @@ public class minimax {
 		// we want the index of the move which has the best (max) result in the original moveset
 		for (int x = 0; x < playerMoves.size(); x++) {
 			int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
-			int val = maxFunction(newGameBoard, depth, playerQueens, enemyQueens).get(index);
+			int val = maxFunction(newGameBoard, localDepth-1, playerQueens, enemyQueens);
 			if (val > max) {
 				max = val;
 				index = x;
 			}
 		}
 		// Experiment
-
-		playerMoves = maxFunction(gameboard, depth - 1, playerQueens, enemyQueens);
-		return playerMoves.get(1); // NEED TO FIX THIS :-T Needs to return the move
+		return playerMoves.get(index); // NEED TO FIX THIS :-T Needs to return the move
 	}
 
 	public int maxFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
 
-		if (isTerminalState(depth, playerMoves))
-			return heuristic(gameboard);
+		if (isTerminalState(depth, playerMoves)) {
+			ArrayList<Integer> calcResults = rdh.calculate(gameboard);
+			return calcResults.get(0).intValue() - calcResults.get(1).intValue();
+		}
 
 		int max = alpha;
 		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
-			int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
-			int val = minFunction(newGameBoard, depth, playerQueens, enemyQueens);
+			int[][] newGameBoard = updateGameBoard(move, gameboard);
+			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
 			max = Math.max(val, max);
 			alpha = Math.max(alpha, max);
 			if (beta <= alpha) break;
@@ -97,13 +96,15 @@ public class minimax {
 
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
 
-		if (isTerminalState(depth, playerMoves))
-			return heuristic(gameboard);
+		if (isTerminalState(depth, playerMoves)) {
+			ArrayList<Integer> calcResults = rdh.calculate(gameboard);
+			return calcResults.get(0).intValue() - calcResults.get(1).intValue();
+		}
 
 		int min = beta;
 		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
-			int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
-			int val = minFunction(newGameBoard, depth, playerQueens, enemyQueens);
+			int[][] newGameBoard = updateGameBoard(move, gameboard);
+			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
 			min = Math.max(val, min);
 			beta = Math.max(beta, min);
 			if (beta <= alpha) break;

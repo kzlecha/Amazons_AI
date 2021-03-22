@@ -18,6 +18,7 @@ public class testAI extends GamePlayer{
 	// For better readability in certain functions
 	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
 	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
+	
 
 
 	private GameClient gameClient = null;
@@ -32,7 +33,8 @@ public class testAI extends GamePlayer{
 	private int[][] board;
 
 	private int boardSize = 10;
-
+	private int depth;
+	
 	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
 
 	// Run this game player, and it's graphics so we can test it
@@ -56,6 +58,7 @@ public class testAI extends GamePlayer{
 		super.postSetup();
 		this.userName = userName;
 		this.passwd = password;
+		this.depth = 2;
 
 		//To make a GUI-based player, create an instance of BaseGameGUI
 		//and implement the method getGameGUI() accordingly
@@ -125,7 +128,7 @@ public class testAI extends GamePlayer{
 				System.out.println("I am the white player");
 				this.isBlack = false;
 				teamVal = WHITE;
-
+				System.out.println("Waiting for black to make their move...");
 				this.teamQueens	= getWhiteQueensStart();
 				this.enemyQueens = getBlackQueensStart();
 			}
@@ -342,28 +345,6 @@ public class testAI extends GamePlayer{
 		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
-	/*
-	 * 
-	StartMinMax(maxDepth, currentDepth){
-		if (currentDepth == maxDepth){
-			return value
-		}
-
-		moves = getAllMoves()
-		maxCost = -inf
-		bestMove = null
-		for move in moves:
-			make(move)
-			cost = myMax(move, !myTeam, maxDepth, currentDepth+1)
-			if cost > maxCost:
-				maxCost = cost
-				bestMove = move
-			unmake(move)
-
-	}
-
-	 */
-
 	private int zeroToOneIndex(int i) {
 		return i+1;
 	}
@@ -438,59 +419,16 @@ public class testAI extends GamePlayer{
 	}
 
 	private void makeAiMove() {
-		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
-		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
-		for(int i = 0; i < move.move.size(); i++) {
-			serverMove.add(this.convertBoardToServer(move.move.get(i)));
+		// New minimax function
+		Minimax minimax = new Minimax(teamVal, depth);
+		//(int[][] gameboard, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens)
+		int[][] gameBoardClone = this.board.clone();
+		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(gameBoardClone, teamQueens, enemyQueens);
+		for(int i = 0; i < serverMove.size(); i++) {
+			serverMove.add(this.convertBoardToServer(serverMove.get(i)));
 		}
 		makeMoveClientServer(serverMove);
-		makeMove(move.move);
-	}
-
-	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer ) {
-		bestmove best1 = new bestmove();
-		if  (maximizingPlayer){ 
-			best1.move = null; 
-			best1.eval = Integer.MIN_VALUE; 
-		} else { 
-
-			best1.move = null; 
-			best1.eval = Integer.MAX_VALUE; 
-		}
-
-		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
-			int score = test.eval(board, teamQueens, enemyQueens);
-			best1.move = null; 
-			best1.eval = score; 
-			return best1; 
-		}
-
-		LinkedList<ArrayList<ArrayList<Integer>>> allMoves;
-		if (maximizingPlayer){
-			allMoves = MoveFinder.getAllPossibleMove(board, teamQueens);
-		} else {
-			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
-		}
-		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
-			makeMove(move);
-			bestmove moveBest = minimax_i(depth-1,alpha, beta, !maximizingPlayer);  
-			unmakeMove(move);
-
-			if (maximizingPlayer) { 
-				if (moveBest.eval > best1.eval ) { 
-					best1.move = move; 
-					best1.eval = moveBest.eval; 
-				}
-			}else { 
-				if (moveBest.eval < best1.eval) { 
-					best1.move = move ; 
-					best1.eval = moveBest.eval; 
-				}
-			}
-
-		}
-		// Integer maxEval = Integer.MAX_VALUE;
-		return best1;
+		makeMove(serverMove);
 	}
 
 
