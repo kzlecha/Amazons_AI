@@ -301,7 +301,6 @@ public class testAI extends GamePlayer{
 		} else{
 			enemyQueen = false;
 		}
-		System.out.println("This move was done by an enemy: " + enemyQueen);
 		updateQueen(position1, position2, enemyQueen);
 	}
 
@@ -329,7 +328,7 @@ public class testAI extends GamePlayer{
 	}
 	public void unmakeMove(ArrayList<ArrayList<Integer>> move) {
 		// ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
-		unmakeMove(move.get(1), move.get(0), move.get(2));
+		unmakeMove(move.get(0), move.get(1), move.get(2));
 	}
 
 	private void printBoard() {

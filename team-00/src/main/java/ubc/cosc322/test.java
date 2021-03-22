@@ -161,7 +161,7 @@ public class test {
 		else if (foeMoves == 0) {
 			return Integer.MAX_VALUE;
 		} else {
-			return foeMoves - friendMoves;
+			return friendMoves-foeMoves;
 		}
 
 	}
