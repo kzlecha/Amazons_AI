@@ -47,8 +47,8 @@ public class Minimax {
         * +ve if the player is winning and -ve if the player is losing
         * close to 0 if most peices are contested
         */
-        ArrayList<Integer> relDist = this.rdh.calculate(board.getGameBoard());
-        return (relDist.get(0)-relDist.get(1))
+        ArrayList<Integer> relDist = this.rdh.calculate(board.board);
+        return (relDist.get(0)-relDist.get(1));
     }
 
 	public int heuristic(LinkedList<ArrayList<ArrayList<Integer>>> moveSetPlayer, LinkedList<ArrayList<ArrayList<Integer>>>moveSetOpponent) {
@@ -184,7 +184,7 @@ public class Minimax {
 
 	public int minFunction(Board board, int depth, int alpha, int beta, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at min call: " + depth);
-		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
+		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, enemyQueens);
 
 		// CHANGE SO THAT ONLY DEPTH LIMIT RETUNRS HERUISTIC, AND NO MOVES RETERNS THE PROPER VALUE
 		
