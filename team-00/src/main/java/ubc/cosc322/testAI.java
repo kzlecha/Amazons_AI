@@ -18,6 +18,7 @@ public class testAI extends GamePlayer{
 	// For better readability in certain functions
 	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
 	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
+	boolean debug = true;
 	
 
 
@@ -107,12 +108,14 @@ public class testAI extends GamePlayer{
 					convertServerToBoard(queenPosNext),
 					convertServerToBoard(arrowPos)
 					);
-
+		}
 			// Make our move
+			/*if (debug) if (isSpectator) System.out.println("Currently spectating.");
 			if(!isSpectator) {
+				if (debug) System.out.println("Calling makeAiMove()");
 				this.makeAiMove();
 			}
-		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
+		} else*/ if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
@@ -421,7 +424,7 @@ public class testAI extends GamePlayer{
 	private void makeAiMove() {
 		Minimax minimax = new Minimax(teamVal, depth);
 		//int[][] gameBoardClone = this.board.clone();
-		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(this.board, teamQueens, enemyQueens);
+		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(this.board, enemyQueens, teamQueens);
 		makeMoveClientServer(serverMove);
 		makeMove(serverMove);
 	}
