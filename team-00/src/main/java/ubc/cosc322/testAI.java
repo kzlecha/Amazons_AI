@@ -94,12 +94,6 @@ public class testAI extends GamePlayer{
 
 			// Make our move
 			if(!isSpectator) {
-				updateQueen(
-						convertServerToBoard(queenPosCurr),
-						convertServerToBoard(queenPosNext),
-						true
-						);
-
 				//Update our internal board
 				makeMove(
 						convertServerToBoard(queenPosCurr),
