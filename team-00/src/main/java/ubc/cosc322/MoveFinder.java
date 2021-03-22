@@ -61,6 +61,7 @@ public class MoveFinder {
 
 
 			for (ArrayList<Integer> possibleQueenPosition : queenMoves) {
+				/*
 allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
 							Arrays.asList(
 									new ArrayList<Integer>(Arrays.asList(queen.get(0), queen.get(1))),
@@ -68,14 +69,18 @@ allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
 									new ArrayList<Integer>(Arrays.asList(queen.get(0), queen.get(1)))
 									)
 							));
+				*/
 				/*
 				board.printPosition(queen);
 				board.printPosition(possibleQueenPosition);
 				board.pause();
+				*/
 				ArrayList<Integer> copy2 = new ArrayList<Integer>(2);
 				copy2.add(possibleQueenPosition.get(0));
 				copy2.add(possibleQueenPosition.get(1));
-				//board.swap(copy, copy2);
+
+
+				/*
 				//int temp = board.board[queen.get(0)][queen.get(1)];
 				//board.board[queen.get(0)][queen.get(1)] = 0;
 				 */
@@ -86,7 +91,7 @@ allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
 					board.printPosition(queen);
 					board.printPosition(possibleQueenPosition);
 				}
-				// board.swap(queen, possibleQueenPosition);
+				board.swap(copy, copy2);
 
 				if(debug) {
 					board.printBoard();
@@ -97,7 +102,7 @@ allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
 					//board.pause();
 				}
 				LinkedList<ArrayList<Integer>> possibleArrowPos = getMoves(possibleQueenPosition, board.board);
-				// board.swap(possibleQueenPosition,  queen);
+				board.swap(copy2,  copy);
 				if(debug) {
 					board.printBoard();
 					board.printQueens();
