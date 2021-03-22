@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.Map;
 
 import ygraph.ai.smartfox.games.BaseGameGUI;
@@ -233,6 +234,19 @@ public class testAI extends GamePlayer{
 		ArrayList<ArrayList<Integer>> move = minimax.minimaxHelper(this.board);
 		if(debug) {
 			System.out.println("Done considering my move");
+		}
+		if(move.size() == 0) { // We couldn't find any valid moves... game over
+			for(int i = 0; i < 4; i++)
+				for(int j = 0; j < 20; j++)
+					System.out.print("-");
+				System.out.println();
+			System.out.println("I lost. Waiting for 30 seconds for my death to timeout");
+			try {
+				TimeUnit.MINUTES.sleep(30);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				System.out.println("How could we reach this?");
+			}
 		}
 		
 		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
