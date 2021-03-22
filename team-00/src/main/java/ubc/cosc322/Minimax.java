@@ -32,8 +32,27 @@ public class Minimax {
 	// (if maximize is true, heuristic will return maximim state)
 	// If no moves can be made, return only the heuristic value
 
-	public int heuristic(LinkedList<ArrayList<ArrayList<Integer>>> moveSet, boolean maximize) {
-		return 0; // placeholder value
+	public int heuristicRelMoves(LinkedList<ArrayList<ArrayList<Integer>>> moveSetPlayer, LinkedList<ArrayList<ArrayList<Integer>>>moveSetOpponent) {
+        /*
+        * Get the moveset heuristic: player moves - opponent moves
+        * +ve if the player can move more and -ve if the opponent ca move more
+        * approaches 0 in hte endgae
+        */
+        return moveSetPlayer.size() - moveSetOpponent.size();
+    }
+
+	public int heuristicrdh(Board board){
+        /*
+        * Get the relative distance heuristic: player territory - opponent territory
+        * +ve if the player is winning and -ve if the player is losing
+        * close to 0 if most peices are contested
+        */
+        ArrayList<Integer> relDist = this.rdh.calculate(board.getGameBoard());
+        return (relDist.get(0)-relDist.get(1))
+    }
+
+	public int heuristic(LinkedList<ArrayList<ArrayList<Integer>>> moveSetPlayer, LinkedList<ArrayList<ArrayList<Integer>>>moveSetOpponent) {
+		return heuristicRelMoves(moveSetPlayer, moveSetOpponent);
 	}
 	
 	public ArrayList<ArrayList<Integer>> iterativeDeepening(Board board){
