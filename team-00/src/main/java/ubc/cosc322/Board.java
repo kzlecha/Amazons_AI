@@ -164,10 +164,13 @@ public class Board {
 			queenList = this.teamQueens;
 		}
 
-		for (ArrayList<Integer> queenPos : queenList) {
+		ArrayList<Integer> replacement = new ArrayList<Integer>(2);
+		replacement.add(newPosition.get(0));
+		replacement.add(newPosition.get(1));
+		for (int i = 0; i < queenList.size(); i++) {
+			ArrayList<Integer> queenPos = queenList.get(i);
 			if (queenPos.get(0) == oldPosition.get(0) && queenPos.get(1) == oldPosition.get(1)) {
-				queenPos.set(0, newPosition.get(0));
-				queenPos.set(1, newPosition.get(1));
+				queenList.set(i, replacement);
 				break;
 			}
 		}

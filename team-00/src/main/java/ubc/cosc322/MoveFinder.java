@@ -90,7 +90,7 @@ public class MoveFinder {
 					//board.pause();
 				}
 				LinkedList<ArrayList<Integer>> possibleArrowPos = getMoves(possibleQueenPosition, board.board);
-				board.swap(queen,  copy);
+				board.swap(possibleQueenPosition,  queen);
 				if(debug) {
 					board.printBoard();
 					board.printQueens();
