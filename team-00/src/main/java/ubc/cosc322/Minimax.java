@@ -41,6 +41,7 @@ public class Minimax {
 		this.timedOut = false;
 		this.depth = 1;
 		deepestFinishedMove = minimaxHelper(board);
+		this.depth = 2;
 		while(!this.timedOut) {
 			move = minimaxHelper(board);
 			if(!this.timedOut) {
@@ -88,7 +89,7 @@ public class Minimax {
 
 			// WARNING: MAKE MOVE CHANGES QUEENS
 			board.makeMove(move);
-			int val = maxFunction(board, localDepth-1, alpha, beta, playerQueens, enemyQueens);
+			int val = minFunction(board, localDepth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
 
 			if (val > max) {
@@ -159,6 +160,7 @@ public class Minimax {
 		if(debug) System.out.println("Depth at min call: " + depth);
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 
+		// CHANGE SO THAT ONLY DEPTH LIMIT RETUNRS HERUISTIC, AND NO MOVES RETERNS THE PROPER VALUE
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
 			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
