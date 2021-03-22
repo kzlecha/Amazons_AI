@@ -3,13 +3,14 @@ package ubc.cosc322;
 import java.util.*;
 
 public class Minimax {
-	
+
 	// BECAUSE WE USE A GLOBAL BOARD CANNOT STOP IN THE MIDDLE... ITERATIVE DEEPENING OFF THE TABLE
 
 	int score, depth;
 	RelativeDistHeuristic rdh;
 	int teamVal;
 	boolean debug = false;
+	boolean debugPrune = true;
 	// Need to access the playerColor for gameboard
 
 	public Minimax(int teamVal, int depth) {
@@ -27,7 +28,7 @@ public class Minimax {
 	public int heuristic(LinkedList<ArrayList<ArrayList<Integer>>> moveSet, boolean maximize) {
 		return 0; // placeholder value
 	}
-	
+
 	public ArrayList<ArrayList<Integer>> minimaxHelper(Board board){
 		return minimax_(board, board.teamQueens, board.enemyQueens);
 	}
@@ -44,29 +45,29 @@ public class Minimax {
 		int localDepth = depth;
 		if(debug) System.out.println("Starting minimax");
 		if(debug) board.printBoard();
-		
+
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
 		// Experiment
 		playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
-		
+
 		if(debug) System.out.println("-Length of moveList: " + playerMoves.size());
 		int max = Integer.MIN_VALUE;
 		int index = -1;
 		// we want the index of the move which has the best (max) result in the original moveset
 		Iterator<ArrayList<ArrayList<Integer>>> itr = playerMoves.iterator();
 		int x = 0;
-		
+
 		while (itr.hasNext()) {
 			ArrayList<ArrayList<Integer>> move = itr.next();
-			
+
 			if(debug) System.out.println("-Iterating through root nodes");
 			if(debug) System.out.println("-Depth:" + localDepth);
 
 			// WARNING: MAKE MOVE CHANGES QUEENS
 			board.makeMove(move);
-			int val = maxFunction(board, localDepth-1, alpha, beta, playerQueens, enemyQueens); 
+			int val = maxFunction(board, localDepth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
-			
+
 			if (val > max) {
 				if(debug) System.out.println("--Updating max value");
 				max = val;
@@ -97,28 +98,31 @@ public class Minimax {
 			//return 0;
 		}
 
-		int max = alpha;
+		//int max = Integer.MIN_VALUE;
 		Iterator<ArrayList<ArrayList<Integer>>> itr = playerMoves.iterator();
-		
+		int val = Integer.MIN_VALUE;
 		while (itr.hasNext()) {
 			ArrayList<ArrayList<Integer>> move = itr.next();
-			
+
 			if(debug) System.out.println("-Iterating through max nodes");
-			
+
 			board.makeMove(move);
 			if(debug) board.printBoard();
-			int val = minFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
+			val = minFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
-			
-			max = Math.max(val, max);
-			alpha = Math.max(alpha, max);
-			
+
+			//max = Math.max(val, max);
+			//alpha = Math.max(alpha, max);
+
 			if(debug) System.out.println("Depth: " + depth);
-			if (beta <= alpha) // Pruning condition
-				break;
+			if (val >= beta) { // Pruning condition
+				if (debugPrune) System.out.println("pruned");
+				return val;
+			}
+			alpha = Math.max(alpha, val);
 		}
 
-		return max;
+		return val;
 	}
 
 	public int minFunction(Board board, int depth, int alpha, int beta, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
@@ -132,26 +136,28 @@ public class Minimax {
 			return randomNumber();
 		}
 
-		int min = beta;
+		int val = Integer.MAX_VALUE;
 		Iterator<ArrayList<ArrayList<Integer>>> itr = playerMoves.iterator();
-		
+
 		while (itr.hasNext()) {
 			ArrayList<ArrayList<Integer>> move = itr.next();
 			if(debug) System.out.println("-Iterating through min nodes");
 			if(debug) board.printBoard();
-			
+
 			board.makeMove(move);
-			int val = maxFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
+			val = maxFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
-			
-			min = Math.min(val, min);
-			beta = Math.min(beta, min);
-			
+
+			//min = Math.min(val, min);
+
 			if(debug) System.out.println("Depth: " + depth);
-			if (beta <= alpha) // Pruning condition
-				break;
+			if (val<= alpha) { // Pruning condition
+				if (debugPrune) System.out.println("pruned");
+				return val;
+			}
+			beta = Math.min(beta, val);
 		}
-		return min;
+		return val;
 	}
 
 	public boolean isTerminalState(int depth, LinkedList<ArrayList<ArrayList<Integer>>> moves) {
