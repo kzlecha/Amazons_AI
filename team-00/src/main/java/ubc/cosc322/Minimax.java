@@ -9,7 +9,9 @@ public class Minimax {
 	// BECAUSE WE USE A GLOBAL BOARD CANNOT STOP IN THE MIDDLE... ITERATIVE DEEPENING OFF THE TABLE? NOPE
 	long startTime;
 	boolean timedOut = false;
-
+	private final int maxDepth = 60;
+	private final long timeOutTime = 1000l;
+	
 	int depth;
 	RelativeDistHeuristic rdh;
 	int teamVal;
@@ -42,14 +44,17 @@ public class Minimax {
 		this.depth = 1;
 		deepestFinishedMove = minimaxHelper(board);
 		this.depth = 2;
-		while(!this.timedOut) {
+		while(!this.timedOut && this.depth < maxDepth) {
 			move = minimaxHelper(board);
 			if(!this.timedOut) {
 				depth += 1;
 				deepestFinishedMove = move;
 			}
 		}
-		System.out.println("Timeout at depth " + this.depth);
+		if(this.timedOut)
+			System.out.println("Timeout at depth " + this.depth);
+		else 
+			System.out.println("Hit max depth of " + this.depth);
 		return deepestFinishedMove;
 	}
 
@@ -141,7 +146,7 @@ public class Minimax {
 
 			if(debug) System.out.println("Depth: " + depth);
 			// For iterative deepening
-			if (System.currentTimeMillis() - this.startTime > 27000) {
+			if (System.currentTimeMillis() - this.startTime > timeOutTime) {
 				timedOut = true;
 				break;
 			}
@@ -185,7 +190,7 @@ public class Minimax {
 			if(debug) System.out.println("Depth: " + depth);
 			// Discuss... does this mess up anything?
 			// For iterative deepening
-			if (System.currentTimeMillis() - this.startTime > 27000) {
+			if (System.currentTimeMillis() - this.startTime > timeOutTime) {
 				timedOut = true;
 				break;
 			}
