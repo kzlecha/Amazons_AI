@@ -3,15 +3,15 @@ package ubc.cosc322;
 import java.util.*;
 
 public class Minimax {
-	
-	
+
+
 
 	// BECAUSE WE USE A GLOBAL BOARD CANNOT STOP IN THE MIDDLE... ITERATIVE DEEPENING OFF THE TABLE? NOPE
 	long startTime;
 	boolean timedOut = false;
 	private final int maxDepth = 60;
-	private final long timeOutTime = 1000l;
-	
+	private final long timeOutTime = 10000l;
+
 	int depth;
 	RelativeDistHeuristic rdh;
 	int teamVal;
@@ -33,28 +33,34 @@ public class Minimax {
 	// If no moves can be made, return only the heuristic value
 
 	public int heuristicRelMoves(LinkedList<ArrayList<ArrayList<Integer>>> moveSetPlayer, LinkedList<ArrayList<ArrayList<Integer>>>moveSetOpponent) {
-        /*
-        * Get the moveset heuristic: player moves - opponent moves
-        * +ve if the player can move more and -ve if the opponent ca move more
-        * approaches 0 in hte endgae
-        */
-        return moveSetPlayer.size() - moveSetOpponent.size();
-    }
+		/*
+		 * Get the moveset heuristic: player moves - opponent moves
+		 * +ve if the player can move more and -ve if the opponent ca move more
+		 * approaches 0 in hte endgae
+		 */
+		return moveSetPlayer.size() - moveSetOpponent.size();
+	}
+	
+	public int heuristic(Board board) {
+		int playerMoveCnt = MoveFinder.getAllPossibleMove(board, board.teamQueens).size();
+		int opponentMoveCnt = MoveFinder.getAllPossibleMove(board, board.enemyQueens).size();
+		return playerMoveCnt - opponentMoveCnt;
+	}
 
 	public int heuristicrdh(Board board){
-        /*
-        * Get the relative distance heuristic: player territory - opponent territory
-        * +ve if the player is winning and -ve if the player is losing
-        * close to 0 if most peices are contested
-        */
-        ArrayList<Integer> relDist = this.rdh.calculate(board.board);
-        return (relDist.get(0)-relDist.get(1));
-    }
+		/*
+		 * Get the relative distance heuristic: player territory - opponent territory
+		 * +ve if the player is winning and -ve if the player is losing
+		 * close to 0 if most peices are contested
+		 */
+		ArrayList<Integer> relDist = this.rdh.calculate(board.board);
+		return (relDist.get(0)-relDist.get(1));
+	}
 
 	public int heuristic(LinkedList<ArrayList<ArrayList<Integer>>> moveSetPlayer, LinkedList<ArrayList<ArrayList<Integer>>>moveSetOpponent) {
 		return heuristicRelMoves(moveSetPlayer, moveSetOpponent);
 	}
-	
+
 	public ArrayList<ArrayList<Integer>> iterativeDeepening(Board board){
 		startTime = System.currentTimeMillis();
 		ArrayList<ArrayList<Integer>> deepestFinishedMove = null;
@@ -146,9 +152,9 @@ public class Minimax {
 		else if(depth == 0){
 			return randomNumber();
 		}
-		*/
+		 */
 		if(isTerminalState(depth,playerMoves)) {
-			return randomNumber();
+			return heuristic(board);
 		}
 
 
@@ -199,9 +205,9 @@ public class Minimax {
 		else if(depth == 0){
 			return randomNumber();
 		}
-		*/
+		 */
 		if(isTerminalState(depth,playerMoves)) {
-			return randomNumber();
+			return heuristic(board);
 		}
 
 		int val = Integer.MAX_VALUE;
@@ -225,7 +231,7 @@ public class Minimax {
 				timedOut = true;
 				break;
 			}
-			
+
 			if (val<= alpha) { // Pruning condition
 				if (debugPrune) System.out.println("pruned");
 				return val;
