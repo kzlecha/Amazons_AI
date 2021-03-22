@@ -9,14 +9,12 @@ public class RelativeDistHeuristic {
 
 	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
 
-	MoveFinder moveFinder;
 	private int teamVal;
 
 	int nTeamOwned;
 	int nEnemyOwned;
 
-	public RelativeDistHeuristic(MoveFinder moveFinder, int teamVal) {
-		this.moveFinder = moveFinder;
+	public RelativeDistHeuristic(int teamVal) {
 		this.teamVal = teamVal;
 
 		this.nTeamOwned = 0;
@@ -61,7 +59,7 @@ public class RelativeDistHeuristic {
 		boolean found = false;
 
 		// queue of any moves that gets to the tile
-		Queue<ArrayList<Integer>> queue = moveFinder.getMoves(position, gameboard);
+		Queue<ArrayList<Integer>> queue = MoveFinder.getMoves(position, gameboard);
 		while (!found) {
 			Queue<ArrayList<Integer>> tempQ = new LinkedList<ArrayList<Integer>>();
 
@@ -104,7 +102,7 @@ public class RelativeDistHeuristic {
 
 				// Tile is empty
 				if (gameboard[pos.get(0)][pos.get(1)] == 0) {
-					tempQ = moveFinder.getMoves(pos, gameboard);
+					tempQ = MoveFinder.getMoves(pos, gameboard);
 				}
 			}
 			queue = tempQ;

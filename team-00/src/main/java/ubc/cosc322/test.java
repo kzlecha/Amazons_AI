@@ -14,15 +14,15 @@ public class test {
 	public static void main(String[] args) {
 		int[][] x = 
 			{ { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, 
-			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
-			  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
-			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
-			  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 2 }, 
-			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
-			  { 0, 0, 0, 2, 0, 0, 2, 0, 0, 0 } };
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+					{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+					{ 2, 0, 0, 0, 0, 0, 0, 0, 0, 2 }, 
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
+					{ 0, 0, 0, 2, 0, 0, 2, 0, 0, 0 } };
 		printBoard(x);
 
 		ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
@@ -38,7 +38,7 @@ public class test {
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
 		Minimax minimax = new Minimax(2, 10);
-		
+
 		ArrayList<ArrayList<Integer>> result = minimax.minimax_(x, friend_Queen_pos, foe_queen_pos);
 		System.out.println(result.toString());
 	}

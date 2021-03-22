@@ -4,8 +4,6 @@ import java.util.*;
 
 public class Minimax {
 
-
-	MoveFinder moveFinder;
 	int score, depth;
 	Integer alpha = Integer.MAX_VALUE;
 	Integer beta = Integer.MIN_VALUE;
@@ -15,8 +13,7 @@ public class Minimax {
 	// Need to access the playerColor for gameboard
 
 	public Minimax(int teamVal, int depth) {
-		moveFinder = new MoveFinder();
-		rdh = new RelativeDistHeuristic(moveFinder, teamVal);
+		rdh = new RelativeDistHeuristic(teamVal);
 		this.depth = depth;
 		this.teamVal = teamVal;
 	}
@@ -42,10 +39,10 @@ public class Minimax {
 
 		int[][] newGameBoard = new int[10][10];
 		for(int i = 0; i < gameboard.length; i++) {
-		  int[] aMatrix = gameboard[i];
-		  int   aLength = aMatrix.length;
-		  newGameBoard[i] = new int[aLength];
-		  System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
+			int[] aMatrix = gameboard[i];
+			int   aLength = aMatrix.length;
+			newGameBoard[i] = new int[aLength];
+			System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
 		}
 
 		newGameBoard[origX][origY] = 0;
@@ -54,7 +51,7 @@ public class Minimax {
 
 		return newGameBoard;
 	}
-	
+
 	public int randomNumber() {
 		Random rand = new Random();
 		return rand.nextInt(50);
@@ -69,7 +66,7 @@ public class Minimax {
 		if(debug) System.out.println(Arrays.deepToString(gameboard));
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
 		// Experiment
-		playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
+		playerMoves = MoveFinder.getAllPossibleMove(gameboard, playerQueens);
 		if(debug) System.out.println("-Length of moveList: " + playerMoves.size());
 		int max = Integer.MIN_VALUE;
 		int index = 0;
@@ -86,10 +83,10 @@ public class Minimax {
 			}
 		}
 		// Experiment
-		
+
 		ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
-			
-		
+
+
 		for(int i=0; i < playerMoves.get(index).size(); i++)
 			for(int k=0; k < playerMoves.get(index).get(i).size(); k++)
 				move.get(i).set(k, move.get(i).get(k) + 1);
@@ -100,7 +97,7 @@ public class Minimax {
 
 	public int maxFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at max call: " + depth);
-		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
+		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(gameboard, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
@@ -127,7 +124,7 @@ public class Minimax {
 
 	public int minFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at min call: " + depth);
-		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = moveFinder.getAllPossibleMove(gameboard, playerQueens);
+		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(gameboard, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
