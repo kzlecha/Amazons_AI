@@ -96,9 +96,9 @@ public class Minimax {
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
-			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
-			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
-			return randomNumber();
+			ArrayList<Integer> calcResults = rdh.calculate(gameboard);
+			return calcResults.get(0).intValue() - calcResults.get(1).intValue();
+			//return randomNumber();
 			//return 0;
 		}
 
@@ -123,9 +123,9 @@ public class Minimax {
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
-			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
-			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
-			return randomNumber();
+			ArrayList<Integer> calcResults = rdh.calculate(gameboard);
+			return calcResults.get(0).intValue() - calcResults.get(1).intValue();
+			//return randomNumber();
 		}
 
 		int min = beta;
