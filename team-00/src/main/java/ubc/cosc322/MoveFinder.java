@@ -69,7 +69,7 @@ public class MoveFinder {
 									)
 							));
 				}
-			}break;
+			}
 		}
 		return allPossibleMoves;    
 	}
