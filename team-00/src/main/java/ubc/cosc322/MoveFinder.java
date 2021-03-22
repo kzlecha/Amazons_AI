@@ -78,7 +78,10 @@ public class MoveFinder {
 					board.printQueens();
 					board.printPosition(queen);
 					board.printPosition(possibleQueenPosition);
-					board.swap(queen, possibleQueenPosition);
+				}
+				board.swap(queen, possibleQueenPosition);
+
+				if(debug) {
 					board.printBoard();
 					board.printQueens();
 					board.printPosition(queen);
