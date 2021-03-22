@@ -448,6 +448,7 @@ public class testAI extends GamePlayer{
 		}
 
 		LinkedList<ArrayList<ArrayList<Integer>>> allMoves;
+		// THE SOURCE OF WHITE MOVING BLACKS PIECES
 		if (maximizingPlayer){
 			allMoves = MoveFinder.getAllPossibleMove(board, teamQueens);
 		} else {
@@ -492,7 +493,6 @@ public class testAI extends GamePlayer{
 			System.out.println();
 		}
 	}
-
 
 }
 
