@@ -31,7 +31,7 @@ public class test {
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
 		// MoveFinder y = new MoveFinder();
-		LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  MoveFinder.getAllPossibleMove(x, friend_Queen_pos);
+		LinkedList<ArrayList<ArrayList<Integer>>> allMoves =  MoveFinder.getAllLimitedMoves(x, friend_Queen_pos,2,2);
 		// MoveFinder.printMoves();
 		// testAI test = new testAI("cosc322", "kanny");
 
