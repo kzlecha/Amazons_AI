@@ -142,7 +142,7 @@ public class Minimax {
 			if(debug) System.out.println("Terminal state found");
 			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
 			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
-			return Integer.MIN_VALUE;
+			return Integer.MAX_VALUE;
 		}
 		else if(depth == 0){
 			return randomNumber();
@@ -192,7 +192,7 @@ public class Minimax {
 			if(debug) System.out.println("Terminal state found");
 			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
 			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
-			return Integer.MAX_VALUE;
+			return Integer.MIN_VALUE;
 		}
 		else if(depth == 0){
 			return randomNumber();
