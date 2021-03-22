@@ -3,6 +3,8 @@ package ubc.cosc322;
 import java.util.*;
 
 public class Minimax {
+	
+	// BECAUSE WE USE A GLOBAL BOARD CANNOT STOP IN THE MIDDLE... ITERATIVE DEEPENING OFF THE TABLE
 
 	int score, depth;
 	Integer alpha = Integer.MAX_VALUE;
@@ -27,8 +29,13 @@ public class Minimax {
 	public int heuristic(LinkedList<ArrayList<ArrayList<Integer>>> moveSet, boolean maximize) {
 		return 0; // placeholder value
 	}
+	
+	public ArrayList<ArrayList<Integer>> minimaxHelper(Board board){
+		return minimax_(board, board.teamQueens, board.enemyQueens);
+	}
 
 	// TEMPORARY: I need this NOW.
+	/*
 	public int[][] updateGameBoard(ArrayList<ArrayList<Integer>> move, int[][] gameboard) {
 		int origX = move.get(0).get(0);
 		int origY = move.get(0).get(1);
@@ -51,6 +58,7 @@ public class Minimax {
 
 		return newGameBoard;
 	}
+	*/
 
 	public int randomNumber() {
 		Random rand = new Random();
@@ -58,15 +66,17 @@ public class Minimax {
 	}
 
 	// TO-DO: Update gameboard for each depth
-	public ArrayList<ArrayList<Integer>> minimax_(int[][] gameboard, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
+	public ArrayList<ArrayList<Integer>> minimax_(Board board, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		alpha = Integer.MIN_VALUE;
 		beta = Integer.MAX_VALUE;
 		int localDepth = depth;
 		if(debug) System.out.println("Starting minimax");
-		if(debug) System.out.println(Arrays.deepToString(gameboard));
+		if(debug) board.printBoard();
+		
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
 		// Experiment
-		playerMoves = MoveFinder.getAllPossibleMove(gameboard, playerQueens);
+		playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
+		
 		if(debug) System.out.println("-Length of moveList: " + playerMoves.size());
 		int max = Integer.MIN_VALUE;
 		int index = 0;
@@ -74,8 +84,11 @@ public class Minimax {
 		for (int x = 0; x < playerMoves.size(); x++) {
 			if(debug) System.out.println("-Iterating through root nodes");
 			if(debug) System.out.println("-Depth:" + localDepth);
-			int[][] newGameBoard = updateGameBoard(playerMoves.get(0), gameboard);
-			int val = maxFunction(newGameBoard, localDepth-1, playerQueens, enemyQueens);
+			//int[][] newGameBoard = updateGameBoard(playerMoves.get(x), gameboard);
+			// WARNING: MAKE MOVE CHANGES QUEENS
+			board.makeMove(playerMoves.get(x));
+			int val = maxFunction(board, localDepth-1, playerQueens, enemyQueens); 
+			board.unmakeMove(playerMoves.get(x));
 			if (val > max) {
 				if(debug) System.out.println("--Updating max value");
 				max = val;
@@ -90,9 +103,9 @@ public class Minimax {
 		return move; // NEED TO FIX THIS :-T Needs to return the move
 	}
 
-	public int maxFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
+	public int maxFunction(Board board, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at max call: " + depth);
-		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(gameboard, playerQueens);
+		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
@@ -105,9 +118,11 @@ public class Minimax {
 		int max = alpha;
 		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
 			if(debug) System.out.println("-Iterating through max nodes");
-			int[][] newGameBoard = updateGameBoard(move, gameboard);
-			if(debug) System.out.println(Arrays.deepToString(newGameBoard));
-			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
+			
+			board.makeMove(move);
+			if(debug) board.printBoard();
+			int val = minFunction(board, depth-1, playerQueens, enemyQueens);
+			board.unmakeMove(move);
 			max = Math.max(val, max);
 			alpha = Math.max(alpha, max);
 			if(debug) System.out.println("Depth: " + depth);
@@ -117,9 +132,9 @@ public class Minimax {
 		return max;
 	}
 
-	public int minFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
+	public int minFunction(Board board, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at min call: " + depth);
-		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(gameboard, playerQueens);
+		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
@@ -131,9 +146,11 @@ public class Minimax {
 		int min = beta;
 		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
 			if(debug) System.out.println("-Iterating through min nodes");
-			int[][] newGameBoard = updateGameBoard(move, gameboard);
-			if(debug) System.out.println(Arrays.deepToString(newGameBoard));
-			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
+			if(debug) board.printBoard();
+			board.makeMove(move);
+			int val = maxFunction(board, depth-1, playerQueens, enemyQueens);
+			board.unmakeMove(move);
+			
 			min = Math.min(val, min);
 			beta = Math.min(beta, min);
 			if(debug) System.out.println("Depth: " + depth);

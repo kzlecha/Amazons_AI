@@ -228,18 +228,11 @@ public class testAI extends GamePlayer{
 		 * RICK and SEAN make AI move using ALPHABETA
 		 */
 		Minimax minimax = new Minimax(board.teamVal, depth);
-		int[][] newGameBoard = new int[10][10];
-		for(int i = 0; i < this.board.board.length; i++) {
-			int[] aMatrix = this.board.board[i];
-			int aLength = aMatrix.length;
-			newGameBoard[i] = new int[aLength];
-			System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
-		}
 		if(debug) {
 			System.out.println("Done considering my move");
 		}
 
-		ArrayList<ArrayList<Integer>> move = minimax.minimax_(newGameBoard, board.teamQueens, board.enemyQueens);
+		ArrayList<ArrayList<Integer>> move = minimax.minimaxHelper(this.board);
 
 		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
 
