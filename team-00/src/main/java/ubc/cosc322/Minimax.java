@@ -131,8 +131,8 @@ public class Minimax {
 				index = x;
 			}
 			x += 1;
-			if(debugPrune) System.out.println("Branches pruned in iteration: " + this.pruneCnt);
 		}
+		if(debugPrune) System.out.println("Branches pruned in iteration: " + this.pruneCnt);
 		// Experiment
 		if(index != -1) {
 			ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
