@@ -2,6 +2,7 @@ package ubc.cosc322;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Board {
 
@@ -86,6 +87,10 @@ public class Board {
 			enemyQueen = false;
 		}else {
 			System.out.println("CRITICAL ERROR OH GOD");
+			this.printBoard();
+			this.printPosition(position1);
+			this.printPosition(position2);
+			this.pause();
 			enemyQueen = false;
 		}
 		updateQueen(position1, position2, enemyQueen);
@@ -190,15 +195,22 @@ public class Board {
 		String[] titles = {"init: ", "new: ", "arrow: "};
 		for(int i = 0; i < move.size(); i++) {
 			System.out.print(titles[i]);
-			for(int j = 0; j < move.get(i).size(); j++) {
-				System.out.print(move.get(i).get(j) + " ");
-			}
-			System.out.println();
+			this.printPosition(move.get(i));
 		}
 	}
 	
 	public void printBoard() {
 		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+	}
+	
+	public void printPosition(ArrayList<Integer> position) {
+		System.out.printf("Position: %d %d with a value of %d \n",position.get(0),position.get(1),board[position.get(0)][position.get(1)]);
+	}
+	
+	public void pause() {
+		System.out.println("pausing to let you observe");
+		Scanner in = new Scanner(System.in);
+		in.next();
 	}
 	
 	/* TODO: MAKE THESE FUNCTIONS WORK
