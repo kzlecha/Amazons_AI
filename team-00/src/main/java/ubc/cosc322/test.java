@@ -10,7 +10,7 @@ import ygraph.ai.smartfox.games.Amazon.GameBoard;
 
 
 public class test {
-
+/*
 	public static void main(String[] args) {
 		int[][] x = 
 			{ { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 }, 
@@ -140,4 +140,5 @@ public class test {
 			return false;    
 		}
 	}
+	*/
 }
