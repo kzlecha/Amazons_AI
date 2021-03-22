@@ -100,7 +100,7 @@ public class testAI extends GamePlayer{
 						convertServerToBoard(queenPosNext),
 						convertServerToBoard(arrowPos)
 						);
-				this.consoleMove();
+				this.makeAiMove();
 			}
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			isSpectator = false;
@@ -113,7 +113,7 @@ public class testAI extends GamePlayer{
 
 				this.teamQueens	= getBlackQueensStart();
 				this.enemyQueens = getWhiteQueensStart();
-				this.consoleMove();
+				this.makeAiMove();
 
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
@@ -312,7 +312,7 @@ public class testAI extends GamePlayer{
 			enemyQueen = false;
 			System.out.println("I moved white");
 		}else {
-			System.out.println("THIS IS BAD");
+			System.out.println("CRITICAL ERROR OH GOD");
 			enemyQueen = false;
 		}
 		updateQueen(position1, position2, enemyQueen);
