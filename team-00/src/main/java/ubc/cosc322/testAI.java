@@ -324,7 +324,7 @@ public class testAI extends GamePlayer{
 	}
 
 	public void unmakeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
-		swap(initQueen, newQueen);
+		swap(newQueen, initQueen);
 		removeArrow(arrowPos);
 	}
 	public void unmakeMove(ArrayList<ArrayList<Integer>> move) {
