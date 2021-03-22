@@ -92,24 +92,24 @@ public class testAI extends GamePlayer{
 
 			gamegui.updateGameState(queenPosCurr, queenPosNext, arrowPos);
 
-			updateQueen(
-					convertServerToBoard(queenPosCurr),
-					convertServerToBoard(queenPosNext),
-					true
-					);
-
-			//Update our internal board
-			makeMove(
-					convertServerToBoard(queenPosCurr),
-					convertServerToBoard(queenPosNext),
-					convertServerToBoard(arrowPos)
-					);
-
 			// Make our move
 			if(!isSpectator) {
+				updateQueen(
+						convertServerToBoard(queenPosCurr),
+						convertServerToBoard(queenPosNext),
+						true
+						);
+
+				//Update our internal board
+				makeMove(
+						convertServerToBoard(queenPosCurr),
+						convertServerToBoard(queenPosNext),
+						convertServerToBoard(arrowPos)
+						);
 				this.makeAiMove();
 			}
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
+			isSpectator = false;
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
@@ -447,7 +447,7 @@ public class testAI extends GamePlayer{
 		makeMove(move.move);
 	}
 
-	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer ) {
+	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer) {
 		bestmove best1 = new bestmove();
 		if  (maximizingPlayer){ 
 			best1.move = null; 
