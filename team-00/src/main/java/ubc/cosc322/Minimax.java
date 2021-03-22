@@ -13,6 +13,7 @@ public class Minimax {
 	private final long timeOutTime = 10000l;
 
 	int depth;
+	int pruneCnt;
 	RelativeDistHeuristic rdh;
 	int teamVal;
 	boolean debug = false;
@@ -112,6 +113,8 @@ public class Minimax {
 		int x = 0;
 
 		while (itr.hasNext()) {
+			this.pruneCnt = 0;
+			
 			ArrayList<ArrayList<Integer>> move = itr.next();
 
 			if(debug) System.out.println("-Iterating through root nodes");
@@ -128,6 +131,7 @@ public class Minimax {
 				index = x;
 			}
 			x += 1;
+			if(debugPrune) System.out.println("Branches pruned in iteration: " + this.pruneCnt);
 		}
 		// Experiment
 		if(index != -1) {
@@ -183,7 +187,7 @@ public class Minimax {
 			}
 
 			if (val >= beta) { // Pruning condition
-				if (debugPrune) System.out.println("pruned");
+				this.pruneCnt++;
 				return val;
 			}
 			alpha = Math.max(alpha, val);
@@ -233,7 +237,7 @@ public class Minimax {
 			}
 
 			if (val<= alpha) { // Pruning condition
-				if (debugPrune) System.out.println("pruned");
+				this.pruneCnt++;
 				return val;
 			}
 			beta = Math.min(beta, val);
