@@ -61,6 +61,13 @@ public class MoveFinder {
 
 
 			for (ArrayList<Integer> possibleQueenPosition : queenMoves) {
+allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
+							Arrays.asList(
+									new ArrayList<Integer>(Arrays.asList(queen.get(0), queen.get(1))),
+									new ArrayList<Integer>(Arrays.asList(possibleQueenPosition.get(0), possibleQueenPosition.get(1))),
+									new ArrayList<Integer>(Arrays.asList(queen.get(0), queen.get(1)))
+									)
+							));
 				/*
 				board.printPosition(queen);
 				board.printPosition(possibleQueenPosition);
