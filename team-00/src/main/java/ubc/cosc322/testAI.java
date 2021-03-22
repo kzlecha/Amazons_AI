@@ -26,7 +26,7 @@ public class testAI extends GamePlayer{
 	private String passwd = null;
 	Scanner in;
 
-	private boolean isBlack;
+	private boolean isBlack, isSpectator;
 	private int teamVal, enemyVal;
 
 	private int[][] board;
@@ -81,6 +81,7 @@ public class testAI extends GamePlayer{
 			// How we tested making and unmaking the board
 			// System.out.println(Arrays.deepToString(getGameBoard(getGameBoard(getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE))))));
 			this.board = getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE)); 
+			isSpectator = true;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			System.out.println("Got a game_action_move msg");
 			// Update the board with the foreign move
@@ -104,10 +105,10 @@ public class testAI extends GamePlayer{
 					convertServerToBoard(arrowPos)
 					);
 
-			printBoard();
-
 			// Make our move
-			this.makeAiMove();
+			if(!isSpectator) {
+				this.makeAiMove();
+			}
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
@@ -129,7 +130,7 @@ public class testAI extends GamePlayer{
 				this.enemyQueens = getBlackQueensStart();
 			}
 			else // This code should never be reached
-				return false;
+				isSpectator = true;
 		}
 		return true;
 	}
