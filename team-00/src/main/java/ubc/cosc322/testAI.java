@@ -96,11 +96,13 @@ public class testAI extends GamePlayer{
 
 			gamegui.updateGameState(queenPosCurr, queenPosNext, arrowPos);
 
-			updateQueen(
-					convertServerToBoard(queenPosCurr),
-					convertServerToBoard(queenPosNext),
-					true
-					);
+			// Make our move
+			if (debug)
+				if (isSpectator)
+					System.out.println("Currently spectating.");
+			if(!isSpectator)
+				if (debug) System.out.println("Calling makeAiMove()");
+
 
 			//Update our internal board
 			makeMove(
@@ -108,16 +110,14 @@ public class testAI extends GamePlayer{
 					convertServerToBoard(queenPosNext),
 					convertServerToBoard(arrowPos)
 					);
-			
-			this.makeAiMove();
-		}
-			// Make our move
-			/*if (debug) if (isSpectator) System.out.println("Currently spectating.");
-			if(!isSpectator) {
-				if (debug) System.out.println("Calling makeAiMove()");
-				
-			}
-		} else*/ if(messageType.equals(GameMessage.GAME_ACTION_START)) {
+
+			// if we arent spectating, make a move
+			if(!isSpectator)
+				this.makeAiMove();
+
+		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
+			isSpectator = false;
+
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
 			if ((msgDetails.get(AmazonsGameMessage.PLAYER_BLACK)).equals(this.userName())) {
@@ -137,7 +137,7 @@ public class testAI extends GamePlayer{
 				this.teamQueens	= getWhiteQueensStart();
 				this.enemyQueens = getBlackQueensStart();
 			}
-			else // This code should never be reached
+			else // This code should only be reached if spectator
 				isSpectator = true;
 		}
 		return true;
@@ -229,10 +229,13 @@ public class testAI extends GamePlayer{
 			return;
 		}
 		 */
-
+		
 		makeMoveClientServer(inputCmd);
+		this.printBoard();
+		this.printQueens();
 		makeMove(ourMove);
-		System.out.println(test.eval(board, teamQueens, enemyQueens));
+		this.printBoard();
+		this.printQueens();
 	}
 
 	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
@@ -312,10 +315,12 @@ public class testAI extends GamePlayer{
 			enemyQueen = true;
 		} else if (!isBlack && board[x2][y2] == BLACK) {
 			enemyQueen = true;
-		} else{
+		} else if(!isBlack && board[x2][y2] == WHITE){
+			enemyQueen = false;
+		}else {
+			System.out.println("CRITICAL ERROR OH GOD");
 			enemyQueen = false;
 		}
-		
 		updateQueen(position1, position2, enemyQueen);
 	}
 
@@ -424,6 +429,9 @@ public class testAI extends GamePlayer{
 	}
 
 	private void makeAiMove() {
+		/*
+		* RICK and SEAN make AI move using ALPHABETA
+		*/
 		Minimax minimax = new Minimax(teamVal, depth);
 		int[][] newGameBoard = new int[10][10];
 		for(int i = 0; i < this.board.length; i++) {
@@ -431,11 +439,93 @@ public class testAI extends GamePlayer{
 			  int   aLength = aMatrix.length;
 			  newGameBoard[i] = new int[aLength];
 			  System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
-			}
+		}
 		
 		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(newGameBoard, enemyQueens, teamQueens);
 		makeMoveClientServer(serverMove);
 		makeMove(serverMove);
 	}
+
+	private void makeAiMoveOldHeur() {
+		/*
+		* Kanny and Elias make AI move using arrays
+		*/
+		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
+		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
+		for(int i = 0; i < move.move.size(); i++) {
+			serverMove.add(this.convertBoardToServer(move.move.get(i)));
+		}
+		System.out.println(move.toString());
+		this.printQueens();
+		this.printBoard();
+		makeMoveClientServer(serverMove);
+		makeMove(move.move);
+		this.printQueens();
+		this.printBoard();
+	}
+
+	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer) {
+		bestmove best1 = new bestmove();
+		if  (maximizingPlayer){ 
+			best1.move = null; 
+			best1.eval = Integer.MIN_VALUE; 
+		} else { 
+
+			best1.move = null; 
+			best1.eval = Integer.MAX_VALUE; 
+		}
+		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
+			int score = test.eval(board, teamQueens, enemyQueens);
+			best1.move = null; 
+			best1.eval = score; 
+			return best1; 
+		}
+
+		LinkedList<ArrayList<ArrayList<Integer>>> allMoves;
+		// THE SOURCE OF WHITE MOVING BLACKS PIECES
+		if (maximizingPlayer){
+			allMoves = MoveFinder.getAllPossibleMove(board, teamQueens);
+		} else {
+			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
+		}
+		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
+			
+			makeMove(move);
+			bestmove moveBest = minimax_i(depth-1,alpha, beta, !maximizingPlayer);  
+			unmakeMove(move);
+
+			if (maximizingPlayer) { 
+				if (moveBest.eval > best1.eval ) { 
+					best1.move = move; 
+					best1.eval = moveBest.eval; 
+				}
+			}else { 
+				if (moveBest.eval < best1.eval) { 
+					best1.move = move ; 
+					best1.eval = moveBest.eval; 
+				}
+			}
+		makeMoveClientServer(serverMove);
+		makeMove(serverMove);
+	}
+
+
+	private void printQueens() {
+		System.out.println("Ally Queens");
+		for (int i = 0; i < teamQueens.size(); i++) {
+			for(int j = 0; j < teamQueens.get(i).size(); j++) {
+				System.out.print(teamQueens.get(i).get(j) + " ");
+			}
+			System.out.println();
+		}
+		System.out.println("Enemy Queens");
+		for (int i = 0; i < enemyQueens.size(); i++) {
+			for(int j = 0; j < enemyQueens.get(i).size(); j++) {
+				System.out.print(enemyQueens.get(i).get(j) + " ");
+			}
+			System.out.println();
+		}
+	}
+
 }
 
