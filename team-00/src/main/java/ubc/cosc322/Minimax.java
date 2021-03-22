@@ -86,11 +86,6 @@ public class Minimax {
 
 		ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
 
-
-		for(int i=0; i < playerMoves.get(index).size(); i++)
-			for(int k=0; k < playerMoves.get(index).get(i).size(); k++)
-				move.get(i).set(k, move.get(i).get(k) + 1);
-
 		if(debug) System.out.println("MINIMAX HAS CONCLUDED! RETURNING: " + playerMoves.get(index).toString());
 		return move; // NEED TO FIX THIS :-T Needs to return the move
 	}
