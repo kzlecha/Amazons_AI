@@ -34,32 +34,6 @@ public class Minimax {
 		return minimax_(board, board.teamQueens, board.enemyQueens);
 	}
 
-	// TEMPORARY: I need this NOW.
-	/*
-	public int[][] updateGameBoard(ArrayList<ArrayList<Integer>> move, int[][] gameboard) {
-		int origX = move.get(0).get(0);
-		int origY = move.get(0).get(1);
-		int newX = move.get(1).get(0);
-		int newY = move.get(1).get(1);
-		int arrX = move.get(2).get(0);
-		int arrY = move.get(2).get(1);
-
-		int[][] newGameBoard = new int[10][10];
-		for(int i = 0; i < gameboard.length; i++) {
-			int[] aMatrix = gameboard[i];
-			int   aLength = aMatrix.length;
-			newGameBoard[i] = new int[aLength];
-			System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
-		}
-
-		newGameBoard[origX][origY] = 0;
-		newGameBoard[newX][newY] = teamVal;
-		newGameBoard[arrX][arrY] = 3;
-
-		return newGameBoard;
-	}
-	*/
-
 	public int randomNumber() {
 		Random rand = new Random();
 		return rand.nextInt(50);
@@ -79,28 +53,38 @@ public class Minimax {
 		
 		if(debug) System.out.println("-Length of moveList: " + playerMoves.size());
 		int max = Integer.MIN_VALUE;
-		int index = 0;
+		int index = -1;
 		// we want the index of the move which has the best (max) result in the original moveset
-		for (int x = 0; x < playerMoves.size(); x++) {
+		Iterator<ArrayList<ArrayList<Integer>>> itr = playerMoves.iterator();
+		int x = 0;
+		
+		while (itr.hasNext()) {
+			ArrayList<ArrayList<Integer>> move = itr.next();
+			
 			if(debug) System.out.println("-Iterating through root nodes");
 			if(debug) System.out.println("-Depth:" + localDepth);
-			//int[][] newGameBoard = updateGameBoard(playerMoves.get(x), gameboard);
+
 			// WARNING: MAKE MOVE CHANGES QUEENS
-			board.makeMove(playerMoves.get(x));
+			board.makeMove(move);
 			int val = maxFunction(board, localDepth-1, playerQueens, enemyQueens); 
-			board.unmakeMove(playerMoves.get(x));
+			board.unmakeMove(move);
+			
 			if (val > max) {
 				if(debug) System.out.println("--Updating max value");
 				max = val;
 				index = x;
 			}
+			x += 1;
 		}
 		// Experiment
-
-		ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
-
-		if(debug) System.out.println("MINIMAX HAS CONCLUDED! RETURNING: " + playerMoves.get(index).toString());
-		return move; // NEED TO FIX THIS :-T Needs to return the move
+		if(index != -1) {
+			ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
+			if(debug) System.out.println("MINIMAX HAS CONCLUDED! RETURNING: " + playerMoves.get(index).toString());
+			return move; // NEED TO FIX THIS :-T Needs to return the move
+		}
+		else {
+			return new ArrayList<ArrayList<Integer>>();
+		}
 	}
 
 	public int maxFunction(Board board, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
@@ -116,17 +100,24 @@ public class Minimax {
 		}
 
 		int max = alpha;
-		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
+		Iterator<ArrayList<ArrayList<Integer>>> itr = playerMoves.iterator();
+		
+		while (itr.hasNext()) {
+			ArrayList<ArrayList<Integer>> move = itr.next();
+			
 			if(debug) System.out.println("-Iterating through max nodes");
 			
 			board.makeMove(move);
 			if(debug) board.printBoard();
 			int val = minFunction(board, depth-1, playerQueens, enemyQueens);
 			board.unmakeMove(move);
+			
 			max = Math.max(val, max);
 			alpha = Math.max(alpha, max);
+			
 			if(debug) System.out.println("Depth: " + depth);
-			if (beta <= alpha) break;
+			if (beta <= alpha) // Pruning condition
+				break;
 		}
 
 		return max;
@@ -144,17 +135,23 @@ public class Minimax {
 		}
 
 		int min = beta;
-		for (ArrayList<ArrayList<Integer>> move : playerMoves) {
+		Iterator<ArrayList<ArrayList<Integer>>> itr = playerMoves.iterator();
+		
+		while (itr.hasNext()) {
+			ArrayList<ArrayList<Integer>> move = itr.next();
 			if(debug) System.out.println("-Iterating through min nodes");
 			if(debug) board.printBoard();
+			
 			board.makeMove(move);
 			int val = maxFunction(board, depth-1, playerQueens, enemyQueens);
 			board.unmakeMove(move);
 			
 			min = Math.min(val, min);
 			beta = Math.min(beta, min);
+			
 			if(debug) System.out.println("Depth: " + depth);
-			if (beta <= alpha) break;
+			if (beta <= alpha) // Pruning condition
+				break;
 		}
 		return min;
 	}
