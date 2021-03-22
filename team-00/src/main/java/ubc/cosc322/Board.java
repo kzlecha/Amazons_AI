@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Board {
 
 	public int[][] board;
-	private int teamVal, enemyVal;
+	public int teamVal, enemyVal;
 	private int boardSize = 10;
 
 	private ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
@@ -14,7 +14,6 @@ public class Board {
 
 	// Constants relative to the board
 	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
-	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
 	
 	public Board(ArrayList<Integer> msgDetails) {
 		board = getGameBoard(msgDetails);
@@ -201,5 +200,69 @@ public class Board {
 	public void printBoard() {
 		System.out.println(Arrays.deepToString(board).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
+	
+	/* TODO: MAKE THESE FUNCTIONS WORK
+	
+	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
+		return moveIsValid(move.get(INIT_POS), move.get(NEW_POS), move.get(ARROW_POS));
+	}
+
+	private boolean moveIsValid(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
+		boolean valid = false;
+		if (checkValidPosition(initQueen, newQueen)) {
+			System.out.println("We can move the queen position");
+			swap(initQueen,newQueen);
+			if (checkValidPosition(newQueen,arrowPos)) {
+				System.out.println("We can move the arrow position");
+				valid = true;
+			}
+			swap(newQueen,initQueen);
+		}
+		return valid;
+	}
+
+	private boolean checkValidPosition(ArrayList<Integer> a, ArrayList<Integer> b) {
+		if(posIsVal(a, this.teamVal) && posIsVal(b, EMPTY)) {
+			return checkPath(a, b);
+		}
+		return false;
+	}
+
+	private boolean checkPath(ArrayList<Integer> a, ArrayList<Integer> b) {
+
+		final int WIDTH = 10;
+		int initX = a.get(0), initY = a.get(1), newX = b.get(0), newY = b.get(1);
+		int deltaX = initX - newX; // difference in initial and final x
+		int deltaY = initY - newY; // difference in initial and final y
+
+		// return false if move is out of bounds
+		if(newX > WIDTH || newY > WIDTH || newX < 1 || newY < 1) 
+			return false;
+
+		int xSign = 0, ySign = 0; // represents the vector direction that the queen is moving
+		if(deltaX != 0) xSign = deltaX < 0? -1: 1; // left or right?
+		if (deltaY != 0) ySign = deltaY < 0? -1: 1;// up or down?
+		deltaX = Math.abs(deltaX);
+		deltaY = Math.abs(deltaY);
+
+		// check for illegal movement (non-linear)
+		if(deltaX != 0 && deltaY != 0 && deltaX != deltaY) 
+			return false;
+
+		// check that the path is clear
+		int max = Math.max(deltaX, deltaY);
+		for(int i = 1; i <= max ; i++) {
+			if(this.board.board[initX+i*xSign][initY+i*ySign] != 0)
+				return false;
+		}
+		return true;
+	}
+
+	// Just a function to do a simple check in a cleaner way
+	private boolean posIsVal(ArrayList<Integer> position, int expectedVal) {
+		return this.board.board[position.get(0)][position.get(1)] == expectedVal;
+	}
+	
+	*/
 
 }
