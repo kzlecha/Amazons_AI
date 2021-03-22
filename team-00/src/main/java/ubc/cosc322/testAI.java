@@ -3,6 +3,7 @@ package ubc.cosc322;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Map;
 
@@ -25,18 +26,18 @@ public class testAI extends GamePlayer{
 	private String passwd = null;
 	Scanner in;
 
-	private boolean isBlack;
+	private boolean isBlack, isSpectator;
 	private int teamVal, enemyVal;
 
 	private int[][] board;
-	
+
 	private int boardSize = 10;
 
 	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
 
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
-		testAI player = new testAI("super","cosc322");
+		testAI player = new testAI(args[0],args[1]);
 
 		if(player.getGameGUI() == null) {
 			player.Go();
@@ -80,33 +81,34 @@ public class testAI extends GamePlayer{
 			// How we tested making and unmaking the board
 			// System.out.println(Arrays.deepToString(getGameBoard(getGameBoard(getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE))))));
 			this.board = getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE)); 
+			isSpectator = true;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			System.out.println("Got a game_action_move msg");
 			// Update the board with the foreign move
-			
+
 			ArrayList<Integer> queenPosCurr = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR);
 			ArrayList<Integer> queenPosNext = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.Queen_POS_NEXT);
 			ArrayList<Integer> arrowPos = (ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.ARROW_POS);
-			
+
 			gamegui.updateGameState(queenPosCurr, queenPosNext, arrowPos);
-			
+
 			updateQueen(
 					convertServerToBoard(queenPosCurr),
 					convertServerToBoard(queenPosNext),
 					true
-				);
-			
+					);
+
 			//Update our internal board
 			makeMove(
 					convertServerToBoard(queenPosCurr),
 					convertServerToBoard(queenPosNext),
 					convertServerToBoard(arrowPos)
-				);
-			
-			printBoard();
-			
+					);
+
 			// Make our move
-			consoleMove();
+			if(!isSpectator) {
+				this.makeAiMove();
+			}
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
@@ -114,25 +116,25 @@ public class testAI extends GamePlayer{
 				System.out.println("I am the black player");
 				this.isBlack = true;
 				teamVal = BLACK;
-				this.printBoard();
-				consoleMove();
-				
+
 				this.teamQueens	= getBlackQueensStart();
 				this.enemyQueens = getWhiteQueensStart();
+				this.makeAiMove();
+
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
 				this.isBlack = false;
 				teamVal = WHITE;
-				
+
 				this.teamQueens	= getWhiteQueensStart();
 				this.enemyQueens = getBlackQueensStart();
 			}
 			else // This code should never be reached
-				return false;
+				isSpectator = true;
 		}
 		return true;
 	}
-	
+
 	@Override
 	// Runs when GUI initally pops up, with login info
 	public void onLogin() {
@@ -212,14 +214,17 @@ public class testAI extends GamePlayer{
 				System.out.print(ourMove.get(i).get(j) + " ");
 			}
 		}
+		/*
 		if(!moveIsValid(ourMove)){
 			System.out.println("Invalid");
 			consoleMove();
 			return;
 		}
+		 */
 
 		makeMoveClientServer(inputCmd);
 		makeMove(ourMove);
+		System.out.println(test.eval(board, teamQueens, enemyQueens));
 	}
 
 	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
@@ -248,16 +253,16 @@ public class testAI extends GamePlayer{
 	}
 
 	private boolean checkPath(ArrayList<Integer> a, ArrayList<Integer> b) {
-		
+
 		final int WIDTH = 10;
 		int initX = a.get(0), initY = a.get(1), newX = b.get(0), newY = b.get(1);
 		int deltaX = initX - newX; // difference in initial and final x
 		int deltaY = initY - newY; // difference in initial and final y
-		
+
 		// return false if move is out of bounds
 		if(newX > WIDTH || newY > WIDTH || newX < 1 || newY < 1) 
 			return false;
-		
+
 		int xSign = 0, ySign = 0; // represents the vector direction that the queen is moving
 		if(deltaX != 0) xSign = deltaX < 0? -1: 1; // left or right?
 		if (deltaY != 0) ySign = deltaY < 0? -1: 1;// up or down?
@@ -290,9 +295,20 @@ public class testAI extends GamePlayer{
 		int temp = board[x1][y1];
 		board[x1][y1] = board[x2][y2];
 		board[x2][y2] = temp;
-		
+
 		// update the internal queen's position
-		updateQueen(position1, position2, false);
+		boolean enemyQueen;
+		if (isBlack && board[x2][y2] == BLACK) {
+			enemyQueen = false;
+		} else if(isBlack && board[x2][y2] == WHITE) {
+			enemyQueen = true;
+		} if (!isBlack && board[x2][y2] == BLACK) {
+			enemyQueen = true;
+		} else{
+			enemyQueen = false;
+		}
+		
+		updateQueen(position1, position2, enemyQueen);
 	}
 
 	private void placeArrow(ArrayList<Integer> position1) {
@@ -355,21 +371,21 @@ public class testAI extends GamePlayer{
 	private int oneToZeroIndex(int i) {
 		return i-1;
 	}
-	
+
 	private ArrayList<Integer> convertServerToBoard(ArrayList<Integer> position){
 		ArrayList<Integer> newPos = new ArrayList<Integer>();
 		newPos.add(boardSize-position.get(0));
 		newPos.add(oneToZeroIndex(position.get(1)));
 		return newPos;
 	}
-	
+
 	private ArrayList<Integer> convertBoardToServer(ArrayList<Integer> position){
 		ArrayList<Integer> newPos = new ArrayList<Integer>();
 		newPos.add(boardSize-position.get(0));
 		newPos.add(zeroToOneIndex(position.get(1)));
 		return newPos;
 	}
-	
+
 	private ArrayList<ArrayList<Integer>> getBlackQueensStart(){
 		/*
 		 * get the starting positions of the black queens
@@ -377,13 +393,13 @@ public class testAI extends GamePlayer{
 		 * Black ALWAYS starts at the top
 		 */
 		ArrayList<ArrayList<Integer>> blackQueens = new ArrayList<ArrayList<Integer>>(
-                Arrays.asList(
-                        new ArrayList<Integer>(Arrays.asList(0,3)),
-                        new ArrayList<Integer>(Arrays.asList(0,6)),
-                        new ArrayList<Integer>(Arrays.asList(3,0)),
-                        new ArrayList<Integer>(Arrays.asList(3,9))
-                    )
-                );
+				Arrays.asList(
+						new ArrayList<Integer>(Arrays.asList(0,3)),
+						new ArrayList<Integer>(Arrays.asList(0,6)),
+						new ArrayList<Integer>(Arrays.asList(3,0)),
+						new ArrayList<Integer>(Arrays.asList(3,9))
+						)
+				);
 		return blackQueens;
 	}
 
@@ -394,13 +410,13 @@ public class testAI extends GamePlayer{
 		 * White ALWAYS starts at the bottom
 		 */
 		ArrayList<ArrayList<Integer>> whiteQueens = new ArrayList<ArrayList<Integer>>(
-                Arrays.asList(
-                		new ArrayList<Integer>(Arrays.asList(6,0)),
-                		new ArrayList<Integer>(Arrays.asList(6,9)),
-                        new ArrayList<Integer>(Arrays.asList(9,3)),
-                        new ArrayList<Integer>(Arrays.asList(9,6))
-                    )
-                );
+				Arrays.asList(
+						new ArrayList<Integer>(Arrays.asList(6,0)),
+						new ArrayList<Integer>(Arrays.asList(6,9)),
+						new ArrayList<Integer>(Arrays.asList(9,3)),
+						new ArrayList<Integer>(Arrays.asList(9,6))
+						)
+				);
 		return whiteQueens;
 	}
 
@@ -420,6 +436,63 @@ public class testAI extends GamePlayer{
 			}
 		}
 	}
+
+	private void makeAiMove() {
+		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
+		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
+		for(int i = 0; i < move.move.size(); i++) {
+			serverMove.add(this.convertBoardToServer(move.move.get(i)));
+		}
+		makeMoveClientServer(serverMove);
+		makeMove(move.move);
+	}
+
+	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer ) {
+		bestmove best1 = new bestmove();
+		if  (maximizingPlayer){ 
+			best1.move = null; 
+			best1.eval = Integer.MIN_VALUE; 
+		} else { 
+
+			best1.move = null; 
+			best1.eval = Integer.MAX_VALUE; 
+		}
+
+		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
+			int score = test.eval(board, teamQueens, enemyQueens);
+			best1.move = null; 
+			best1.eval = score; 
+			return best1; 
+		}
+
+		LinkedList<ArrayList<ArrayList<Integer>>> allMoves;
+		if (maximizingPlayer){
+			allMoves = MoveFinder.getAllPossibleMove(board, teamQueens);
+		} else {
+			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
+		}
+		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
+			makeMove(move);
+			bestmove moveBest = minimax_i(depth-1,alpha, beta, !maximizingPlayer);  
+			unmakeMove(move);
+
+			if (maximizingPlayer) { 
+				if (moveBest.eval > best1.eval ) { 
+					best1.move = move; 
+					best1.eval = moveBest.eval; 
+				}
+			}else { 
+				if (moveBest.eval < best1.eval) { 
+					best1.move = move ; 
+					best1.eval = moveBest.eval; 
+				}
+			}
+
+		}
+		// Integer maxEval = Integer.MAX_VALUE;
+		return best1;
+	}
+
 
 
 
