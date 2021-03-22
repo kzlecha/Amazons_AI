@@ -442,19 +442,26 @@ public class testAI extends GamePlayer{
 		}
 
 		ArrayList<ArrayList<Integer>> move = minimax.minimax_(newGameBoard, enemyQueens, teamQueens);
-		
+
 		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
-		
+
 		for(int i = 0; i < move.size(); i++) {
 			serverMove.add(this.convertBoardToServer(move.get(i)));
 		}
-		System.out.println(move.toString());
-		this.printQueens();
-		this.printBoard();
+		if(debug) {
+			System.out.println("Before move: ");
+			this.printQueens();
+			this.printBoard();
+			System.out.println("Making move: ");
+			this.printMove(move);
+		}
 		makeMoveClientServer(serverMove);
 		makeMove(move);
-		this.printQueens();
-		this.printBoard();
+		if(debug) {
+			System.out.println("After making move");
+			this.printQueens();
+			this.printBoard();
+		}
 	}
 
 	private void makeAiMoveOldHeur() {
@@ -466,7 +473,7 @@ public class testAI extends GamePlayer{
 		for(int i = 0; i < move.move.size(); i++) {
 			serverMove.add(this.convertBoardToServer(move.move.get(i)));
 		}
-		System.out.println(move.toString());
+
 		this.printQueens();
 		this.printBoard();
 		makeMoveClientServer(serverMove);
@@ -533,6 +540,17 @@ public class testAI extends GamePlayer{
 		for (int i = 0; i < enemyQueens.size(); i++) {
 			for(int j = 0; j < enemyQueens.get(i).size(); j++) {
 				System.out.print(enemyQueens.get(i).get(j) + " ");
+			}
+			System.out.println();
+		}
+	}
+
+	private void printMove(ArrayList<ArrayList<Integer>> move) {
+		String[] titles = {"init: ", "new: ", "arrow: "};
+		for(int i = 0; i < move.size(); i++) {
+			System.out.print(titles[i]);
+			for(int j = 0; j < move.get(i).size(); j++) {
+				System.out.print(move.get(i).get(j) + " ");
 			}
 			System.out.println();
 		}
