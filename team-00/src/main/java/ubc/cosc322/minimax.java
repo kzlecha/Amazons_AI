@@ -61,46 +61,8 @@ public class minimax {
 
 
 
-	public bestmove minimax_i(int[][] gameboard, int depth, int alpha, int beta, boolean maximizingPlayer, ) {
-		// PSEUDOCODE
-		/**
-         boolean gameOver = false;
-         for(int queens = 0; queens < position.length; queens++){
-         if(){
+	public bestmove minimax_i(int[][] gameboard, int depth, int alpha, int beta, boolean maximizingPlayer) {
 
-         }
-         }
-		 **/
-		// // if depth == 0 or game over in position
-		//     //     return static evaluation of position
-		// //     if maximizingPlayer:
-		//         maxEval = -infinity 
-		//         for each child of position
-		//         eval = minimax(child, depth-1, alpha, beta, false)
-		//         maxEval = max(maxeval,eval)
-		//         alpha = max(alpha, eval)
-		//         if beta <= alpha
-		//             break 
-
-		//             return maxEval
-
-		// else  
-		// mineval  = +infinity
-
-		// for each child of posiiton
-		// eval = minimax_i(child, depth-1, alpha, beta, true )
-		// mineval = min(mineval, eval )
-		// beta = min(beta, eval)
-		// beta = min(beta, eval)
-		// if beta<= alpha 
-		//     break 
-		// return mineval 
-
-		//   if (isBlack == false)
-		//    { 
-
-		//     best 
-		//    }
 		bestmove best1 = new bestmove();
 		if  (maximizingPlayer)
 		{ 

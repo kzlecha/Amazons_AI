@@ -3,6 +3,7 @@ package ubc.cosc322;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class testAI extends GamePlayer{
 	private String passwd = null;
 	Scanner in;
 
-	private boolean isBlack;
+	private boolean isBlack, isSpectator;
 	private int teamVal, enemyVal;
 
 	private int[][] board;
@@ -80,6 +81,7 @@ public class testAI extends GamePlayer{
 			// How we tested making and unmaking the board
 			// System.out.println(Arrays.deepToString(getGameBoard(getGameBoard(getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE))))));
 			this.board = getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE)); 
+			isSpectator = true;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			System.out.println("Got a game_action_move msg");
 			// Update the board with the foreign move
@@ -103,11 +105,10 @@ public class testAI extends GamePlayer{
 					convertServerToBoard(arrowPos)
 					);
 
-			printBoard();
-
 			// Make our move
-			consoleMove();
-			test.eval(board, teamQueens, enemyQueens);
+			if(!isSpectator) {
+				this.makeAiMove();
+			}
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			System.out.println("Got a game_action_start msg");
 			// Start the inital game
@@ -118,7 +119,7 @@ public class testAI extends GamePlayer{
 
 				this.teamQueens	= getBlackQueensStart();
 				this.enemyQueens = getWhiteQueensStart();
-				consoleMove();
+				this.makeAiMove();
 
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
@@ -129,7 +130,7 @@ public class testAI extends GamePlayer{
 				this.enemyQueens = getBlackQueensStart();
 			}
 			else // This code should never be reached
-				return false;
+				isSpectator = true;
 		}
 		return true;
 	}
@@ -437,9 +438,13 @@ public class testAI extends GamePlayer{
 	}
 
 	private void makeAiMove() {
-
-		makeMoveClientServer(inputCmd);
-		makeMove(ourMove);
+		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
+		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
+		for(int i = 0; i < move.move.size(); i++) {
+			serverMove.add(this.convertBoardToServer(move.move.get(i)));
+		}
+		makeMoveClientServer(serverMove);
+		makeMove(move.move);
 	}
 
 	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer ) {
@@ -454,38 +459,22 @@ public class testAI extends GamePlayer{
 		}
 
 		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
-
 			int score = test.eval(board, teamQueens, enemyQueens);
 			best1.move = null; 
 			best1.eval = score; 
 			return best1; 
-
 		}
 
-		MoveFinder x = new MoveFinder(); 
+		LinkedList<ArrayList<ArrayList<Integer>>> allMoves;
 		if (maximizingPlayer){
-			allMoves = x.getAllPossibleMove(board, teamQueens);
+			allMoves = MoveFinder.getAllPossibleMove(board, teamQueens);
 		} else {
-			allMoves = x.getAllPossibleMove(board, enemyQueens); 
+			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
 		}
 		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
-			gameboard = makeMoveLocal(gameboard, move.get(0), move.get(1));
-			gameboard = placeArrow(move.get(2), gameboard); 
-			//    int move; 
-			updateQueen(gameboard);
-			// best1.move = move;
-			// bestmove best2 = new bestmove();
-			// test.printBoard(gameboard);
-
-			// best2 = minimax_i(gameboard,depth-1,alpha, beta, maximizingPlayer);  
-			bestmove moveBest = minimax_i(gameboard,depth-1,alpha, beta, !maximizingPlayer);  
-			// best1.move = best2.move;
-			// best1.eval = best2.eval;  
-
-			//   Test.unmakeMove(best1.move); 
-			gameboard = makeMoveLocal(gameboard, move.get(1), move.get(0));
-			gameboard = unplaceArrow(move.get(2), gameboard);
-			updateQueen(gameboard);
+			makeMove(move);
+			bestmove moveBest = minimax_i(depth-1,alpha, beta, !maximizingPlayer);  
+			unmakeMove(move);
 
 			if (maximizingPlayer) { 
 				if (moveBest.eval > best1.eval ) { 
@@ -502,9 +491,6 @@ public class testAI extends GamePlayer{
 		}
 		// Integer maxEval = Integer.MAX_VALUE;
 		return best1;
-
-
-
 	}
 
 

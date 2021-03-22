@@ -154,14 +154,11 @@ public class test {
 		// }
 		// System.out.println(foeMoves);
 
-		if (friendMoves == 0)
-
-		{
+		if (friendMoves == 0){
 
 			return Integer.MIN_VALUE;
 
 		}
-
 		else if (foeMoves == 0) {
 			return Integer.MAX_VALUE;
 		} else {
