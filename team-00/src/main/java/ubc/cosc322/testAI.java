@@ -222,7 +222,6 @@ public class testAI extends GamePlayer{
 		makeMove(ourMove);
 		this.printBoard();
 		this.printQueens();
-		System.out.println(test.eval(board, teamQueens, enemyQueens));
 	}
 
 	private boolean moveIsValid(ArrayList<ArrayList<Integer>> move) {
@@ -296,21 +295,15 @@ public class testAI extends GamePlayer{
 
 		// update the internal queen's position
 		boolean enemyQueen;
-		System.out.println("Am I black? " + this.isBlack);
-		System.out.println("POSITION AT X2 Y2 IS: " + board[x2][y2]);
 		if (isBlack && board[x2][y2] == BLACK) {
-			System.out.println("I moved black");
 			enemyQueen = false;
 		} else if(isBlack && board[x2][y2] == WHITE) {
-			System.out.println("Enemy moved white");
 			System.out.println();
 			enemyQueen = true;
 		} else if (!isBlack && board[x2][y2] == BLACK) {
-			System.out.println("Enemy moved black");
 			enemyQueen = true;
 		} else if(!isBlack && board[x2][y2] == WHITE){
 			enemyQueen = false;
-			System.out.println("I moved white");
 		}else {
 			System.out.println("CRITICAL ERROR OH GOD");
 			enemyQueen = false;
