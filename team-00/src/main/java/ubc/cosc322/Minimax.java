@@ -9,7 +9,7 @@ public class Minimax {
 	Integer beta = Integer.MIN_VALUE;
 	RelativeDistHeuristic rdh;
 	int teamVal;
-	boolean debug = true;
+	boolean debug = false;
 	// Need to access the playerColor for gameboard
 
 	public Minimax(int teamVal, int depth) {
@@ -115,7 +115,7 @@ public class Minimax {
 			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
 			max = Math.max(val, max);
 			alpha = Math.max(alpha, max);
-			System.out.println("Depth: " + depth);
+			if(debug) System.out.println("Depth: " + depth);
 			if (beta <= alpha) break;
 		}
 
@@ -141,14 +141,14 @@ public class Minimax {
 			int val = minFunction(newGameBoard, depth-1, playerQueens, enemyQueens);
 			min = Math.min(val, min);
 			beta = Math.min(beta, min);
-			System.out.println("Depth: " + depth);
+			if(debug) System.out.println("Depth: " + depth);
 			if (beta <= alpha) break;
 		}
 		return min;
 	}
 
 	public boolean isTerminalState(int depth, LinkedList<ArrayList<ArrayList<Integer>>> moves) {
-		System.out.println("Depth passed into terminal state function:" + depth);
+		if(debug) System.out.println("Depth passed into terminal state function:" + depth);
 		boolean terminalStateReached = false;
 		if (depth == 0) {
 			terminalStateReached = true;
