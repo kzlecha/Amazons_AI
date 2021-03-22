@@ -419,14 +419,9 @@ public class testAI extends GamePlayer{
 	}
 
 	private void makeAiMove() {
-		// New minimax function
 		Minimax minimax = new Minimax(teamVal, depth);
-		//(int[][] gameboard, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens)
-		int[][] gameBoardClone = this.board.clone();
-		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(gameBoardClone, teamQueens, enemyQueens);
-		for(int i = 0; i < serverMove.size(); i++) {
-			serverMove.add(this.convertBoardToServer(serverMove.get(i)));
-		}
+		//int[][] gameBoardClone = this.board.clone();
+		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(this.board, teamQueens, enemyQueens);
 		makeMoveClientServer(serverMove);
 		makeMove(serverMove);
 	}

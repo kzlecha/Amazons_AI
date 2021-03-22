@@ -10,6 +10,7 @@ public class Minimax {
 	Integer alpha = Integer.MAX_VALUE;
 	Integer beta = Integer.MIN_VALUE;
 	RelativeDistHeuristic rdh;
+	int teamVal;
 	boolean debug = true;
 	// Need to access the playerColor for gameboard
 
@@ -17,6 +18,7 @@ public class Minimax {
 		moveFinder = new MoveFinder();
 		rdh = new RelativeDistHeuristic(moveFinder, teamVal);
 		this.depth = depth;
+		this.teamVal = teamVal;
 	}
 
 	// Placeholder: heuristic function
@@ -38,11 +40,10 @@ public class Minimax {
 		int arrX = move.get(2).get(0);
 		int arrY = move.get(2).get(1);
 
-		int playerColor = gameboard[origX][origY];
 		int[][] newGameBoard = gameboard.clone();
 
 		newGameBoard[origX][origY] = 0;
-		newGameBoard[newX][newY] = playerColor;
+		newGameBoard[newX][newY] = teamVal;
 		newGameBoard[arrX][arrY] = 3;
 
 		return newGameBoard;
@@ -77,7 +78,13 @@ public class Minimax {
 			}
 		}
 		// Experiment
-		return playerMoves.get(index); // NEED TO FIX THIS :-T Needs to return the move
+		ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
+		for(int i=0; i < playerMoves.get(index).size(); i++)
+			for(int k=0; k < playerMoves.get(index).get(i).size(); k++)
+				move.get(i).set(k, move.get(i).get(k) + 1);
+
+		if(debug) System.out.println("MINIMAX HAS CONCLUDED! RETURNING: " + playerMoves.get(index).toString());
+		return move; // NEED TO FIX THIS :-T Needs to return the move
 	}
 
 	public int maxFunction(int[][] gameboard, int depth, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
