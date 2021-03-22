@@ -47,7 +47,7 @@ public class Minimax {
 		
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
 		// Experiment
-		playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
+		playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 		
 		if(debug) System.out.println("-Length of moveList: " + playerMoves.size());
 		int max = Integer.MIN_VALUE;
@@ -87,7 +87,7 @@ public class Minimax {
 
 	public int maxFunction(Board board, int depth, int alpha, int beta, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at max call: " + depth);
-		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
+		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");
@@ -123,7 +123,7 @@ public class Minimax {
 
 	public int minFunction(Board board, int depth, int alpha, int beta, ArrayList<ArrayList<Integer>> playerQueens, ArrayList<ArrayList<Integer>> enemyQueens) {
 		if(debug) System.out.println("Depth at min call: " + depth);
-		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board.board, playerQueens);
+		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 
 		if (isTerminalState(depth, playerMoves)) {
 			if(debug) System.out.println("Terminal state found");

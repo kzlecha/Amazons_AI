@@ -45,7 +45,7 @@ public class MoveFinder {
 	// n_moves = 0;
 	// }
 
-	public  static LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(int[][] gameboard, ArrayList<ArrayList<Integer>> listOfQueens) {
+	public  static LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(Board board, ArrayList<ArrayList<Integer>> listOfQueens) {
 		/*
         Get all list of possible moves. save in form [[oldPosx, oldPosy],[newPosX, newPosy],[arrowPosX, arrowPosy]]
 		 */
@@ -53,12 +53,14 @@ public class MoveFinder {
 
 		for (ArrayList<Integer> queen : listOfQueens) {
 			// gets all the possible moves a queen can do
-			LinkedList<ArrayList<Integer>> queenMoves = getMoves(queen, gameboard);
+			LinkedList<ArrayList<Integer>> queenMoves = getMoves(queen, board.board);
 
 			for (ArrayList<Integer> possibleQueenPosition : queenMoves) {
 				// get all possible arrow shooting locations
-				LinkedList<ArrayList<Integer>> possibleArrowPos = getMoves(possibleQueenPosition, gameboard);
-
+				board.swap(queen, possibleQueenPosition);
+				LinkedList<ArrayList<Integer>> possibleArrowPos = getMoves(possibleQueenPosition, board.board);
+				board.swap(possibleQueenPosition, queen);
+				
 				for (ArrayList<Integer> arrowPos : possibleArrowPos) {
 					// format each as [[oldPosx, oldPosy],[newPosX, newPosy],[arrowPosX, arrowPosy]]
 					allPossibleMoves.add(new ArrayList<ArrayList<Integer>>(
