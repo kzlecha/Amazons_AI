@@ -54,7 +54,7 @@ public class testAI extends GamePlayer{
 		super.postSetup();
 		this.userName = userName;
 		this.passwd = password;
-		this.depth = 1;
+		this.depth = 2;
 
 		//To make a GUI-based player, create an instance of BaseGameGUI
 		//and implement the method getGameGUI() accordingly
@@ -228,7 +228,7 @@ public class testAI extends GamePlayer{
 
 		Minimax minimax = new Minimax(board.teamVal, depth);
 
-		ArrayList<ArrayList<Integer>> move = minimax.minimaxHelper(this.board);
+		ArrayList<ArrayList<Integer>> move = minimax.iterativeDeepening(this.board);
 		if(debug) {
 			System.out.println("Done considering my move");
 		}

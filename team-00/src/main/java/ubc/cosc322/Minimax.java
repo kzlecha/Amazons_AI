@@ -3,14 +3,19 @@ package ubc.cosc322;
 import java.util.*;
 
 public class Minimax {
+	
+	
 
-	// BECAUSE WE USE A GLOBAL BOARD CANNOT STOP IN THE MIDDLE... ITERATIVE DEEPENING OFF THE TABLE
+	// BECAUSE WE USE A GLOBAL BOARD CANNOT STOP IN THE MIDDLE... ITERATIVE DEEPENING OFF THE TABLE? NOPE
+	long startTime;
+	boolean timedOut = false;
 
-	int score, depth;
+	int depth;
 	RelativeDistHeuristic rdh;
 	int teamVal;
 	boolean debug = false;
 	boolean debugPrune = true;
+
 	// Need to access the playerColor for gameboard
 
 	public Minimax(int teamVal, int depth) {
@@ -27,6 +32,22 @@ public class Minimax {
 
 	public int heuristic(LinkedList<ArrayList<ArrayList<Integer>>> moveSet, boolean maximize) {
 		return 0; // placeholder value
+	}
+	
+	public ArrayList<ArrayList<Integer>> iterativeDeepening(Board board){
+		startTime = System.currentTimeMillis();
+		ArrayList<ArrayList<Integer>> deepestFinishedMove = null;
+		ArrayList<ArrayList<Integer>> move = null;
+		this.depth = 1;
+		deepestFinishedMove = minimaxHelper(board);
+		while(!this.timedOut) {
+			move = minimaxHelper(board);
+			if(!this.timedOut) {
+				depth += 1;
+				deepestFinishedMove = move;
+			}
+		}
+		return deepestFinishedMove;
 	}
 
 	public ArrayList<ArrayList<Integer>> minimaxHelper(Board board){
@@ -113,8 +134,15 @@ public class Minimax {
 
 			//max = Math.max(val, max);
 			//alpha = Math.max(alpha, max);
+			// Discuss... does this mess up anything?
 
 			if(debug) System.out.println("Depth: " + depth);
+			// For iterative deepening
+			if (System.currentTimeMillis() - this.startTime > 27000) {
+				timedOut = true;
+				break;
+			}
+
 			if (val >= beta) { // Pruning condition
 				if (debugPrune) System.out.println("pruned");
 				return val;
@@ -151,6 +179,13 @@ public class Minimax {
 			//min = Math.min(val, min);
 
 			if(debug) System.out.println("Depth: " + depth);
+			// Discuss... does this mess up anything?
+			// For iterative deepening
+			if (System.currentTimeMillis() - this.startTime > 27000) {
+				timedOut = true;
+				break;
+			}
+			
 			if (val<= alpha) { // Pruning condition
 				if (debugPrune) System.out.println("pruned");
 				return val;
