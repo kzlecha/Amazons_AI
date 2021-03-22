@@ -32,8 +32,6 @@ public class testAI extends GamePlayer{
 	private int boardSize = 10;
 	private int depth;
 
-	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
-
 	// Run this game player, and it's graphics so we can test it
 	public static void main(String args[]) {
 		testAI player = new testAI(args[0],args[1]);
@@ -224,6 +222,7 @@ public class testAI extends GamePlayer{
 	private void makeAiMove() {
 		if(debug) {
 			System.out.println("Starting to consider my move");
+			board.printBoard();
 		}
 		/*
 		 * RICK and SEAN make AI move using ALPHABETA
@@ -240,7 +239,7 @@ public class testAI extends GamePlayer{
 			System.out.println("Done considering my move");
 		}
 
-		ArrayList<ArrayList<Integer>> move = minimax.minimax_(newGameBoard, teamQueens, enemyQueens);
+		ArrayList<ArrayList<Integer>> move = minimax.minimax_(newGameBoard, board.teamQueens, board.enemyQueens);
 
 		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
 

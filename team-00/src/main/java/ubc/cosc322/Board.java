@@ -9,7 +9,7 @@ public class Board {
 	public int teamVal, enemyVal;
 	private int boardSize = 10;
 
-	private ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
+	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
 	private boolean isBlack;
 
 	// Constants relative to the board
