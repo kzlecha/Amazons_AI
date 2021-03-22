@@ -103,14 +103,16 @@ public class testAI extends GamePlayer{
 			if(!isSpectator)
 				if (debug) System.out.println("Calling makeAiMove()");
 
-
+			ArrayList<ArrayList<Integer>> move = new ArrayList<ArrayList<Integer>>();
+			move.add(convertServerToBoard(queenPosCurr));
+			move.add(convertServerToBoard(queenPosNext));
+			move.add(convertServerToBoard(arrowPos));
 			//Update our internal board
-			makeMove(
-					convertServerToBoard(queenPosCurr),
-					convertServerToBoard(queenPosNext),
-					convertServerToBoard(arrowPos)
-					);
-
+			makeMove(move);
+			if(debug) {
+				System.out.println("We recived the following move: ");
+				this.printMove(move);
+			}
 			// if we arent spectating, make a move
 			if(!isSpectator)
 				this.makeAiMove();
