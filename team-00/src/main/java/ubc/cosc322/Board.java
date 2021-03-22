@@ -15,6 +15,10 @@ public class Board {
 	// Constants relative to the board
 	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
 	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
+	
+	public Board(ArrayList<Integer> msgDetails) {
+		board = getGameBoard(msgDetails);
+	}
 
 	public void setUp(boolean isBlack) {
 		this.isBlack = isBlack;
