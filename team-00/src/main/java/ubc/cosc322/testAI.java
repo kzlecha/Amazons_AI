@@ -422,11 +422,13 @@ public class testAI extends GamePlayer{
 		for(int i = 0; i < move.move.size(); i++) {
 			serverMove.add(this.convertBoardToServer(move.move.get(i)));
 		}
-		makeMoveClientServer(serverMove);
 		System.out.println(move.toString());
 		this.printQueens();
 		this.printBoard();
+		makeMoveClientServer(serverMove);
 		makeMove(move.move);
+		this.printQueens();
+		this.printBoard();
 	}
 
 	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer) {
@@ -453,7 +455,6 @@ public class testAI extends GamePlayer{
 		} else {
 			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
 		}
-		System.out.println(allMoves.size());
 		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
 			
 			makeMove(move);
