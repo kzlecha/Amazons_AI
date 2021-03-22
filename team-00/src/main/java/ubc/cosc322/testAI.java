@@ -54,7 +54,7 @@ public class testAI extends GamePlayer{
 		super.postSetup();
 		this.userName = userName;
 		this.passwd = password;
-		this.depth = 2;
+		this.depth = 1;
 
 		//To make a GUI-based player, create an instance of BaseGameGUI
 		//and implement the method getGameGUI() accordingly
@@ -225,11 +225,8 @@ public class testAI extends GamePlayer{
 			System.out.println("Starting to consider my move");
 			board.printBoard();
 		}
-		/*
-		 * RICK and SEAN make AI move using ALPHABETA
-		 */
-		Minimax minimax = new Minimax(board.teamVal, depth);
 
+		Minimax minimax = new Minimax(board.teamVal, depth);
 
 		ArrayList<ArrayList<Integer>> move = minimax.minimaxHelper(this.board);
 		if(debug) {
