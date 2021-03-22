@@ -441,9 +441,20 @@ public class testAI extends GamePlayer{
 			System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
 		}
 
-		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(newGameBoard, enemyQueens, teamQueens);
+		ArrayList<ArrayList<Integer>> move = minimax.minimax_(newGameBoard, enemyQueens, teamQueens);
+		
+		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
+		
+		for(int i = 0; i < move.size(); i++) {
+			serverMove.add(this.convertBoardToServer(move.get(i)));
+		}
+		System.out.println(move.toString());
+		this.printQueens();
+		this.printBoard();
 		makeMoveClientServer(serverMove);
-		makeMove(serverMove);
+		makeMove(move);
+		this.printQueens();
+		this.printBoard();
 	}
 
 	private void makeAiMoveOldHeur() {

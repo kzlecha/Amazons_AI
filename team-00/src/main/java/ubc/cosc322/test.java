@@ -126,40 +126,10 @@ public class test {
 	}
 
 
-	public static boolean gameEnd(ArrayList<ArrayList<Integer>> friendQueen, ArrayList<ArrayList<Integer>> enemyQueen,
-			int[][] GameBoard)
-
-	{
-		// int friendMoves = 0;
-		// int foeMoves = 0; 
-		// MoveFinder x = new MoveFinder(); 
-		// for ( ArrayList<Integer> friend : friendQueen) {
-		//     x.getMoves(friend, GameBoard);
-		//     friendMoves += MoveFinder.n_moves;
-		//     MoveFinder.printMoves();
-
-		// }
-		// System.out.println(friendMoves);
-
-		// for (ArrayList<Integer> foe : enemyQueen) {
-
-		//     x.getMoves(foe, GameBoard);
-		//     foeMoves += MoveFinder.n_moves;
-
-		// }
-		// System.out.println(foeMoves);
-
-		// if (friendMoves == 0 | foeMoves ==0 )
-
-		// {
-
-		//     return true;
-
-		// }
-
-		// else {
-		//     return false; 
-		//  }
+	public static boolean gameEnd(ArrayList<ArrayList<Integer>> friendQueen, 
+			ArrayList<ArrayList<Integer>> enemyQueen,
+			int[][] GameBoard){
+		
 		int evaluation = eval(GameBoard, friendQueen, enemyQueen); 
 		if ( evaluation== Integer.MIN_VALUE |evaluation ==  Integer.MAX_VALUE) 
 
