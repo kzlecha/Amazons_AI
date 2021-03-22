@@ -301,7 +301,7 @@ public class testAI extends GamePlayer{
 		} else{
 			enemyQueen = false;
 		}
-		
+		System.out.println("This move was done by an enemy: " + enemyQueen);
 		updateQueen(position1, position2, enemyQueen);
 	}
 
@@ -435,7 +435,6 @@ public class testAI extends GamePlayer{
 			best1.move = null; 
 			best1.eval = Integer.MAX_VALUE; 
 		}
-
 		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
 			int score = test.eval(board, teamQueens, enemyQueens);
 			best1.move = null; 
@@ -473,12 +472,14 @@ public class testAI extends GamePlayer{
 	}
 
 	private void printQueens() {
+		System.out.println("Ally Queens");
 		for (int i = 0; i < teamQueens.size(); i++) {
 			for(int j = 0; j < teamQueens.get(i).size(); j++) {
 				System.out.print(teamQueens.get(i).get(j) + " ");
 			}
 			System.out.println();
 		}
+		System.out.println("Enemy Queens");
 		for (int i = 0; i < enemyQueens.size(); i++) {
 			for(int j = 0; j < enemyQueens.get(i).size(); j++) {
 				System.out.print(enemyQueens.get(i).get(j) + " ");
