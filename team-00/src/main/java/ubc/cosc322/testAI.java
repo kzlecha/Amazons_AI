@@ -19,7 +19,7 @@ public class testAI extends GamePlayer{
 	final int EMPTY = 0, WHITE = 1, BLACK = 2, ARROW = 3;
 	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
 	boolean debug = true;
-	
+
 
 
 	private GameClient gameClient = null;
@@ -35,7 +35,7 @@ public class testAI extends GamePlayer{
 
 	private int boardSize = 10;
 	private int depth;
-	
+
 	public ArrayList<ArrayList<Integer>> teamQueens, enemyQueens;
 
 	// Run this game player, and it's graphics so we can test it
@@ -229,7 +229,7 @@ public class testAI extends GamePlayer{
 			return;
 		}
 		 */
-		
+
 		makeMoveClientServer(inputCmd);
 		this.printBoard();
 		this.printQueens();
@@ -430,17 +430,17 @@ public class testAI extends GamePlayer{
 
 	private void makeAiMove() {
 		/*
-		* RICK and SEAN make AI move using ALPHABETA
-		*/
+		 * RICK and SEAN make AI move using ALPHABETA
+		 */
 		Minimax minimax = new Minimax(teamVal, depth);
 		int[][] newGameBoard = new int[10][10];
 		for(int i = 0; i < this.board.length; i++) {
-			  int[] aMatrix = this.board[i];
-			  int   aLength = aMatrix.length;
-			  newGameBoard[i] = new int[aLength];
-			  System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
+			int[] aMatrix = this.board[i];
+			int   aLength = aMatrix.length;
+			newGameBoard[i] = new int[aLength];
+			System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
 		}
-		
+
 		ArrayList<ArrayList<Integer>> serverMove = minimax.minimax_(newGameBoard, enemyQueens, teamQueens);
 		makeMoveClientServer(serverMove);
 		makeMove(serverMove);
@@ -448,8 +448,8 @@ public class testAI extends GamePlayer{
 
 	private void makeAiMoveOldHeur() {
 		/*
-		* Kanny and Elias make AI move using arrays
-		*/
+		 * Kanny and Elias make AI move using arrays
+		 */
 		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
 		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
 		for(int i = 0; i < move.move.size(); i++) {
@@ -489,7 +489,7 @@ public class testAI extends GamePlayer{
 			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
 		}
 		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
-			
+
 			makeMove(move);
 			bestmove moveBest = minimax_i(depth-1,alpha, beta, !maximizingPlayer);  
 			unmakeMove(move);
@@ -505,8 +505,8 @@ public class testAI extends GamePlayer{
 					best1.eval = moveBest.eval; 
 				}
 			}
-		makeMoveClientServer(serverMove);
-		makeMove(serverMove);
+		}
+		return best1;
 	}
 
 
