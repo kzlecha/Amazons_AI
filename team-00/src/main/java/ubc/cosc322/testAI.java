@@ -59,7 +59,7 @@ public class testAI extends GamePlayer{
 		super.postSetup();
 		this.userName = userName;
 		this.passwd = password;
-		this.depth = 2;
+		this.depth = 1;
 
 		//To make a GUI-based player, create an instance of BaseGameGUI
 		//and implement the method getGameGUI() accordingly
@@ -432,6 +432,9 @@ public class testAI extends GamePlayer{
 	}
 
 	private void makeAiMove() {
+		if(debug) {
+			System.out.println("Starting to consider my move");
+		}
 		/*
 		 * RICK and SEAN make AI move using ALPHABETA
 		 */
@@ -443,8 +446,11 @@ public class testAI extends GamePlayer{
 			newGameBoard[i] = new int[aLength];
 			System.arraycopy(aMatrix, 0, newGameBoard[i], 0, aLength);
 		}
+		if(debug) {
+			System.out.println("Done considering my move");
+		}
 
-		ArrayList<ArrayList<Integer>> move = minimax.minimax_(newGameBoard, enemyQueens, teamQueens);
+		ArrayList<ArrayList<Integer>> move = minimax.minimax_(newGameBoard, teamQueens, enemyQueens);
 
 		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
 
