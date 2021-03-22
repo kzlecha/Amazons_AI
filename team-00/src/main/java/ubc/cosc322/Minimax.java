@@ -119,12 +119,14 @@ public class Minimax {
 		if(debug) System.out.println("Depth at max call: " + depth);
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 
-		if (isTerminalState(depth, playerMoves)) {
+		if(playerMoves.size()==0){
 			if(debug) System.out.println("Terminal state found");
 			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
 			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
+			return Integer.MIN_VALUE;
+		}
+		else if(depth == 0){
 			return randomNumber();
-			//return 0;
 		}
 
 		//int max = Integer.MIN_VALUE;
@@ -166,10 +168,14 @@ public class Minimax {
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 
 		// CHANGE SO THAT ONLY DEPTH LIMIT RETUNRS HERUISTIC, AND NO MOVES RETERNS THE PROPER VALUE
-		if (isTerminalState(depth, playerMoves)) {
+		
+		if(playerMoves.size()==0){
 			if(debug) System.out.println("Terminal state found");
 			/*ArrayList<Integer> calcResults = rdh.calculate(gameboard);
 			return calcResults.get(0).intValue() - calcResults.get(1).intValue();*/
+			return Integer.MAX_VALUE;
+		}
+		else if(depth == 0){
 			return randomNumber();
 		}
 
