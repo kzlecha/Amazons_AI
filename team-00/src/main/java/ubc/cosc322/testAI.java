@@ -100,7 +100,7 @@ public class testAI extends GamePlayer{
 						convertServerToBoard(queenPosNext),
 						convertServerToBoard(arrowPos)
 						);
-				this.makeAiMove();
+				this.consoleMove();
 			}
 		} else if(messageType.equals(GameMessage.GAME_ACTION_START)) {
 			isSpectator = false;
@@ -113,7 +113,7 @@ public class testAI extends GamePlayer{
 
 				this.teamQueens	= getBlackQueensStart();
 				this.enemyQueens = getWhiteQueensStart();
-				this.makeAiMove();
+				this.consoleMove();
 
 			}else if ((msgDetails.get(AmazonsGameMessage.PLAYER_WHITE)).equals(this.userName())) {
 				System.out.println("I am the white player");
@@ -215,9 +215,13 @@ public class testAI extends GamePlayer{
 			return;
 		}
 		 */
-
+		
 		makeMoveClientServer(inputCmd);
+		this.printBoard();
+		this.printQueens();
 		makeMove(ourMove);
+		this.printBoard();
+		this.printQueens();
 		System.out.println(test.eval(board, teamQueens, enemyQueens));
 	}
 
