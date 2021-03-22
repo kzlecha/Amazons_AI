@@ -114,8 +114,8 @@ public class Board {
 	}
 
 	public void unmakeMove(ArrayList<Integer> initQueen, ArrayList<Integer> newQueen, ArrayList<Integer> arrowPos) {
-		swap(newQueen, initQueen);
 		removeArrow(arrowPos);
+		swap(newQueen, initQueen);
 	}
 	public void unmakeMove(ArrayList<ArrayList<Integer>> move) {
 		// ArrayList<Integer> initQueen = move.get(INIT_POS), newQueen = move.get(NEW_POS), arrowPos = move.get(ARROW_POS);
