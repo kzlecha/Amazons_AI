@@ -37,7 +37,7 @@ public class test {
 		foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
-		Minimax minimax = new Minimax(2, 5);
+		Minimax minimax = new Minimax(2, 10);
 		
 		ArrayList<ArrayList<Integer>> result = minimax.minimax_(x, friend_Queen_pos, foe_queen_pos);
 		System.out.println(result.toString());
