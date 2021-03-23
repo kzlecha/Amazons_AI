@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.sound.sampled.SourceDataLine;
 import org.jboss.netty.util.internal.SystemPropertyUtil;
-import java.awt.Point;
 
+@SuppressWarnings("unused")
 public class MoveFinder {
 	private final static boolean debug = false;
 
@@ -189,7 +189,6 @@ public class MoveFinder {
 		int row = position.get(0);
 		int col = position.get(1);
 		int j = 0;
-		int k = 0; 
 
 
 

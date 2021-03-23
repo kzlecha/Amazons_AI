@@ -17,6 +17,7 @@ import ygraph.ai.smartfox.games.GamePlayer;
  * Jan 5, 2021
  *
  */
+@SuppressWarnings("unused")
 public class COSC322Test extends GamePlayer{
 
 	private GameClient gameClient = null;
@@ -80,6 +81,7 @@ public class COSC322Test extends GamePlayer{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
 		//System.out.println(msgDetails);

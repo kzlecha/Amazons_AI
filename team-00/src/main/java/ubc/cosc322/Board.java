@@ -38,7 +38,7 @@ public class Board {
 	// This works as intended
 	public int[][] getGameBoard(ArrayList<Integer> msgDetails) {
 		// first 12 elements in msgDetails are not part of the gameboard
-		int[][] gameBoard = new int[10][10];
+		int[][] gameBoard = new int[boardSize][boardSize];
 		int currentIdx = 11;
 		for(int i = 0; i < gameBoard.length; i++) {
 			currentIdx += 1;
@@ -213,6 +213,7 @@ public class Board {
 		System.out.println("pausing to let you observe");
 		Scanner in = new Scanner(System.in);
 		in.next();
+		in.close();
 	}
 	
 	/* TODO: MAKE THESE FUNCTIONS WORK
