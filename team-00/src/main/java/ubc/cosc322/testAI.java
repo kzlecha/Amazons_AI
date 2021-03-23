@@ -266,6 +266,97 @@ public class testAI extends GamePlayer{
 			board.printBoard();
 		}
 	}
+	
+	private boolean isMoveValid(ArrayList<Integer> oldQueenPos, ArrayList<Integer> newQueenPos, ArrayList<Integer> arrowPos, int queenVal) {
+		final int WIDTH = 9;
+		
+		String teamColour;
+		if(queenVal == this.board.BLACK)
+			teamColour = "black";
+		else
+			teamColour = "white";
+		
+		String msg = "Illegal move by " + teamColour + ": ";
+		
+		int initX = convertServerToBoard(oldQueenPos).get(0);
+		int initY = convertServerToBoard(newQueenPos).get(0);
+		
+		int newX = convertServerToBoard(oldQueenPos).get(1);			
+		int newY = convertServerToBoard(newQueenPos).get(0);
+		
+		int arrX = convertServerToBoard(arrowPos).get(0);
+		int arrY = convertServerToBoard(arrowPos).get(1);
+		
+		// return false if move is out of bounds
+		if(newX > WIDTH || newY > WIDTH || newX < 0 || newY < 0) {
+			msg += "Index out of bounds.";
+			System.out.print(msg);
+			return false;
+		}
+		// return false if a queen with appropriate colour is not being moved
+		if(this.board.board[initY][initX] != queenVal) {
+			msg += "Starting move location does not contain a " + teamColour + " queen.";
+			System.out.println(msg);
+			return false;
+		}
+		
+		// if the path is clear for the queen...
+		if(checkPath(this.board.board, initY, initX, newY, newX)) {
+			
+			// swap accepts zero-indexed ArrayLists
+			ArrayList<Integer> oldQueenPosZero = new ArrayList<Integer>();
+			oldQueenPosZero.add(newX);
+			oldQueenPosZero.add(newY);			
+			
+			ArrayList<Integer> newQueenPosZero = new ArrayList<Integer>();
+			newQueenPosZero.add(newX);
+			newQueenPosZero.add(newY);
+			
+			// check if arrow is Valid
+			this.board.swap(oldQueenPosZero, newQueenPosZero);
+			boolean validArrow = checkPath(this.board.board, newY, newX, arrY, arrX);
+			this.board.swap(oldQueenPosZero, newQueenPosZero);
+			
+			if(!validArrow) {	
+				msg += "Arrow path is not clear.";
+				return false;
+			}
+				
+		}
+		else {
+			msg += "Queen's path is not clear.";
+			System.out.println(msg);
+			return false;
+		}
+		// move is valid
+		return true;
+	}
+	
+	
+	// checks to see if the path between two locations is unobstructed
+	private boolean checkPath(int[][] x, int initY, int initX, int newY, int newX) {
+		
+		int deltaX = newX - initX; // difference in initial and final x
+		int deltaY = newY - initY; // difference in initial and final y
+
+		int xSign = 0, ySign = 0; // represents the vector direction that the queen is moving
+		if(deltaX != 0) xSign = deltaX < 0? -1: 1; // left or right?
+		if(deltaY != 0) ySign = deltaY < 0? -1: 1;// up or down?
+		deltaX = Math.abs(deltaX);
+		deltaY = Math.abs(deltaY);
+
+		// check for illegal movement (non-linear)
+		if(deltaX != 0 && deltaY != 0 && deltaX != deltaY) 
+			return false;
+
+		// check that the path is clear
+		int max = Math.max(deltaX, deltaY);
+		for(int i = 1; i <= max ; i++) {
+			if(x[initY+i*ySign][initX+i*xSign] != 0)
+				return false;
+		}
+		return true;
+	}
 	/*
 	private void makeAiMoveOldHeur() {
 		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
