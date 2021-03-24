@@ -275,8 +275,6 @@ public class testAI extends GamePlayer{
 			board.printBoard();
 		}
 	}
-<<<<<<< Updated upstream
-=======
 	
 	private boolean isMoveValid(ArrayList<Integer> oldQueenPos, ArrayList<Integer> newQueenPos, ArrayList<Integer> arrowPos, int queenVal) {
 		final int WIDTH = 9;
@@ -372,7 +370,6 @@ public class testAI extends GamePlayer{
 		}
 		return true;
 	}
->>>>>>> Stashed changes
 	/*
 	private void makeAiMoveOldHeur() {
 		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
