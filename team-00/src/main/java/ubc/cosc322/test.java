@@ -25,16 +25,36 @@ public class test {
 					{ 0, 0, 0, 7, 0, 0, 8, 0, 0, 0 } };
 		printBoard(x);
 
+		 Board y = new Board(); 
+		y.board = x;
+
 		ArrayList<ArrayList<Integer>> friend_Queen_pos = new ArrayList<ArrayList<Integer>>();
 		friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 3)));
 		friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 0)));
 		friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(0, 6)));
 		friend_Queen_pos.add(new ArrayList<Integer>(Arrays.asList(3, 9)));
-		ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
-		foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 0)));
-		foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
-		foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
-		foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
+		y.teamQueens = friend_Queen_pos; 
+		 
+
+		LinkedList<ArrayList<Integer>> queenMoves = MoveFinder.getQueenMoves(y, friend_Queen_pos); 
+
+System.out.println(queenMoves.size());
+		for (ArrayList<Integer> queenmovessub : queenMoves)  { 
+
+
+			 for (Integer z : queenmovessub) { 
+
+				 System.out.println(z);
+
+			 }
+		}
+		// ArrayList<ArrayList<Integer>> foe_queen_pos = new ArrayList<ArrayList<Integer>>();
+		 
+
+		// foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 0)));
+		// foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 3)));
+		// foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(9, 6)));
+		// foe_queen_pos.add(new ArrayList<Integer>(Arrays.asList(6, 9)));
 		// System.out.println(gameEnd(friend_Queen_pos, foe_queen_pos, x));
 
 		//Minimax minimax = new Minimax(2, 10);
