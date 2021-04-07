@@ -22,9 +22,7 @@ public class testAI extends GamePlayer{
 	private BaseGameGUI gamegui = null;
 	private String userName = null;
 	private String passwd = null;
-
 	Scanner in;
-	Logger logger;
 	
 	final int INIT_POS = 0, NEW_POS = 1, ARROW_POS = 2;
 
@@ -62,7 +60,6 @@ public class testAI extends GamePlayer{
 		//and implement the method getGameGUI() accordingly
 		this.gamegui = new BaseGameGUI(this);
 		in = new Scanner(System.in);
-		logger = new Logger();
 	}
 
 	@Override
@@ -78,11 +75,11 @@ public class testAI extends GamePlayer{
 		// Update board state
 		if(messageType.equals(GameMessage.GAME_STATE_BOARD)) { 
 			System.out.println("Got a game_state_board msg");
-
+			// int[][] test = this.getGameBoard(GameMessage.GAME_STATE_BOARD)
 			gamegui.setGameState((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE));
-
+			// How we tested making and unmaking the board
+			// System.out.println(Arrays.deepToString(getGameBoard(getGameBoard(getGameBoard((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE))))));
 			this.board = new Board((ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.GAME_STATE)); 
-			
 			isSpectator = true;
 		} else if(messageType.equals(GameMessage.GAME_ACTION_MOVE) ) {
 			System.out.println("Got a game_action_move msg");
@@ -95,34 +92,22 @@ public class testAI extends GamePlayer{
 			gamegui.updateGameState(queenPosCurr, queenPosNext, arrowPos);
 
 			// Make our move
-			if (debug) {
-				if(isSpectator) {
+			if (debug)
+				if (isSpectator)
 					System.out.println("Currently spectating.");
-				}else {
-					System.out.println("Calling Make AI move");
-				}
-			}
+			if(!isSpectator)
+				if (debug) System.out.println("Calling makeAiMove()");
 
 			// if we arent spectating, make a move
 			if(!isSpectator) {
 				ArrayList<ArrayList<Integer>> move = new ArrayList<ArrayList<Integer>>();
-
 				if(debug) {
 					System.out.println("We recived the following move: ");
 					board.printMove(move);
 				}
-
-				// convert board indexing from valid moves to invalid moves
 				move.add(convertServerToBoard(queenPosCurr));
 				move.add(convertServerToBoard(queenPosNext));
 				move.add(convertServerToBoard(arrowPos));
-
-				if(!debug) {
-					logger.logBoard(board.board);
-					logger.log("Opponent Move:\n");
-					logger.logMove(move);
-				}
-
 				//Update our internal board
 				board.makeMove(move);
 				this.makeAiMove();
@@ -172,13 +157,45 @@ public class testAI extends GamePlayer{
 	public BaseGameGUI getGameGUI() {
 		return  this.gamegui;
 	}
-
 	// Sends a makeMove message to the server and updatesClient
 	private void makeMoveClientServer(ArrayList<ArrayList<Integer>> inputCmd) {
 		// Input CMD is in the order input
 		gameClient.sendMoveMessage(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 		gamegui.updateGameState(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 	}
+
+	private void consoleMove() {
+		System.out.println("Please enter a move in the following format: x y x y x y:");	
+		ArrayList<ArrayList<Integer>> inputCmd = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> ourMove = new ArrayList<ArrayList<Integer>>();
+		for(int x = 0; x < 3; x++) {
+			inputCmd.add(new ArrayList<Integer>());
+			for(int y = 0; y < 2; y++) {
+				inputCmd.get(x).add(in.nextInt());
+			}
+			ourMove.add(convertServerToBoard(inputCmd.get(x)));
+		}
+		for(int i = 0; i < ourMove.size(); i++) {
+			for(int j = 0; j < ourMove.get(i).size(); j++) {
+				System.out.print(ourMove.get(i).get(j) + " ");
+			}
+		}
+		/*
+		if(!moveIsValid(ourMove)){
+			System.out.println("Invalid");
+			consoleMove();
+			return;
+		}
+		 */
+
+		makeMoveClientServer(inputCmd);
+		board.printBoard();
+		board.printQueens();
+		board.makeMove(ourMove);
+		board.printBoard();
+		board.printQueens();
+	}
+
 
 
 	private int zeroToOneIndex(int i) {
@@ -240,12 +257,7 @@ public class testAI extends GamePlayer{
 			board.printBoard();
 			System.out.println("Making move: ");
 			board.printMove(move);
-		}else {
-			logger.logBoard(board.board);
-			logger.log("Our Move:\n");
-			logger.logMove(move);
 		}
-
 		makeMoveClientServer(serverMove);
 		board.makeMove(move);
 		if(debug) {
