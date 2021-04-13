@@ -1,9 +1,6 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
@@ -13,7 +10,6 @@ import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GameMessage;
 import ygraph.ai.smartfox.games.GamePlayer;
 import ygraph.ai.smartfox.games.amazons.AmazonsGameMessage;
-import ygraph.ai.smartfox.games.amazons.HumanPlayer;
 
 public class testAI extends GamePlayer{
 
@@ -69,6 +65,7 @@ public class testAI extends GamePlayer{
 		gameClient = new GameClient(userName, passwd, this);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	// Handle any message from the server
 	public boolean handleGameMessage(String messageType, Map<String, Object> msgDetails) {
@@ -165,6 +162,7 @@ public class testAI extends GamePlayer{
 		gamegui.updateGameState(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 	}
 
+	@SuppressWarnings("unused")
 	private void consoleMove() {
 		System.out.println("Please enter a move in the following format: x y x y x y:");	
 		ArrayList<ArrayList<Integer>> inputCmd = new ArrayList<ArrayList<Integer>>();
@@ -181,13 +179,6 @@ public class testAI extends GamePlayer{
 				System.out.print(ourMove.get(i).get(j) + " ");
 			}
 		}
-		/*
-		if(!moveIsValid(ourMove)){
-			System.out.println("Invalid");
-			consoleMove();
-			return;
-		}
-		 */
 
 		makeMoveClientServer(inputCmd);
 		board.printBoard();
@@ -275,6 +266,7 @@ public class testAI extends GamePlayer{
 	 * @param queenVal - The integer representation of black or white
 	 * @return - True if valid, false if invalid.
 	 */
+	@SuppressWarnings("unused")
 	private boolean isMoveValid(ArrayList<Integer> oldQueenPos, ArrayList<Integer> newQueenPos, ArrayList<Integer> arrowPos, int queenVal) {
 		final int WIDTH = 9;
 		
@@ -375,66 +367,5 @@ public class testAI extends GamePlayer{
 		// path between the points is clear
 		return true;
 	}
-	/*
-	private void makeAiMoveOldHeur() {
-		bestmove move = minimax_i(2, Integer.MIN_VALUE, Integer.MAX_VALUE,isBlack);
-		ArrayList<ArrayList<Integer>> serverMove = new ArrayList<ArrayList<Integer>>();
-		for(int i = 0; i < move.move.size(); i++) {
-			serverMove.add(this.convertBoardToServer(move.move.get(i)));
-		}
-
-		this.printQueens();
-		this.printBoard();
-		makeMoveClientServer(serverMove);
-		makeMove(move.move);
-		this.printQueens();
-		this.printBoard();
-	}
-
-	public bestmove minimax_i(int depth, int alpha, int beta, boolean maximizingPlayer) {
-		bestmove best1 = new bestmove();
-		if  (maximizingPlayer){ 
-			best1.move = null; 
-			best1.eval = Integer.MIN_VALUE; 
-		} else { 
-
-			best1.move = null; 
-			best1.eval = Integer.MAX_VALUE; 
-		}
-		if (depth == 0 | test.gameEnd(teamQueens, enemyQueens, board)){
-			int score = test.eval(board, teamQueens, enemyQueens);
-			best1.move = null; 
-			best1.eval = score; 
-			return best1; 
-		}
-
-		LinkedList<ArrayList<ArrayList<Integer>>> allMoves;
-		// THE SOURCE OF WHITE MOVING BLACKS PIECES
-		if (maximizingPlayer){
-			allMoves = MoveFinder.getAllPossibleMove(board, teamQueens);
-		} else {
-			allMoves = MoveFinder.getAllPossibleMove(board, enemyQueens); 
-		}
-		for (ArrayList<ArrayList<Integer>> move : allMoves){ 
-
-			makeMove(move);
-			bestmove moveBest = minimax_i(depth-1,alpha, beta, !maximizingPlayer);  
-			unmakeMove(move);
-
-			if (maximizingPlayer) { 
-				if (moveBest.eval > best1.eval ) { 
-					best1.move = move; 
-					best1.eval = moveBest.eval; 
-				}
-			}else { 
-				if (moveBest.eval < best1.eval) { 
-					best1.move = move ; 
-					best1.eval = moveBest.eval; 
-				}
-			}
-		}
-		return best1;
-	}
- */
 }
-
+	

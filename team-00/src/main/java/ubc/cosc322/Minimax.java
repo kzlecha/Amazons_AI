@@ -122,7 +122,6 @@ public class Minimax {
 		if(debug) board.printBoard();
 
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves;
-		// Experiment
 		playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 
 		if(debug) System.out.println("-Length of moveList: " + playerMoves.size());
@@ -153,11 +152,11 @@ public class Minimax {
 			x += 1;
 			if(debugPrune) System.out.println("Branches pruned in iteration: " + this.pruneCnt);
 		}
-		// Experiment
+
 		if(index != -1) {
 			ArrayList<ArrayList<Integer>> move = playerMoves.get(index);
 			if(debug) System.out.println("MINIMAX HAS CONCLUDED! RETURNING: " + playerMoves.get(index).toString());
-			return move; // NEED TO FIX THIS :-T Needs to return the move
+			return move;
 		}
 		else {
 			return new ArrayList<ArrayList<Integer>>();
@@ -168,21 +167,10 @@ public class Minimax {
 		if(debug) System.out.println("Depth at max call: " + depth);
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, playerQueens);
 
-		/*
-		if(playerMoves.size()==0){
-			if(debug) System.out.println("Terminal state found");
-			return Integer.MIN_VALUE;
-		}
-		else if(depth == 0){
-			return randomNumber();
-		}
-		 */
 		if(isTerminalState(depth,playerMoves)) {
 			return heuristic(board,true, depth);
 		}
 
-
-		//int max = Integer.MIN_VALUE;
 		Iterator<ArrayList<ArrayList<Integer>>> itr = playerMoves.iterator();
 		int val = Integer.MIN_VALUE;
 		while (itr.hasNext()) {
@@ -194,10 +182,6 @@ public class Minimax {
 			if(debug) board.printBoard();
 			val = minFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
-
-			//max = Math.max(val, max);
-			//alpha = Math.max(alpha, max);
-			// Discuss... does this mess up anything?
 
 			if(debug) System.out.println("Depth: " + depth);
 			// For iterative deepening
@@ -221,15 +205,6 @@ public class Minimax {
 		LinkedList<ArrayList<ArrayList<Integer>>> playerMoves = MoveFinder.getAllPossibleMove(board, enemyQueens);
 
 		// CHANGE SO THAT ONLY DEPTH LIMIT RETUNRS HERUISTIC, AND NO MOVES RETERNS THE PROPER VALUE
-		/*
-		if(playerMoves.size()==0){
-			if(debug) System.out.println("Terminal state found");
-			return Integer.MAX_VALUE;
-		}
-		else if(depth == 0){
-			return randomNumber();
-		}
-		 */
 		if(isTerminalState(depth,playerMoves)) {
 			return heuristic(board,false,depth);
 		}
@@ -246,10 +221,8 @@ public class Minimax {
 			val = maxFunction(board, depth-1, alpha, beta, playerQueens, enemyQueens);
 			board.unmakeMove(move);
 
-			//min = Math.min(val, min);
-
 			if(debug) System.out.println("Depth: " + depth);
-			// Discuss... does this mess up anything?
+
 			// For iterative deepening
 			if (System.currentTimeMillis() - this.startTime > timeOutTime) {
 				timedOut = true;
