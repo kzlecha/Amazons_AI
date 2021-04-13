@@ -1,10 +1,10 @@
 # Amazons AI - COSC 322
 ##### Created by
-**Rick Feng** - @Rick-Feng-u
-**Kathryn Lecha** - @kzlecha
-**Elias Pinno** - @EliasPinno
-**Sean Roarty** - @sroarty
-**Kanishka Verma** - @kanishkaverma
+- **Rick Feng** - @Rick-Feng-u
+- **Kathryn Lecha** - @kzlecha
+- **Elias Pinno** - @EliasPinno
+- **Sean Roarty** - @sroarty
+- **Kanishka Verma** - @kanishkaverma
 
 # Description
 This project is the implementation of a rational agent that can play the Game of the Amazons. It was written in Java using the provided Game Client API. This rational agent is capable of making legal moves in the game controlled by a game-tree search and heuristic. Our agent came in 6th place during the in-class AI tournament. In the qualifiers, it won against every team in Lab 02. **This bot sends moves to a custom game server and will not work out of the box.**
