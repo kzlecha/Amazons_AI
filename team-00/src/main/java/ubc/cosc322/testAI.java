@@ -13,6 +13,7 @@ import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GameMessage;
 import ygraph.ai.smartfox.games.GamePlayer;
 import ygraph.ai.smartfox.games.amazons.AmazonsGameMessage;
+import ygraph.ai.smartfox.games.amazons.HumanPlayer;
 
 public class testAI extends GamePlayer{
 
@@ -265,6 +266,114 @@ public class testAI extends GamePlayer{
 			board.printQueens();
 			board.printBoard();
 		}
+	}
+	/* isMoveValid - Returns whether or not a move is legitimate, based on the state of this.board.board
+	 * 
+	 * @param oldQueenPos - The initial position of the queen.
+	 * @param newQueenPos - The new position of the queen.
+	 * @param arrowPos - The position of the arrow.
+	 * @param queenVal - The integer representation of black or white
+	 * @return - True if valid, false if invalid.
+	 */
+	private boolean isMoveValid(ArrayList<Integer> oldQueenPos, ArrayList<Integer> newQueenPos, ArrayList<Integer> arrowPos, int queenVal) {
+		final int WIDTH = 9;
+		
+		String teamColour;
+		if(queenVal == this.board.BLACK)
+			teamColour = "black";
+		else
+			teamColour = "white";
+		
+		String msg = "Illegal move by " + teamColour + ": ";
+		
+		int initX = convertServerToBoard(oldQueenPos).get(0);
+		int initY = convertServerToBoard(newQueenPos).get(1);
+		
+		int newX = convertServerToBoard(oldQueenPos).get(0);			
+		int newY = convertServerToBoard(newQueenPos).get(1);
+		
+		int arrX = convertServerToBoard(arrowPos).get(0);
+		int arrY = convertServerToBoard(arrowPos).get(1);
+		
+		// return false if move is out of bounds
+		if(newX > WIDTH || newY > WIDTH || newX < 0 || newY < 0) {
+			msg += "Index out of bounds.";
+			System.out.print(msg);
+			return false;
+		}
+		// return false if a queen with appropriate colour is not being moved
+		if(this.board.board[initY][initX] != queenVal) {
+			msg += "Starting move location does not contain a " + teamColour + " queen.";
+			System.out.println(msg);
+			return false;
+		}
+		
+		// if the path is clear for the queen...
+		if(checkPath(initY, initX, newY, newX)) {
+			
+			// swap accepts zero-indexed ArrayLists
+			ArrayList<Integer> oldQueenPosZero = new ArrayList<Integer>();
+			oldQueenPosZero.add(initX);
+			oldQueenPosZero.add(initY);			
+			
+			ArrayList<Integer> newQueenPosZero = new ArrayList<Integer>();
+			newQueenPosZero.add(newX);
+			newQueenPosZero.add(newY);
+			
+			// to check if an arrow is valid, we have to move the queen first
+			this.board.swap(oldQueenPosZero, newQueenPosZero);
+			boolean validArrow = checkPath(newY, newX, arrY, arrX);
+			// restoring the board
+			this.board.swap(oldQueenPosZero, newQueenPosZero);
+			
+			if(!validArrow) {	
+				msg += "Arrow path is not clear.";
+				return false;
+			}
+				
+		}
+		else {
+			msg += "Queen's path is not clear.";
+			System.out.println(msg);
+			return false;
+		}
+		// move is valid
+		return true;
+	}
+	
+	
+	/* checkPath - Checks to see if the path between two points is clear on this.board.board
+	 * @param initY - The 0th indexed y-coordinate of the starting position.
+	 * @param initX - The 0th indexed x-coordinate of the starting position.
+	 * @param newY - The 0th indexed y-coordinate of the final position.
+	 * @param newX - The 0th indexed y-coordinate of the final position.
+	 * @return - True if the path is clear, false if it's obstructed.
+	 */
+	private boolean checkPath(int initY, int initX, int newY, int newX) {
+		
+		int deltaX = newX - initX; // difference in initial and final x
+		int deltaY = newY - initY; // difference in initial and final y
+
+		int xSign = 0, ySign = 0; // represents the vector direction of movement
+		if(deltaX != 0) xSign = deltaX < 0? -1: 1; // left or right
+		if(deltaY != 0) ySign = deltaY < 0? -1: 1;// up or down
+		
+		// find the upper bound for the directional loop
+		deltaX = Math.abs(deltaX);
+		deltaY = Math.abs(deltaY);
+		int max = Math.max(deltaX, deltaY);
+
+		// check for illegal movement (non-linear)
+		if(deltaX != 0 && deltaY != 0 && deltaX != deltaY) 
+			return false;
+
+		// check that the path is clear	
+		for(int i = 1; i <= max ; i++) {
+			if(this.board.board[initY+i*ySign][initX+i*xSign] != 0)
+				return false;
+		}
+		// path between the points is clear
+		return true;
 	}
 	/*
 	private void makeAiMoveOldHeur() {

@@ -20,6 +20,9 @@ public class Board {
 		board = getGameBoard(msgDetails);
 	}
 
+	public Board() {
+	}
+
 	public void setUp(boolean isBlack) {
 		this.isBlack = isBlack;
 		if(this.isBlack) { // This is the board for a black client
