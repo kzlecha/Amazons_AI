@@ -82,7 +82,6 @@ public class MoveFinder {
 
 		for (int i = 1; col + i <= 9; i++) {
 			if (gameboard[row][col + i] == 0) {
-				// moveList.add(new Integer[] { row, col + i });
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row, col + i)));
 			} else {
 				break;
@@ -91,9 +90,6 @@ public class MoveFinder {
 
 		for (int i = 1; col - i >= 0; i++) {
 			if (gameboard[row][col - i] == 0) {
-
-				// moveList.add(new Integer[] { row, col - i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row, col - i)));
 			} else {
 				break;
@@ -102,8 +98,6 @@ public class MoveFinder {
 
 		for (int i = 1; row + i <= 9; i++) {
 			if (gameboard[row + i][col] == 0) {
-				// moveList.add(new Integer[] { row + i, col });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col)));
 			} else {
 				break;
@@ -112,9 +106,6 @@ public class MoveFinder {
 
 		for (int i = 1; row - i >= 0; i++) {
 			if (gameboard[row - i][col] == 0) {
-
-				// moveList.add(new Integer[] { row - i, col });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col)));
 			} else {
 				break;
@@ -123,8 +114,6 @@ public class MoveFinder {
 
 		for (int i = 1; row + i <= 9 && col - i >= 0; i++) {
 			if (gameboard[row + i][col - i] == 0) {
-				// moveList.add(new Integer[] { row + i, col - i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col - i)));
 			} else {
 				break;
@@ -133,8 +122,6 @@ public class MoveFinder {
 
 		for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
 			if (gameboard[row - i][col - i] == 0) {
-				// moveList.add(new Integer[] { row - i, col - i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col - i)));
 			} else {
 				break;
@@ -142,8 +129,6 @@ public class MoveFinder {
 		}
 		for (int i = 1; row + i <= 9 && col + i <= 9; i++) {
 			if (gameboard[row + i][col + i] == 0) {
-				// moveList.add(new Integer[] { row + i, col + i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col + i)));
 			} else {
 				break;
@@ -151,15 +136,11 @@ public class MoveFinder {
 		}
 		for (int i = 1; row - i >= 0 && col + i <= 9; i++) {
 			if (gameboard[row - i][col + i] == 0) {
-				// moveList.add(new Integer[] { row - i, col + i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col + i)));
 			} else {
 				break;
 			}
 		}
-
-		// n_moves = moveList.size();
 
 		return moveList;
 
