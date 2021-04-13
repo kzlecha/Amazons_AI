@@ -10,7 +10,6 @@ import ygraph.ai.smartfox.games.GameClient;
 import ygraph.ai.smartfox.games.GameMessage;
 import ygraph.ai.smartfox.games.GamePlayer;
 import ygraph.ai.smartfox.games.amazons.AmazonsGameMessage;
-import ygraph.ai.smartfox.games.amazons.HumanPlayer;
 
 public class testAI extends GamePlayer{
 
@@ -163,6 +162,7 @@ public class testAI extends GamePlayer{
 		gamegui.updateGameState(inputCmd.get(INIT_POS), inputCmd.get(NEW_POS), inputCmd.get(ARROW_POS));
 	}
 
+	@SuppressWarnings("unused")
 	private void consoleMove() {
 		System.out.println("Please enter a move in the following format: x y x y x y:");	
 		ArrayList<ArrayList<Integer>> inputCmd = new ArrayList<ArrayList<Integer>>();
@@ -266,6 +266,7 @@ public class testAI extends GamePlayer{
 	 * @param queenVal - The integer representation of black or white
 	 * @return - True if valid, false if invalid.
 	 */
+	@SuppressWarnings("unused")
 	private boolean isMoveValid(ArrayList<Integer> oldQueenPos, ArrayList<Integer> newQueenPos, ArrayList<Integer> arrowPos, int queenVal) {
 		final int WIDTH = 9;
 		

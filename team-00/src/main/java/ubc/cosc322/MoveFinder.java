@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 
 public class MoveFinder {
-	private final static boolean debug = false;
 
 	// each move is an element in a LinkedList
 	// within each move is an ArrayList containing:
@@ -180,9 +179,6 @@ public class MoveFinder {
         Get all possible moves that a queen/arrow can go at that possible
 		 */
 
-
-			LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves = new LinkedList<ArrayList<ArrayList<Integer>>>();
-
 			LinkedList<ArrayList<Integer>> allQueenMoves= new LinkedList<ArrayList<Integer>>(); 
 		for (ArrayList<Integer> queen : listOfQueens) {
 			// gets all the possible moves a queen can do
@@ -208,7 +204,6 @@ public class MoveFinder {
 		int row = position.get(0);
 		int col = position.get(1);
 		int j = 0;
-		int k = 0; 
 
 
 
