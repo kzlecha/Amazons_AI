@@ -16,11 +16,6 @@ public class MoveFinder {
 	// public static int n_moves; // length of the movelist
 
 	// populates moveList with all possible moves
-	// public MoveFinder() {
-	//     allPossibleMoves = new LinkedList<ArrayList<ArrayList<Integer>>>(); 
-	//     n_moves = 0;
-	// }
-
 	// prints the starting and ending position for a queen in a move
 	public static void printMoves(    LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves
 			) {
@@ -36,10 +31,6 @@ public class MoveFinder {
 		System.out.println(Arrays.deepToString(gameboard).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	}
 
-	// public void resetMoves() {
-	// moveList = new LinkedList<ArrayList<Integer>>();
-	// n_moves = 0;
-	// }
 
 	public  static LinkedList<ArrayList<ArrayList<Integer>>> getAllPossibleMove(Board board, ArrayList<ArrayList<Integer>> listOfQueens) {
 		/*
@@ -85,7 +76,6 @@ public class MoveFinder {
         Get all possible moves that a queen/arrow can go at that possible
 		 */
 
-		// resetMoves();
 		LinkedList<ArrayList<Integer>> moveList = new LinkedList<ArrayList<Integer>>();
 		int row = position.get(0);
 		int col = position.get(1);
@@ -189,9 +179,6 @@ public class MoveFinder {
 		}
 		return allQueenMoves;    
 
-		
-
-
 
 	}
 	public static LinkedList<ArrayList<Integer>> getMoves(ArrayList<Integer> position, int[][] gameboard, int limit) {
@@ -199,34 +186,24 @@ public class MoveFinder {
         Get all possible moves that a queen/arrow can go at that possible
 		 */
 
-		// resetMoves();
 		LinkedList<ArrayList<Integer>> moveList = new LinkedList<ArrayList<Integer>>();
 		int row = position.get(0);
 		int col = position.get(1);
 		int j = 0;
 
-
-
 		for (int i = 1; col + i <= 9; i++) {
 			if (gameboard[row][col + i] == 0 & j<limit) {
-				// moveList.add(new Integer[] { row, col + i });
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row, col + i)));
 				j++;
-
 			} else {
 				break;
-			}
-
-
+			}		
 		}
 
 
 		j = 0;
 		for (int i = 1; col - i >= 0; i++) {
 			if (gameboard[row][col - i] == 0 & j < limit) {
-
-				// moveList.add(new Integer[] { row, col - i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row, col - i)));
 				j++;
 			} else {
@@ -238,8 +215,6 @@ public class MoveFinder {
 
 		for (int i = 1; row + i <= 9; i++) {
 			if (gameboard[row + i][col] == 0 & j<limit) {
-				// moveList.add(new Integer[] { row + i, col });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col)));
 				j++;
 			} else {
@@ -250,9 +225,6 @@ public class MoveFinder {
 		j = 0; 
 		for (int i = 1; row - i >= 0; i++) {
 			if (gameboard[row - i][col] == 0 & j<limit) {
-
-				// moveList.add(new Integer[] { row - i, col });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col)));
 				j++; 
 			} else {
@@ -265,8 +237,6 @@ public class MoveFinder {
 
 		for (int i = 1; row + i <= 9 && col - i >= 0; i++) {
 			if (gameboard[row + i][col - i] == 0 & j < limit) {
-				// moveList.add(new Integer[] { row + i, col - i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col - i)));
 				j++;
 			} else {
@@ -279,8 +249,6 @@ public class MoveFinder {
 
 		for (int i = 1; row - i >= 0 && col - i >= 0; i++) {
 			if (gameboard[row - i][col - i] == 0 & j < limit) {
-				// moveList.add(new Integer[] { row - i, col - i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col - i)));
 				j++;
 			} else {
@@ -291,8 +259,6 @@ public class MoveFinder {
 		j=0; 
 		for (int i = 1; row + i <= 9 && col + i <= 9; i++) {
 			if (gameboard[row + i][col + i] == 0 & j < limit) {
-				// moveList.add(new Integer[] { row + i, col + i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row + i, col + i)));
 				j++;
 			} else {
@@ -302,23 +268,14 @@ public class MoveFinder {
 		j=0; 
 		for (int i = 1; row - i >= 0 && col + i <= 9; i++) {
 			if (gameboard[row - i][col + i] == 0 & j<limit) {
-				// moveList.add(new Integer[] { row - i, col + i });
-
 				moveList.add(new ArrayList<Integer>(Arrays.asList(row - i, col + i)));
 				j++; 
 			} else {
 				break;
 			}
 		}
-
-		// n_moves = moveList.size();
-
 		return moveList;
-
 	}
-
-
-
 
 
 	public static LinkedList<ArrayList<ArrayList<Integer>>> getAllLimitedMoves(int[][] gameboard, ArrayList<ArrayList<Integer>> queen_pos, int queenLimit, int arrowLimit )
