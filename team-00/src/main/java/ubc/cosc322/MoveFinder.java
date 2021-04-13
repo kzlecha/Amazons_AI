@@ -179,6 +179,29 @@ public class MoveFinder {
 		return moveList;
 
 	}
+	 	public static LinkedList<ArrayList<Integer>> getQueenMoves(Board board, ArrayList<ArrayList<Integer>> listOfQueens) {
+		/*
+        Get all possible moves that a queen/arrow can go at that possible
+		 */
+
+
+			LinkedList<ArrayList<ArrayList<Integer>>> allPossibleMoves = new LinkedList<ArrayList<ArrayList<Integer>>>();
+
+			LinkedList<ArrayList<Integer>> allQueenMoves= new LinkedList<ArrayList<Integer>>(); 
+		for (ArrayList<Integer> queen : listOfQueens) {
+			// gets all the possible moves a queen can do
+			LinkedList<ArrayList<Integer>> queenMoves = getMoves(queen, board.board);
+
+					allQueenMoves.addAll(queenMoves); 
+		
+		}
+		return allQueenMoves;    
+
+		
+
+
+
+	}
 	public static LinkedList<ArrayList<Integer>> getMoves(ArrayList<Integer> position, int[][] gameboard, int limit) {
 		/*
         Get all possible moves that a queen/arrow can go at that possible

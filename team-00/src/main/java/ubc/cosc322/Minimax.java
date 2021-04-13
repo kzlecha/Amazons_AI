@@ -10,14 +10,14 @@ public class Minimax {
 	long startTime;
 	boolean timedOut = false;
 	private final int maxDepth = 60;
-	private final long timeOutTime = 10000l;
+	private final long timeOutTime = 25000l;
 
 	int depth;
 	int pruneCnt;
 	RelativeDistHeuristic rdh;
 	int teamVal;
 	boolean debug = false;
-	boolean debugPrune = true;
+	boolean debugPrune = false;
 
 	// Need to access the playerColor for gameboard
 
@@ -42,7 +42,27 @@ public class Minimax {
 		return moveSetPlayer.size() - moveSetOpponent.size();
 	}
 	
-	public int heuristic(Board board) {
+	public int heuristic(Board board, boolean playerTurn, int depth) {
+		int playerMoveCnt = MoveFinder.getQueenMoves(board, board.teamQueens).size();
+		int opponentMoveCnt = MoveFinder.getQueenMoves(board, board.enemyQueens).size();
+		int heurDepth = this.depth - depth;
+		if(playerMoveCnt == 0 && opponentMoveCnt == 0) {
+			if(playerTurn) 
+				return -100000 + heurDepth;
+			else
+				return +100000 - heurDepth;
+			
+		}
+		if(playerMoveCnt == 0) {
+			return -100000 + heurDepth;
+		}
+		if(opponentMoveCnt == 0) {
+			return +100000 - heurDepth;
+		}
+    return playerMoveCnt - opponentMoveCnt;
+  }
+ 
+	public int oldHeuristic(Board board) {
 		int playerMoveCnt = MoveFinder.getAllPossibleMove(board, board.teamQueens).size();
 		int opponentMoveCnt = MoveFinder.getAllPossibleMove(board, board.enemyQueens).size();
 		return playerMoveCnt - opponentMoveCnt;
@@ -158,7 +178,7 @@ public class Minimax {
 		}
 		 */
 		if(isTerminalState(depth,playerMoves)) {
-			return heuristic(board);
+			return heuristic(board,true, depth);
 		}
 
 
@@ -211,7 +231,7 @@ public class Minimax {
 		}
 		 */
 		if(isTerminalState(depth,playerMoves)) {
-			return heuristic(board);
+			return heuristic(board,false,depth);
 		}
 
 		int val = Integer.MAX_VALUE;
